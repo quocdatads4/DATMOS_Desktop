@@ -1,0 +1,591 @@
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Dashboard Admin - DATMOS";
+}
+
+@section VendorStyles {
+<link rel="stylesheet" href="~/vendor/libs/datatables-bs5/datatables.bootstrap5.css">
+<link rel="stylesheet" href="~/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css">
+<link rel="stylesheet" href="~/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css">
+<link rel="stylesheet" href="~/vendor/libs/apex-charts/apex-charts.css" />
+}
+
+@section VendorScripts {
+<script src="~/vendor/libs/moment/moment.js"></script>
+<script src="~/vendor/libs/datatables-bs5/datatables-bootstrap5.js"></script>
+<script src="~/vendor/libs/apex-charts/apexcharts.js"></script>
+}
+
+@section PageScripts {
+<script src="~/js/app-admin-dashboard.js"></script>
+}
+
+@* ************** Content ************** *@
+<!-- Welcome Card -->
+<div class="card bg-transparent shadow-none my-6 border-0">
+  <div class="card-body row p-0 pb-6 g-6">
+    <div class="col-12 col-lg-8 card-separator">
+      <h5 class="mb-2">Chào mừng trở lại,<span class="h4"> Administrator 👋🏻</span></h5>
+      <div class="col-12 col-lg-5">
+        <p>Hiệu suất hệ thống tuần này rất tốt. Hãy tiếp tục duy trì và quản lý hiệu quả!</p>
+      </div>
+      <div class="d-flex justify-content-between flex-wrap gap-4 me-12">
+        <div class="d-flex align-items-center gap-4 me-6 me-sm-0">
+          <div class="avatar avatar-lg">
+            <div class="avatar-initial bg-label-primary rounded">
+              <div>
+                <i class="ti ti-users ti-lg"></i>
+              </div>
+            </div>
+          </div>
+          <div class="content-right">
+            <p class="mb-0 fw-medium">Người dùng</p>
+            <h4 class="text-primary mb-0">1,234</h4>
+          </div>
+        </div>
+        <div class="d-flex align-items-center gap-4">
+          <div class="avatar avatar-lg">
+            <div class="avatar-initial bg-label-info rounded">
+              <div>
+                <i class="ti ti-activity ti-lg"></i>
+              </div>
+            </div>
+          </div>
+          <div class="content-right">
+            <p class="mb-0 fw-medium">Hoạt động</p>
+            <h4 class="text-info mb-0">568</h4>
+          </div>
+        </div>
+        <div class="d-flex align-items-center gap-4">
+          <div class="avatar avatar-lg">
+            <div class="avatar-initial bg-label-warning rounded">
+              <div>
+                <i class="ti ti-check ti-lg"></i>
+              </div>
+            </div>
+          </div>
+          <div class="content-right">
+            <p class="mb-0 fw-medium">Hoàn thành</p>
+            <h4 class="text-warning mb-0">89%</h4>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-lg-4 ps-md-4 ps-lg-6">
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <div>
+            <h5 class="mb-1">Thời gian hoạt động</h5>
+            <p class="mb-9">Báo cáo hàng tuần</p>
+          </div>
+          <div class="time-spending-chart">
+            <h4 class="mb-2">98<span class="text-body">%</span></h4>
+            <span class="badge bg-label-success">+5.2%</span>
+          </div>
+        </div>
+        <div id="systemUptimeChart"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Welcome Card End -->
+
+<!-- Statistics and Analytics -->
+<div class="row mb-6 g-6">
+  <!-- System Statistics -->
+  <div class="col-xxl-8">
+    <div class="card h-100">
+      <div class="card-header d-flex align-items-center justify-content-between">
+        <h5 class="card-title m-0 me-2">Thống kê hệ thống</h5>
+        <div class="dropdown">
+          <button class="btn btn-text-secondary rounded-pill text-muted border-0 p-2 me-n1" type="button" id="systemStats" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="ti ti-dots-vertical ti-md text-muted"></i>
+          </button>
+          <div class="dropdown-menu dropdown-menu-end" aria-labelledby="systemStats">
+            <a class="dropdown-item" href="javascript:void(0);">Xem tất cả</a>
+            <a class="dropdown-item" href="javascript:void(0);">Tải xuống</a>
+          </div>
+        </div>
+      </div>
+      <div class="card-body row g-6">
+        <div class="col-xxl-7 col-md-8">
+          <div id="horizontalBarChart"></div>
+        </div>
+        <div class="col-1 d-none d-xxl-block"></div>
+        <div class="col-md-4 d-flex justify-content-around align-items-center">
+          <div>
+            <div class="d-flex align-items-baseline">
+              <span class="text-primary me-2"><i class='ti ti-circle-filled ti-12px'></i></span>
+              <div>
+                <p class="mb-0">Người dùng</p>
+                <h5>45%</h5>
+              </div>
+            </div>
+            <div class="d-flex align-items-baseline my-12">
+              <span class="text-success me-2"><i class='ti ti-circle-filled ti-12px'></i></span>
+              <div>
+                <p class="mb-0">Hoạt động</p>
+                <h5>28%</h5>
+              </div>
+            </div>
+            <div class="d-flex align-items-baseline">
+              <span class="text-danger me-2"><i class='ti ti-circle-filled ti-12px'></i></span>
+              <div>
+                <p class="mb-0">Lỗi hệ thống</p>
+                <h5>5%</h5>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="d-flex align-items-baseline">
+              <span class="text-info me-2"><i class='ti ti-circle-filled ti-12px'></i></span>
+              <div>
+                <p class="mb-0">Truy cập</p>
+                <h5>15%</h5>
+              </div>
+            </div>
+            <div class="d-flex align-items-baseline my-12">
+              <span class="text-secondary me-2"><i class='ti ti-circle-filled ti-12px'></i></span>
+              <div>
+                <p class="mb-0">Dữ liệu</p>
+                <h5>7%</h5>
+              </div>
+            </div>
+            <div class="d-flex align-items-baseline">
+              <span class="text-warning me-2"><i class='ti ti-circle-filled ti-12px'></i></span>
+              <div>
+                <p class="mb-0">Khác</p>
+                <h5>3%</h5>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--/ System Statistics -->
+
+  <!-- Recent Activities -->
+  <div class="col-xxl-4 col-lg-6">
+    <div class="card h-100">
+      <div class="card-header d-flex align-items-center justify-content-between">
+        <div class="card-title mb-0">
+          <h5 class="m-0 me-2">Hoạt động gần đây</h5>
+        </div>
+        <div class="dropdown">
+          <button class="btn btn-text-secondary rounded-pill text-muted border-0 p-2 me-n1" type="button" id="recentActivities" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="ti ti-dots-vertical ti-md text-muted"></i>
+          </button>
+          <div class="dropdown-menu dropdown-menu-end" aria-labelledby="recentActivities">
+            <a class="dropdown-item" href="javascript:void(0);">Chọn tất cả</a>
+            <a class="dropdown-item" href="javascript:void(0);">Làm mới</a>
+          </div>
+        </div>
+      </div>
+      <div class="px-5 py-4 border border-start-0 border-end-0">
+        <div class="d-flex justify-content-between align-items-center">
+          <p class="mb-0 text-uppercase">Người dùng</p>
+          <p class="mb-0 text-uppercase">Hành động</p>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center mb-6">
+          <div class="d-flex align-items-center">
+            <div class="avatar avatar me-4">
+              <img src="~/img/avatars/1.png" alt="Avatar" class="rounded-circle" />
+            </div>
+            <div>
+              <div>
+                <h6 class="mb-0 text-truncate">Nguyễn Văn A</h6>
+                <small class="text-truncate text-body">Đăng nhập hệ thống</small>
+              </div>
+            </div>
+          </div>
+          <div class="text-end">
+            <h6 class="mb-0">5 phút</h6>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between align-items-center mb-6">
+          <div class="d-flex align-items-center">
+            <div class="avatar avatar me-4">
+              <img src="~/img/avatars/2.png" alt="Avatar" class="rounded-circle" />
+            </div>
+            <div>
+              <div>
+                <h6 class="mb-0 text-truncate">Trần Thị B</h6>
+                <small class="text-truncate text-body">Cập nhật hồ sơ</small>
+              </div>
+            </div>
+          </div>
+          <div class="text-end">
+            <h6 class="mb-0">12 phút</h6>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between align-items-center mb-6">
+          <div class="d-flex align-items-center">
+            <div class="avatar avatar me-4">
+              <img src="~/img/avatars/3.png" alt="Avatar" class="rounded-circle" />
+            </div>
+            <div>
+              <div>
+                <h6 class="mb-0 text-truncate">Lê Văn C</h6>
+                <small class="text-truncate text-body">Tạo đơn hàng mới</small>
+              </div>
+            </div>
+          </div>
+          <div class="text-end">
+            <h6 class="mb-0">25 phút</h6>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between align-items-center">
+          <div class="d-flex align-items-center">
+            <div class="avatar avatar me-4">
+              <img src="~/img/avatars/6.png" alt="Avatar" class="rounded-circle" />
+            </div>
+            <div>
+              <div>
+                <h6 class="mb-0 text-truncate">Phạm Thị D</h6>
+                <small class="text-truncate text-body">Tải lên tài liệu</small>
+              </div>
+            </div>
+          </div>
+          <div class="text-end">
+            <h6 class="mb-0">1 giờ</h6>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--/ Recent Activities -->
+
+  <!-- Quick Actions -->
+  <div class="col-xxl-4 col-lg-6">
+    <div class="card h-100">
+      <div class="card-header d-flex align-items-center justify-content-between">
+        <h5 class="card-title m-0 me-2">Hành động nhanh</h5>
+        <div class="dropdown">
+          <button class="btn btn-text-secondary rounded-pill text-muted border-0 p-2 me-n1" type="button" id="quickActions" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="ti ti-dots-vertical ti-md text-muted"></i>
+          </button>
+          <div class="dropdown-menu dropdown-menu-end" aria-labelledby="quickActions">
+            <a class="dropdown-item" href="javascript:void(0);">Làm mới</a>
+            <a class="dropdown-item" href="javascript:void(0);">Xem tất cả</a>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <ul class="list-unstyled mb-0">
+          <li class="d-flex mb-6 align-items-center">
+            <div class="avatar flex-shrink-0 me-4">
+              <span class="avatar-initial rounded bg-label-primary"><i class="ti ti-users ti-lg"></i></span>
+            </div>
+            <div class="row w-100 align-items-center">
+              <div class="col-sm-8 mb-1 mb-sm-0 mb-lg-1 mb-xxl-0">
+                <h6 class="mb-0">Quản lý người dùng</h6>
+              </div>
+              <div class="col-sm-4 d-flex justify-content-sm-end">
+                <div class="badge bg-label-secondary">1.2k</div>
+              </div>
+            </div>
+          </li>
+          <li class="d-flex mb-6 align-items-center">
+            <div class="avatar flex-shrink-0 me-4">
+              <span class="avatar-initial rounded bg-label-info"><i class="ti ti-settings ti-lg"></i></span>
+            </div>
+            <div class="row w-100 align-items-center">
+              <div class="col-sm-8 mb-1 mb-sm-0 mb-lg-1 mb-xxl-0">
+                <h6 class="mb-0">Cài đặt hệ thống</h6>
+              </div>
+              <div class="col-sm-4 d-flex justify-content-sm-end">
+                <div class="badge bg-label-secondary">834</div>
+              </div>
+            </div>
+          </li>
+          <li class="d-flex mb-6 align-items-center">
+            <div class="avatar flex-shrink-0 me-4">
+              <span class="avatar-initial rounded bg-label-success"><i class="ti ti-chart-bar ti-lg"></i></span>
+            </div>
+            <div class="row w-100 align-items-center">
+              <div class="col-sm-8 mb-1 mb-sm-0 mb-lg-1 mb-xxl-0">
+                <h6 class="mb-0">Báo cáo thống kê</h6>
+              </div>
+              <div class="col-sm-4 d-flex justify-content-sm-end">
+                <div class="badge bg-label-secondary">3.7k</div>
+              </div>
+            </div>
+          </li>
+          <li class="d-flex mb-6 align-items-center">
+            <div class="avatar flex-shrink-0 me-4">
+              <span class="avatar-initial rounded bg-label-warning"><i class="ti ti-shield-lock ti-lg"></i></span>
+            </div>
+            <div class="row w-100 align-items-center">
+              <div class="col-sm-8 mb-1 mb-sm-0 mb-lg-1 mb-xxl-0">
+                <h6 class="mb-0">Bảo mật hệ thống</h6>
+              </div>
+              <div class="col-sm-4 d-flex justify-content-sm-end">
+                <div class="badge bg-label-secondary">2.5k</div>
+              </div>
+            </div>
+          </li>
+          <li class="d-flex align-items-center">
+            <div class="avatar flex-shrink-0 me-4">
+              <span class="avatar-initial rounded bg-label-danger"><i class="ti ti-bell-ringing ti-lg"></i></span>
+            </div>
+            <div class="row w-100 align-items-center">
+              <div class="col-sm-8 mb-1 mb-sm-0 mb-lg-1 mb-xxl-0">
+                <h6 class="mb-0">Thông báo hệ thống</h6>
+              </div>
+              <div class="col-sm-4 d-flex justify-content-sm-end">
+                <div class="badge bg-label-secondary">948</div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <!--/ Quick Actions -->
+
+  <!-- System Status -->
+  <div class="col-xxl-4 col-md-6">
+    <div class="card h-100">
+      <div class="card-body">
+        <div class="bg-label-primary rounded text-center mb-4 pt-4">
+          <i class="ti ti-server ti-5x text-primary"></i>
+        </div>
+        <h5 class="mb-2">Trạng thái hệ thống</h5>
+        <p class="small">Tất cả dịch vụ đang hoạt động bình thường. Không có sự cố nào được báo cáo.</p>
+        <div class="row mb-4 g-3">
+          <div class="col-6">
+            <div class="d-flex">
+              <div class="avatar flex-shrink-0 me-3">
+                <span class="avatar-initial rounded bg-label-success"><i class="ti ti-server ti-28px"></i></span>
+              </div>
+              <div>
+                <h6 class="mb-0 text-nowrap">Online</h6>
+                <small>Trạng thái</small>
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="d-flex">
+              <div class="avatar flex-shrink-0 me-3">
+                <span class="avatar-initial rounded bg-label-info"><i class="ti ti-clock ti-28px"></i></span>
+              </div>
+              <div>
+                <h6 class="mb-0 text-nowrap">99.8%</h6>
+                <small>Uptime</small>
+              </div>
+            </div>
+          </div>
+        </div>
+        <a href="javascript:void(0);" class="btn btn-primary w-100">Xem chi tiết</a>
+      </div>
+    </div>
+  </div>
+  <!--/ System Status -->
+
+  <!-- Task Progress -->
+  <div class="col-xxl-4 col-md-6">
+    <div class="card h-100">
+      <div class="card-header d-flex align-items-center justify-content-between">
+        <h5 class="card-title m-0 me-2">Tiến độ công việc</h5>
+        <div class="dropdown">
+          <button class="btn btn-text-secondary rounded-pill text-muted border-0 p-2 me-n1" type="button" id="taskProgress" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="ti ti-dots-vertical ti-md text-muted"></i>
+          </button>
+          <div class="dropdown-menu dropdown-menu-end" aria-labelledby="taskProgress">
+            <a class="dropdown-item" href="javascript:void(0);">Làm mới</a>
+            <a class="dropdown-item" href="javascript:void(0);">Tải xuống</a>
+            <a class="dropdown-item" href="javascript:void(0);">Xem tất cả</a>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <ul class="p-0 m-0">
+          <li class="d-flex mb-6">
+            <div class="chart-progress me-4" data-color="primary" data-series="85" data-progress_variant="true"></div>
+            <div class="row w-100 align-items-center">
+              <div class="col-9">
+                <div class="me-2">
+                  <h6 class="mb-2">Cập nhật hệ thống</h6>
+                  <small>45 Tasks</small>
+                </div>
+              </div>
+              <div class="col-3 text-end">
+                <button type="button" class="btn btn-sm btn-icon btn-label-secondary">
+                  <i class="ti ti-chevron-right scaleX-n1-rtl"></i>
+                </button>
+              </div>
+            </div>
+          </li>
+          <li class="d-flex mb-6">
+            <div class="chart-progress me-4" data-color="success" data-series="72" data-progress_variant="true"></div>
+            <div class="row w-100 align-items-center">
+              <div class="col-9">
+                <div class="me-2">
+                  <h6 class="mb-2">Bảo trì cơ sở dữ liệu</h6>
+                  <small>28 Tasks</small>
+                </div>
+              </div>
+              <div class="col-3 text-end">
+                <button type="button" class="btn btn-sm btn-icon btn-label-secondary">
+                  <i class="ti ti-chevron-right scaleX-n1-rtl"></i>
+                </button>
+              </div>
+            </div>
+          </li>
+          <li class="d-flex mb-6">
+            <div class="chart-progress me-4" data-color="danger" data-series="35" data-progress_variant="true"></div>
+            <div class="row w-100 align-items-center">
+              <div class="col-9">
+                <div class="me-2">
+                  <h6 class="mb-2">Phát triển tính năng mới</h6>
+                  <small>67 Tasks</small>
+                </div>
+              </div>
+              <div class="col-3 text-end">
+                <button type="button" class="btn btn-sm btn-icon btn-label-secondary">
+                  <i class="ti ti-chevron-right scaleX-n1-rtl"></i>
+                </button>
+              </div>
+            </div>
+          </li>
+          <li class="d-flex">
+            <div class="chart-progress me-4" data-color="info" data-series="60" data-progress_variant="true"></div>
+            <div class="row w-100 align-items-center">
+              <div class="col-9">
+                <div class="me-2">
+                  <h6 class="mb-2">Kiểm thử bảo mật</h6>
+                  <small>23 Tasks</small>
+                </div>
+              </div>
+              <div class="col-3 text-end">
+                <button type="button" class="btn btn-sm btn-icon btn-label-secondary">
+                  <i class="ti ti-chevron-right scaleX-n1-rtl"></i>
+                </button>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <!--/ Task Progress -->
+
+</div>
+<!--  Statistics and Analytics  End-->
+
+<!-- System Data Table -->
+<div class="card">
+  <div class="table-responsive mb-4">
+    <table class="table table-sm datatables-admin-system">
+      <thead class="border-top">
+        <tr>
+          <th>ID</th>
+          <th>Icon</th>
+          <th>Tên dịch vụ</th>
+          <th>Thời gian hoạt động</th>
+          <th class="w-25">Tiến độ</th>
+          <th class="w-25">Trạng thái</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Sample Data Rows -->
+        <tr>
+          <td>1</td>
+          <td><i class="ti ti-server text-primary"></i></td>
+          <td>Web Server</td>
+          <td>24/7</td>
+          <td>
+            <div class="progress" style="height: 6px;">
+              <div class="progress-bar bg-primary" role="progressbar" style="width: 95%" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+            <small class="text-muted">95%</small>
+          </td>
+          <td><span class="badge bg-label-success">Active</span></td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td><i class="ti ti-database text-info"></i></td>
+          <td>Database Server</td>
+          <td>24/7</td>
+          <td>
+            <div class="progress" style="height: 6px;">
+              <div class="progress-bar bg-info" role="progressbar" style="width: 88%" aria-valuenow="88" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+            <small class="text-muted">88%</small>
+          </td>
+          <td><span class="badge bg-label-success">Active</span></td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td><i class="ti ti-api text-warning"></i></td>
+          <td>API Gateway</td>
+          <td>24/7</td>
+          <td>
+            <div class="progress" style="height: 6px;">
+              <div class="progress-bar bg-warning" role="progressbar" style="width: 92%" aria-valuenow="92" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+            <small class="text-muted">92%</small>
+          </td>
+          <td><span class="badge bg-label-success">Active</span></td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td><i class="ti ti-cache text-secondary"></i></td>
+          <td>Cache Server</td>
+          <td>24/7</td>
+          <td>
+            <div class="progress" style="height: 6px;">
+              <div class="progress-bar bg-secondary" role="progressbar" style="width: 78%" aria-valuenow="78" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+            <small class="text-muted">78%</small>
+          </td>
+          <td><span class="badge bg-label-warning">Warning</span></td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td><i class="ti ti-cloud text-success"></i></td>
+          <td>File Storage</td>
+          <td>24/7</td>
+          <td>
+            <div class="progress" style="height: 6px;">
+              <div class="progress-bar bg-success" role="progressbar" style="width: 85%" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+            <small class="text-muted">85%</small>
+          </td>
+          <td><span class="badge bg-label-success">Active</span></td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td><i class="ti ti-mail text-danger"></i></td>
+          <td>Email Service</td>
+          <td>Business Hours</td>
+          <td>
+            <div class="progress" style="height: 6px;">
+              <div class="progress-bar bg-danger" role="progressbar" style="width: 65%" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+            <small class="text-muted">65%</small>
+          </td>
+          <td><span class="badge bg-label-info">Maintenance</span></td>
+        </tr>
+        <tr>
+          <td>7</td>
+          <td><i class="ti ti-backup text-primary"></i></td>
+          <td>Backup System</td>
+          <td>Nightly</td>
+          <td>
+            <div class="progress" style="height: 6px;">
+              <div class="progress-bar bg-primary" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+            <small class="text-muted">100%</small>
+          </td>
+          <td><span class="badge bg-label-success">Active</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<!-- System Data Table End -->

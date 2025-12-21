@@ -1,0 +1,219 @@
+{
+  "projects": [
+    {
+      "id": 1,
+      "name": "MOS Word 2019 - Project 1",
+      "description": "Bicycles\nThe bicycle sales and rental store Bellows Bicycle Barn has asked you to update their summer sales flier to help attract new customers.",
+      "courseCode": "CRS001",
+      "courseName": "MOS Word 2019",
+      "totalTasks": 5,
+      "estimatedTime": "45 phút",
+      "difficulty": "Intermediate",
+      "version": "2019",
+      "isActive": true,
+      "createdDate": "2024-01-15",
+      "tasks": [
+        {
+          "id": 1,
+          "projectId": 1,
+          "name": "Task 1: Chèn tập tin",
+          "shortName": "Chèn tập tin",
+          "description": "Chèn tập tin Excel vào văn bản",
+          "detailedInstructions": "Trên trang 2 giữa các phần <strong>Affordable Pricing</strong> và <strong>Contact Us</strong>, chèn tập tin <strong>Bicycle_Pricing.xlsx</strong> trong thư mục <strong>GmetrixTemplates</strong>. (Chấp nhận tất cả các thiết lập mặc định).",
+          "instructions": "1. Đặt con trỏ giữa phần Affordable Pricing và Contact Us trên trang 2\n2. Tab Insert > Text group > Object > Text from File...\n3. Tìm đến thư mục GmetrixTemplates\n4. Chọn Bicycle_Pricing.xlsx và nhấn Insert",
+          "order": 1,
+          "maxScore": 20,
+          "timeLimit": 300,
+          "taskType": "insertFile",
+          "keywords": ["Insert Object", "Text from File", "Excel"],
+          "prerequisites": [],
+          "hints": [
+            "Sử dụng tính năng Object > Text from File trong tab Insert",
+            "Đảm bảo đặt con trỏ đúng vị trí"
+          ],
+          "isCompleted": false,
+          "isReviewed": false
+        },
+        {
+          "id": 2,
+          "projectId": 1,
+          "name": "Task 2: Tạo Hyperlink",
+          "shortName": "Tạo Hyperlink",
+          "description": "Tạo liên kết cho tiêu đề",
+          "detailedInstructions": "Tạo siêu liên kết (Hyperlink) cho tiêu đề <strong>Bicycle Advantages</strong> trên trang 1 liên kết đến trang web <strong>http://wikipedia.org/wiki/Bicycle</strong>.",
+          "instructions": "1. Chọn tiêu đề 'Bicycle Advantages' trên trang 1\n2. Chuột phải > Link (hoặc Insert > Link)\n3. Nhập địa chỉ http://wikipedia.org/wiki/Bicycle vào ô Address\n4. Nhấn OK",
+          "order": 2,
+          "maxScore": 20,
+          "timeLimit": 240,
+          "taskType": "hyperlink",
+          "keywords": ["Hyperlink", "Insert Link", "Web Address"],
+          "prerequisites": [],
+          "hints": [
+            "Có thể dùng phím tắt Ctrl+K",
+            "Đảm bảo nhập chính xác địa chỉ URL"
+          ],
+          "isCompleted": false,
+          "isReviewed": false
+        },
+        {
+          "id": 3,
+          "projectId": 1,
+          "name": "Task 3: Section Break",
+          "shortName": "Section Break",
+          "description": "Chèn ngắt phần liên tục",
+          "detailedInstructions": "Chèn một <strong>Continuous Section Break</strong> trên trang 2 ngay trước tiêu đề <strong>Affordable Pricing</strong>.",
+          "instructions": "1. Đặt con trỏ ngay trước chữ 'Affordable Pricing' trên trang 2\n2. Tab Layout > Breaks\n3. Chọn Continuous trong nhóm Section Breaks",
+          "order": 3,
+          "maxScore": 20,
+          "timeLimit": 180,
+          "taskType": "breaks",
+          "keywords": ["Section Break", "Continuous", "Layout"],
+          "prerequisites": [],
+          "hints": [
+            "Nằm trong tab Layout > Breaks",
+            "Chọn đúng loại Continuous Section Break"
+          ],
+          "isCompleted": false,
+          "isReviewed": false
+        },
+        {
+          "id": 4,
+          "projectId": 1,
+          "name": "Task 4: Custom Bullets",
+          "shortName": "Custom Bullets",
+          "description": "Thay đổi ký hiệu đầu dòng thành hình ảnh",
+          "detailedInstructions": "Trong danh sách đầu tiên, thay thế hoa thị cho tất cả các chấm bên dưới tiêu đề <strong>Bicycle Advantages</strong> thành hình ảnh <strong>Bike Rider.png</strong> trong thư mục <strong>GMetrixTemplates</strong>.",
+          "instructions": "1. Chọn danh sách bullet dưới tiêu đề 'Bicycle Advantages'\n2. Tab Home > Bullets dropdown > Define New Bullet...\n3. Chọn Picture...\n4. Chọn From a File và tìm đến Bike Rider.png trong GMetrixTemplates\n5. Nhấn Insert và OK",
+          "order": 4,
+          "maxScore": 20,
+          "timeLimit": 300,
+          "taskType": "bullets",
+          "keywords": ["Bullets", "Picture Bullet", "List"],
+          "prerequisites": [],
+          "hints": [
+            "Sử dụng Define New Bullet",
+            "Chọn Picture thay vì Symbol"
+          ],
+          "isCompleted": false,
+          "isReviewed": false
+        },
+        {
+          "id": 5,
+          "projectId": 1,
+          "name": "Task 5: Picture Style",
+          "shortName": "Picture Style",
+          "description": "Áp dụng kiểu cho hình ảnh",
+          "detailedInstructions": "Áp dụng style cho ảnh kiểu <strong>Soft Edge Rectangle</strong> ở cuối trang 1.",
+          "instructions": "1. Chọn hình ảnh ở cuối trang 1\n2. Tab Picture Format > Picture Styles gallery\n3. Tìm và chọn Soft Edge Rectangle",
+          "order": 5,
+          "maxScore": 20,
+          "timeLimit": 180,
+          "taskType": "pictureStyle",
+          "keywords": ["Picture Style", "Soft Edge Rectangle", "Format"],
+          "prerequisites": [],
+          "hints": [
+            "Hover chuột qua các style để xem tên",
+            "Nằm trong tab Picture Format khi chọn ảnh"
+          ],
+          "isCompleted": false,
+          "isReviewed": false
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "MOS Word 2019 - Project 2",
+      "description": "Bài thi thực hành MOS Word 2019 - Project thứ hai với các task nâng cao",
+      "courseCode": "CRS001",
+      "courseName": "MOS Word 2019",
+      "totalTasks": 3,
+      "estimatedTime": "30 phút",
+      "difficulty": "Advanced",
+      "version": "2019",
+      "isActive": true,
+      "createdDate": "2024-01-20",
+      "tasks": [
+        {
+          "id": 6,
+          "projectId": 2,
+          "name": "Task 1: Tạo Header và Footer",
+          "shortName": "Header/Footer",
+          "description": "Tạo header với tên công ty và footer với số trang",
+          "detailedInstructions": "Tạo header với tên công ty <strong>'Bellows Bicycle Barn'</strong> và footer với số trang.",
+          "instructions": "1. Tab Insert > Header\n2. Chọn mẫu header\n3. Nhập 'Bellows Bicycle Barn'\n4. Tab Insert > Footer\n5. Chọn mẫu footer với số trang",
+          "order": 1,
+          "maxScore": 25,
+          "timeLimit": 300,
+          "taskType": "headersFooters",
+          "keywords": ["Header", "Footer", "Page Numbers"],
+          "prerequisites": [],
+          "hints": [
+            "Header và Footer có thể được chỉnh sửa trong chế độ chỉnh sửa riêng",
+            "Số trang có thể được chèn tự động"
+          ],
+          "isCompleted": false,
+          "isReviewed": false
+        },
+        {
+          "id": 7,
+          "projectId": 2,
+          "name": "Task 2: Chèn hình ảnh và định dạng",
+          "shortName": "Chèn hình ảnh",
+          "description": "Chèn hình ảnh xe đạp và áp dụng style hình ảnh",
+          "detailedInstructions": "Chèn hình ảnh xe đạp và áp dụng <strong>Style Simple Frame, White</strong>.",
+          "instructions": "1. Tab Insert > Pictures\n2. Chọn hình ảnh xe đạp\n3. Tab Picture Format > Picture Styles\n4. Chọn Simple Frame, White",
+          "order": 2,
+          "maxScore": 20,
+          "timeLimit": 240,
+          "taskType": "images",
+          "keywords": ["Insert Picture", "Picture Styles", "Format"],
+          "prerequisites": [6],
+          "hints": [
+            "Hình ảnh nên được căn giữa văn bản",
+            "Style Simple Frame, White nằm trong nhóm Picture Styles"
+          ],
+          "isCompleted": false,
+          "isReviewed": false
+        },
+        {
+          "id": 8,
+          "projectId": 2,
+          "name": "Task 3: Tạo mục lục tự động",
+          "shortName": "Mục lục",
+          "description": "Tạo mục lục tự động dựa trên các heading trong tài liệu",
+          "detailedInstructions": "Tạo mục lục tự động dựa trên các heading trong tài liệu.",
+          "instructions": "1. Đảm bảo các heading đã được định dạng với Style Heading 1, Heading 2\n2. Tab References > Table of Contents\n3. Chọn Automatic Table 1",
+          "order": 3,
+          "maxScore": 30,
+          "timeLimit": 360,
+          "taskType": "tableOfContents",
+          "keywords": ["Table of Contents", "References", "Headings"],
+          "prerequisites": [7],
+          "hints": [
+            "Mục lục chỉ hoạt động khi có các heading được định dạng đúng",
+            "Có thể cập nhật mục lục sau khi thay đổi nội dung"
+          ],
+          "isCompleted": false,
+          "isReviewed": false
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "version": "1.0.1",
+    "createdDate": "2024-01-15",
+    "lastUpdated": "2024-12-21",
+    "author": "DATMOS System",
+    "description": "Dữ liệu Project và Task cho Gmetrix MOS Word 2019 - Đã cập nhật theo yêu cầu Project 1: Bicycles",
+    "totalProjects": 2,
+    "totalTasks": 8,
+    "courseInfo": {
+      "courseCode": "CRS001",
+      "courseName": "MOS Word 2019",
+      "examCode": "77-725",
+      "passingScore": 700,
+      "totalPoints": 1000,
+      "timeLimit": 50
+    }
+  }
+}

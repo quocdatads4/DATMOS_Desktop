@@ -1,0 +1,25 @@
+@{
+  TempData.Keep();
+  ViewData["containerNav"] = (ViewData["containerNav"] ??= "container-fluid");
+}
+<!-- Footer -->
+<footer class="content-footer footer bg-footer-theme">
+  <div class='@ViewData["containerNav"]'>
+    <div class="footer-container d-flex align-items-center justify-content-between py-2 flex-md-row flex-column">
+      <div class="text-body">
+      ©
+      <script>
+      document.write(new Date().getFullYear())
+      </script>, được phát triển với bản quyền thuộc về DATMarketing <a href='@TempData.Peek("authorUrl")' target="_blank"
+        class="footer-link">@TempData.Peek("authorName")</a>
+      </div>
+      <div class="d-none d-lg-inline-block">
+        <a href='@TempData.Peek("licenseUrl")' class="footer-link me-4" target="_blank">Bản quyền</a>
+        <a href='@TempData.Peek("productPage")' target="_blank" class="footer-link me-4">Hỗ trợ</a>
+        <a href='@TempData.Peek("documentation")' target="_blank" class="footer-link me-4">Hướng dẫn</a>
+        <a href='@TempData.Peek("support")' target="_blank" class="footer-link d-none d-sm-inline-block">Support</a>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- / Footer -->

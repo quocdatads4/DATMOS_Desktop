@@ -1,0 +1,263 @@
+@model List<DATMOS.Core.Entities.Product>
+@{
+    ViewData["Title"] = "Danh sách môn học";
+    Layout = "~/Areas/Customer/Views/Shared/_CustomerLayout.cshtml";
+    
+    var remainingCredits = ViewBag.RemainingCredits ?? 0;
+}
+
+@section VendorStyles {
+<link rel="stylesheet" href="~/vendor/libs/apex-charts/apex-charts.css" />
+}
+
+@section PageStyles {
+<link rel="stylesheet" href="~/areas/customer/css/product-details.css" asp-append-version="true" />
+}
+
+@section VendorScripts {
+<script src="~/vendor/libs/apex-charts/apexcharts.js"></script>
+}
+
+@section PageScripts {
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // Initialize tooltips
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+      return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+  });
+</script>
+}
+
+<!-- Header with Credits Info -->
+<div class="d-flex align-items-center justify-content-between mb-6">
+  <div class="d-flex align-items-center">
+    <div class="avatar avatar-lg bg-label-primary rounded-3 p-3 me-3">
+      <i class="icon-base ti ti-book ti-2x text-primary"></i>
+    </div>
+    <div>
+      <h4 class="mb-1">Môn học</h4>
+      <p class="text-muted mb-0">Chọn môn học để bắt đầu ôn luyện hoặc thi thử</p>
+    </div>
+  </div>
+  
+  <!-- Credits Display -->
+  <div class="card bg-label-info border-info" style="width: 200px;">
+    <div class="card-body py-3">
+      <div class="d-flex align-items-center justify-content-between">
+        <div>
+          <h6 class="mb-0 text-info">Lượt thi còn lại</h6>
+          <h3 class="mb-0 text-info">@remainingCredits</h3>
+          <small class="text-muted">/ 30 lượt</small>
+        </div>
+        <div class="avatar avatar-lg bg-info rounded-3 p-2">
+          <i class="icon-base ti ti-coin ti-2x text-white"></i>
+        </div>
+      </div>
+      <div class="mt-2">
+        <a href="javascript:void(0);" class="btn btn-sm btn-outline-info w-100">Mua thêm lượt</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Products Grid -->
+<div class="row mb-6 g-6">
+  @foreach (var product in Model)
+  {
+    <div class="col-xxl-4 col-md-6">
+      <div class="card h-100 product-card">
+        <div class="card-header d-flex align-items-center justify-content-between">
+          <h5 class="card-title m-0 me-2">@product.Name</h5>
+          <div class="badge bg-label-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Có sẵn ôn luyện và thi thử">
+            <i class="icon-base ti ti-check me-1"></i>
+            Đầy đủ
+          </div>
+        </div>
+        <div class="card-body text-center">
+          @{
+            var iconClass = "ti-file-text";
+            var bgClass = "bg-label-primary";
+            var textClass = "text-primary";
+            
+            if (product.Name.Contains("Excel"))
+            {
+              iconClass = "ti-table";
+              bgClass = "bg-label-success";
+              textClass = "text-success";
+            }
+            else if (product.Name.Contains("PowerPoint"))
+            {
+              iconClass = "ti-presentation";
+              bgClass = "bg-label-warning";
+              textClass = "text-warning";
+            }
+            else if (product.Name.Contains("Access"))
+            {
+              iconClass = "ti-database";
+              bgClass = "bg-label-info";
+              textClass = "text-info";
+            }
+            else if (product.Name.Contains("Outlook"))
+            {
+              iconClass = "ti-mail";
+              bgClass = "bg-label-secondary";
+              textClass = "text-secondary";
+            }
+          }
+          
+          <div class="@bgClass rounded text-center mb-4 pt-4">
+            <i class="icon-base ti @iconClass ti-5x @textClass"></i>
+          </div>
+          
+          <h5 class="mb-2">@product.Name Specialist</h5>
+          <p class="small mb-4">Làm chủ kỹ năng với @product.Name. Bao gồm đầy đủ bài ôn luyện và thi thử.</p>
+          
+          <div class="row mb-4 g-3">
+            <div class="col-6">
+              <div class="d-flex">
+                <div class="avatar flex-shrink-0 me-3">
+                  <span class="avatar-initial rounded bg-label-success"><i class="icon-base ti ti-clipboard-check ti-28px"></i></span>
+                </div>
+                <div>
+                  <h6 class="mb-0 text-nowrap">4 Exam</h6>
+                  <small>Bài thi</small>
+                </div>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="d-flex">
+                <div class="avatar flex-shrink-0 me-3">
+                  <span class="avatar-initial rounded bg-label-info"><i class="icon-base ti ti-folders ti-28px"></i></span>
+                </div>
+                <div>
+                  <h6 class="mb-0 text-nowrap">28 Project</h6>
+                  <small>Bài tập</small>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <a href="@Url.Action("Details", "Product", new { area = "Customer", id = product.Id })" 
+             class="btn @textClass w-100" 
+             role="button" 
+             aria-label="Xem chi tiết @product.Name">
+            Xem chi tiết
+          </a>
+        </div>
+      </div>
+    </div>
+  }
+</div>
+
+<!-- How It Works Section -->
+<div class="card mb-6">
+  <div class="card-header">
+    <h5 class="card-title m-0">Cách thức hoạt động</h5>
+  </div>
+  <div class="card-body">
+    <div class="row g-4">
+      <div class="col-md-3">
+        <div class="d-flex align-items-center gap-3">
+          <div class="avatar avatar-lg bg-label-primary rounded-3 p-3">
+            <span class="avatar-initial rounded bg-primary text-white">1</span>
+          </div>
+          <div>
+            <h6 class="mb-1">Chọn môn học</h6>
+            <p class="small text-muted mb-0">Chọn môn học bạn muốn ôn luyện hoặc thi thử</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-3">
+        <div class="d-flex align-items-center gap-3">
+          <div class="avatar avatar-lg bg-label-success rounded-3 p-3">
+            <span class="avatar-initial rounded bg-success text-white">2</span>
+          </div>
+          <div>
+            <h6 class="mb-1">Chọn Exam</h6>
+            <p class="small text-muted mb-0">Chọn bài thi (Exam) cụ thể để bắt đầu</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-3">
+        <div class="d-flex align-items-center gap-3">
+          <div class="avatar avatar-lg bg-label-warning rounded-3 p-3">
+            <span class="avatar-initial rounded bg-warning text-white">3</span>
+          </div>
+          <div>
+            <h6 class="mb-1">Chọn chế độ</h6>
+            <p class="small text-muted mb-0">Ôn luyện (có đáp án) hoặc Thi thử (không đáp án)</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-3">
+        <div class="d-flex align-items-center gap-3">
+          <div class="avatar avatar-lg bg-label-info rounded-3 p-3">
+            <span class="avatar-initial rounded bg-info text-white">4</span>
+          </div>
+          <div>
+            <h6 class="mb-1">Làm bài & Nhận kết quả</h6>
+            <p class="small text-muted mb-0">Hoàn thành các project và nhận kết quả ngay lập tức</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Credit Packages -->
+<div class="card">
+  <div class="card-header d-flex align-items-center justify-content-between">
+    <h5 class="card-title m-0">Gói lượt thi</h5>
+    <a href="javascript:void(0);" class="btn btn-sm btn-outline-primary">Xem tất cả gói</a>
+  </div>
+  <div class="card-body">
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="card border-primary">
+          <div class="card-body text-center">
+            <div class="avatar avatar-lg bg-label-primary rounded-3 p-3 mb-3 mx-auto">
+              <i class="icon-base ti ti-coin ti-2x text-primary"></i>
+            </div>
+            <h5 class="mb-2">Gói Cơ bản</h5>
+            <h1 class="mb-3 text-primary">30 lượt</h1>
+            <p class="small text-muted mb-4">Phù hợp cho người mới bắt đầu</p>
+            <button class="btn btn-primary w-100">Mua ngay - 299.000đ</button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-4">
+        <div class="card border-success">
+          <div class="card-body text-center">
+            <div class="avatar avatar-lg bg-label-success rounded-3 p-3 mb-3 mx-auto">
+              <i class="icon-base ti ti-coin ti-2x text-success"></i>
+            </div>
+            <h5 class="mb-2">Gói Nâng cao</h5>
+            <h1 class="mb-3 text-success">100 lượt</h1>
+            <p class="small text-muted mb-4">Tiết kiệm cho người học thường xuyên</p>
+            <button class="btn btn-success w-100">Mua ngay - 899.000đ</button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-4">
+        <div class="card border-warning">
+          <div class="card-body text-center">
+            <div class="avatar avatar-lg bg-label-warning rounded-3 p-3 mb-3 mx-auto">
+              <i class="icon-base ti ti-coin ti-2x text-warning"></i>
+            </div>
+            <h5 class="mb-2">Gói Doanh nghiệp</h5>
+            <h1 class="mb-3 text-warning">300 lượt</h1>
+            <p class="small text-muted mb-4">Dành cho công ty, trường học</p>
+            <button class="btn btn-warning w-100">Mua ngay - 2.499.000đ</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

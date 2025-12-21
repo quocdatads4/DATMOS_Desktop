@@ -1,0 +1,19 @@
+/* Admin Content Components CSS */
+.admin-content-components {
+    /* Basic styles for admin components */
+}
+
+/* Additional admin-specific styles */
+.container-xxl {
+    max-width: 100%;
+}
+
+.bg-navbar-theme {
+    background-color: #7367f0;
+    color: white;
+}
+
+.bg-footer-theme {
+    background-color: #f8f9fa;
+    border-top: 1px solid #dee2e6;
+}

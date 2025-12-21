@@ -1,0 +1,1420 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>&#xD4;n luy&#x1EC7;n - Exam 1 - DATMOS Practice</title>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Core CSS from Customer Layout (for compatibility) -->
+    <link rel="stylesheet" href="/vendor/libs/node-waves/node-waves.css" asp-append-version="true" />
+    <link rel="stylesheet" href="/vendor/css/core.css" asp-append-version="true" />
+    <link rel="stylesheet" href="/css/demo.css" asp-append-version="true" />
+    <link rel="stylesheet" href="/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" asp-append-version="true" />
+    
+    <!-- GMetrix Footer CSS - Improved Version -->
+    <style>
+        :root {
+            /* Color System */
+            --gmetrix-primary: #1e549f;
+            --gmetrix-primary-dark: #15417a;
+            --gmetrix-secondary: #00a090;
+            --gmetrix-secondary-dark: #008577;
+            --gmetrix-warning: #ff9800;
+            --gmetrix-warning-dark: #e68900;
+            --gmetrix-info: #007bff;
+            --gmetrix-info-dark: #0069d9;
+            --gmetrix-dark: #4a4a4a;
+            --gmetrix-dark-light: #555;
+            --gmetrix-light: #f9f9f9;
+            --gmetrix-gray: #e6e6e6;
+            --gmetrix-gray-dark: #444;
+            
+            /* Text Colors */
+            --text-primary: #333333;
+            --text-secondary: #6c757d;
+            --text-light: #ffffff;
+            --text-dark: #343a40;
+            
+            /* Spacing */
+            --spacing-xs: 4px;
+            --spacing-sm: 8px;
+            --spacing-md: 16px;
+            --spacing-lg: 24px;
+            --spacing-xl: 32px;
+            
+            /* Border Radius */
+            --radius-sm: 3px;
+            --radius-md: 6px;
+            --radius-lg: 8px;
+            
+            /* Shadows */
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
+            
+            /* Transitions */
+            --transition-fast: 0.15s ease;
+            --transition-normal: 0.3s ease;
+            --transition-slow: 0.5s ease;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            padding-bottom: 260px; /* Tạo khoảng trống để không che nội dung chính */
+            color: var(--text-primary);
+            line-height: 1.6;
+            transition: padding-bottom 0.3s ease;
+        }
+
+        /* Container chính cố định ở đáy */
+        .gmetrix-footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #fff;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.15);
+            z-index: 1000;
+            font-size: 14px;
+            border-top: 1px solid rgba(0,0,0,0.05);
+            height: 260px; /* Chiều cao cố định tối ưu hơn */
+            overflow-x: auto; /* Cho phép scroll ngang */
+            overflow-y: hidden;
+            box-sizing: border-box; /* Bao gồm padding và border trong chiều cao */
+            transition: height 0.3s ease, transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .gmetrix-footer.collapsed {
+            height: 52px; /* Chỉ hiện thanh top bar */
+        }
+
+        /* 1. Thanh tiêu đề trên cùng (Màu xanh đậm) */
+        .top-bar {
+            background: linear-gradient(135deg, var(--gmetrix-primary) 0%, var(--gmetrix-primary-dark) 100%);
+            color: var(--text-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--spacing-sm) var(--spacing-lg);
+            min-height: 52px;
+            flex-shrink: 0;
+        }
+
+        .top-left, .top-right {
+            display: flex;
+            gap: var(--spacing-lg);
+            align-items: center;
+        }
+
+        .timer {
+            font-weight: 700;
+            font-size: 1.3em;
+            font-family: 'Courier New', monospace;
+            background: rgba(255,255,255,0.15);
+            padding: var(--spacing-xs) var(--spacing-md);
+            border-radius: var(--radius-md);
+            border: 1px solid rgba(255,255,255,0.2);
+            min-width: 100px;
+            text-align: center;
+            transition: all var(--transition-fast);
+        }
+
+        .timer:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-1px);
+        }
+
+        .top-link {
+            cursor: pointer;
+            text-decoration: none;
+            color: var(--text-light);
+            font-size: 13px;
+            font-weight: 500;
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--radius-sm);
+            transition: all var(--transition-fast);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .top-link i {
+            font-size: 12px;
+        }
+        
+        .top-link:hover { 
+            background-color: rgba(255,255,255,0.2);
+            transform: translateY(-1px);
+            text-decoration: none;
+        }
+        
+        .top-link:focus {
+            outline: 2px solid rgba(255,255,255,0.5);
+            outline-offset: 2px;
+        }
+
+        /* Toggle Button */
+        .toggle-footer-btn {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            margin-left: 15px;
+            transition: all 0.2s;
+        }
+        .toggle-footer-btn:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        /* 2. Thanh Tabs (Overview, Task 1...) */
+        .tabs-container {
+            background-color: var(--gmetrix-gray);
+            display: flex;
+            justify-content: center;
+            padding-top: var(--spacing-xs);
+            border-bottom: 1px solid #d1d1d1;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .tab {
+            padding: var(--spacing-sm) var(--spacing-xl);
+            background: var(--gmetrix-dark);
+            color: var(--text-light);
+            border: none;
+            cursor: pointer;
+            margin: 0 1px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all var(--transition-normal);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .tab::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 3px;
+            background: var(--gmetrix-primary);
+            transition: all var(--transition-normal);
+            transform: translateX(-50%);
+        }
+
+        .tab.active {
+            background: var(--gmetrix-light);
+            color: var(--text-dark);
+            font-weight: 600;
+            box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .tab.active::after {
+            width: 80%;
+        }
+
+        .tab:hover {
+            background: #5a5a5a;
+            transform: translateY(-1px);
+        }
+        
+        .tab.active:hover {
+            background: #e0e0e0;
+        }
+        
+        .tab:focus {
+            outline: 2px solid var(--gmetrix-primary);
+            outline-offset: -2px;
+            z-index: 1;
+        }
+
+        /* 3. Phần nội dung câu hỏi (Màu trắng) với icon - Cải thiện */
+        .instruction-area::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(to right, var(--gmetrix-primary), var(--gmetrix-secondary));
+        }
+        
+        .instruction-header {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-md);
+            color: var(--gmetrix-primary);
+            font-weight: 700; /* Tăng độ đậm */
+            font-size: 18px; /* Kích thước vừa phải */
+        }
+        
+        .instruction-icon {
+            font-size: 20px;
+        }
+        
+        .instruction-content strong {
+            color: var(--gmetrix-primary);
+            font-weight: 700;
+            display: inline;
+        }
+        
+        /* Đảm bảo instruction area đủ rộng cho 1 dòng */
+        .instruction-area {
+            background: linear-gradient(to bottom, #ffffff, #f8f9fa);
+            padding: 20px 10px;
+            color: var(--text-primary);
+            font-size: 18px;
+            line-height: 1.8;
+            border-bottom: 1px solid #e9ecef;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start; /* Căn trái */
+            justify-content: flex-start;
+            flex-grow: 1; /* Tự động lấp đầy khoảng trống */
+            overflow-x: auto; /* Scroll ngang nếu cần */
+            overflow-y: auto; /* Scroll dọc nếu cần */
+            width: 100%; /* Đảm bảo chiều rộng 100% */
+            box-sizing: border-box; /* Bao gồm padding trong chiều cao */
+            min-height: 0; /* Cho phép flex item co lại */
+        }
+        
+        /* Ẩn scrollbar nhưng vẫn cho phép scroll */
+        .instruction-area::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        
+        .instruction-area::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        
+        .instruction-area::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 2px;
+        }
+        
+        .instruction-area::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+        }
+        
+        /* Đảm bảo nội dung luôn căn giữa hoàn hảo */
+        .instruction-area > * {
+            text-align: left;
+            width: 100%; /* Đảm bảo chiều rộng 100% */
+        }
+        
+        /* Instruction content hiển thị đầy đủ trên 1 dòng */
+        .instruction-content {
+            text-align: left;
+            margin: 0;
+            width: auto;
+            min-width: fit-content;
+            font-size: 10px !important;
+            font-weight: 500;
+            line-height: 1.1;
+            padding: 0;
+            white-space: nowrap !important;
+            word-wrap: normal !important;
+            word-break: keep-all !important;
+            overflow-wrap: normal !important;
+            display: inline-block !important;
+            box-sizing: border-box;
+            overflow: visible;
+        }
+
+        
+        /* Projects container - select dropdown */
+        .projects-container {
+            display: flex;
+            align-items: center;
+        }
+        
+        .project-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+            color: var(--text-light);
+        }
+        
+        .project-label {
+            font-weight: 600;
+            opacity: 0.9;
+        }
+        
+        .project-select-container {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .project-select {
+            background: rgba(255, 255, 255, 0.15);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: var(--radius-sm);
+            padding: 6px 28px 6px 10px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            min-width: 150px;
+            transition: all var(--transition-fast);
+        }
+        
+        .project-select:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.6);
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.25);
+        }
+        
+        .project-select:hover {
+            background: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+        
+        /* Style for options in dropdown */
+        .project-select option {
+            background: var(--gmetrix-primary-dark);
+            color: #ffffff;
+            padding: 8px;
+            font-weight: 500;
+        }
+        
+        .project-select option:checked {
+            background: var(--gmetrix-secondary);
+            color: #ffffff;
+            font-weight: 600;
+        }
+        
+        .project-select option:hover {
+            background: var(--gmetrix-secondary-dark);
+        }
+        
+        .select-arrow {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 11px;
+            transition: transform var(--transition-fast);
+        }
+        
+        .project-select:focus + .select-arrow,
+        .project-select:hover + .select-arrow {
+            color: #ffffff;
+            transform: translateY(-50%) scale(1.1);
+        }
+        
+        /* Timer with icon */
+        .timer i {
+            margin-right: 8px;
+            opacity: 0.9;
+        }
+        
+        /* Clean Tabs without icons - only text with badge for overview */
+        .tab {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--spacing-sm) var(--spacing-lg);
+            min-width: 120px;
+        }
+        
+        .tab-text {
+            font-weight: 500;
+        }
+        
+        .tab-badge {
+            background: var(--gmetrix-secondary);
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            margin-left: 6px;
+        }
+        
+        .tab-badge i {
+            font-size: 10px;
+        }
+        
+        .tab:hover .tab-badge {
+            transform: scale(1.1);
+            transition: transform var(--transition-fast);
+        }
+        
+        .tab.active .tab-badge {
+            background: var(--gmetrix-primary);
+            transform: scale(1.2);
+        }
+        
+        /* Top links with icons */
+        .top-link i {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+        
+        .top-link:hover i {
+            opacity: 1;
+        }
+        
+        /* Buttons with icons - kích thước phù hợp với nút nhỏ hơn */
+        .btn i {
+            font-size: 13px; /* Icon phù hợp với control-bar 40px */
+        }
+        
+        .btn.btn-dark i {
+            opacity: 0.9;
+        }
+        
+        .btn:hover i {
+            transform: scale(1.15); /* Hiệu ứng hover mạnh hơn */
+            transition: transform var(--transition-fast);
+        }
+        
+        /* Hiệu ứng nâng cao cho trải nghiệm người dùng tốt hơn */
+        .btn {
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px); /* Nâng nút lên khi hover */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+        
+        .btn:active {
+            transform: translateY(-1px); /* Hiệu ứng nhấn */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Hiệu ứng focus rõ ràng hơn */
+        .btn:focus {
+            outline: 2px solid rgba(255, 255, 255, 0.8);
+            outline-offset: 3px;
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2);
+        }
+        
+        /* 4. Thanh điều khiển dưới cùng (Nút Previous, Mark Completed...) - Chiều cao 40px, tối ưu */
+        .control-bar {
+            background: var(--gmetrix-gray-dark);
+            padding: 6px 12px;
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            flex-wrap: nowrap;
+            align-items: center;
+            height: 40px; /* Chiều cao 40px theo yêu cầu */
+            box-sizing: border-box;
+            flex-shrink: 0;
+        }
+
+        .btn {
+            border: none;
+            padding: 6px 12px;
+            color: var(--text-light);
+            cursor: pointer;
+            font-size: 13px; /* Chữ vừa phải */
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px; /* Khoảng cách icon-text vừa phải */
+            transition: all var(--transition-normal);
+            border-radius: var(--radius-md);
+            min-width: 120px;
+            max-width: 220px;
+            height: 32px; /* Chiều cao phù hợp với control-bar 40px */
+            position: relative;
+            overflow: hidden;
+            flex: 1; /* Các nút có kích thước linh hoạt */
+            white-space: nowrap;
+        }
+        
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 5px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.5);
+            opacity: 0;
+            border-radius: 100%;
+            transform: scale(1, 1) translate(-50%);
+            transform-origin: 50% 50%;
+        }
+        
+        .btn:focus:not(:active)::after {
+            animation: ripple 1s ease-out;
+        }
+        
+        @keyframes ripple {
+            0% {
+                transform: scale(0, 0);
+                opacity: 0.5;
+            }
+            100% {
+                transform: scale(20, 20);
+                opacity: 0;
+            }
+        }
+
+        .btn-dark { 
+            background: var(--gmetrix-dark-light);
+            border: 1px solid #666;
+        }
+        
+        .btn-dark:hover { 
+            background: #666;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .btn-teal { 
+            background: linear-gradient(135deg, var(--gmetrix-secondary) 0%, var(--gmetrix-secondary-dark) 100%);
+            border: 1px solid var(--gmetrix-secondary-dark);
+        }
+        
+        .btn-teal:hover {
+            background: linear-gradient(135deg, var(--gmetrix-secondary-dark) 0%, #00796b 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 160, 144, 0.3);
+        }
+        
+        .btn-orange { 
+            background: linear-gradient(135deg, var(--gmetrix-warning) 0%, var(--gmetrix-warning-dark) 100%);
+            border: 1px solid var(--gmetrix-warning-dark);
+        }
+        
+        .btn-orange:hover {
+            background: linear-gradient(135deg, var(--gmetrix-warning-dark) 0%, #e65100 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 152, 0, 0.3);
+        }
+        
+        .btn-blue { 
+            background: linear-gradient(135deg, var(--gmetrix-info) 0%, var(--gmetrix-info-dark) 100%);
+            border: 1px solid var(--gmetrix-info-dark);
+        }
+        
+        .btn-blue:hover {
+            background: linear-gradient(135deg, var(--gmetrix-info-dark) 0%, #0056b3 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+        }
+
+        .btn:hover { 
+            opacity: 0.95;
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .btn:focus {
+            outline: 2px solid rgba(255, 255, 255, 0.6);
+            outline-offset: 2px;
+        }
+
+        
+        /* Main content area */
+        .main-content {
+            padding: var(--spacing-xl);
+            max-width: 1400px;
+            margin: 0 auto;
+            padding-bottom: 300px; /* Extra space for fixed footer */
+        }
+        
+        /* Progress indicator */
+        .progress-indicator {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+        
+        .progress-bar {
+            width: 100px;
+            height: 6px;
+            background: var(--gmetrix-gray);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(to right, var(--gmetrix-secondary), var(--gmetrix-primary));
+            border-radius: 3px;
+            transition: width 0.5s ease;
+        }
+        
+        /* Toast notification */
+        .toast-container {
+            position: fixed;
+            bottom: 280px;
+            right: var(--spacing-lg);
+            z-index: 1050;
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-sm);
+            max-width: 350px;
+            transition: bottom 0.3s ease;
+        }
+        
+        .toast {
+            background: var(--gmetrix-dark);
+            color: var(--text-light);
+            padding: var(--spacing-md) var(--spacing-lg);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            transform: translateX(100%);
+            opacity: 0;
+            transition: all 0.4s ease;
+            border-left: 4px solid var(--gmetrix-secondary);
+        }
+        
+        .toast.show {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        
+        .toast i {
+            font-size: 18px;
+        }
+        
+        .toast.success {
+            border-left-color: var(--gmetrix-secondary);
+        }
+        
+        .toast.warning {
+            border-left-color: var(--gmetrix-warning);
+        }
+        
+        .toast.info {
+            border-left-color: var(--gmetrix-info);
+        }
+        
+        /* Loading state */
+        .btn.loading {
+            position: relative;
+            color: transparent !important;
+        }
+        
+        .btn.loading::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            margin: -10px 0 0 -10px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .top-bar {
+                flex-direction: column;
+                gap: var(--spacing-sm);
+                padding: var(--spacing-sm);
+                min-height: auto;
+            }
+            
+            .top-left, .top-right {
+                justify-content: center;
+                width: 100%;
+                flex-wrap: wrap;
+                gap: var(--spacing-sm);
+            }
+            
+            .timer {
+                order: 3;
+                margin-top: var(--spacing-xs);
+                min-width: 80px;
+                font-size: 1.1em;
+            }
+            
+            .tabs-container {
+                overflow-x: auto;
+                justify-content: flex-start;
+                padding-left: var(--spacing-sm);
+                padding-right: var(--spacing-sm);
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            .tab {
+                padding: var(--spacing-sm) var(--spacing-md);
+                font-size: 13px;
+                white-space: nowrap;
+            }
+            
+            .control-bar {
+                padding: 6px 12px;
+                gap: 6px;
+                height: 40px; /* Giữ nguyên chiều cao 50px trên mobile */
+            }
+            
+            .btn {
+                padding: 6px 12px;
+                font-size: 13px;
+                min-width: 110px;
+                max-width: 130px;
+                height: 36px; /* Chiều cao phù hợp trên mobile */
+                flex: 1;
+                max-width: calc(50% - 3px); /* 2 nút trên 1 hàng */
+            }
+            
+            .main-content {
+                padding: var(--spacing-md);
+                padding-bottom: 340px;
+            }
+            
+            .toast-container {
+                bottom: 340px;
+                right: var(--spacing-sm);
+                left: var(--spacing-sm);
+                max-width: none;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .btn {
+                min-width: 100px;
+                font-size: 12px;
+                padding: 5px 10px;
+                height: 34px;
+                gap: 4px;
+            }
+            
+            .btn i {
+                font-size: 12px; /* Icon nhỏ hơn trên mobile */
+            }
+            
+            .tab {
+                padding: 8px 12px;
+                font-size: 12px;
+            }
+            
+            .top-link {
+                font-size: 12px;
+                padding: 3px 6px;
+            }
+            
+            .instruction-area {
+                padding: var(--spacing-lg) var(--spacing-md);
+                font-size: 15px;
+            }
+            
+            .control-bar {
+                padding: 4px 8px;
+                gap: 4px;
+            }
+        }
+        
+        /* High contrast mode support */
+        @media (prefers-contrast: high) {
+            .btn {
+                border: 2px solid currentColor;
+            }
+            
+            .tab {
+                border: 1px solid currentColor;
+            }
+            
+            .top-link {
+                border: 1px solid rgba(255,255,255,0.5);
+            }
+        }
+        
+        /* Reduced motion support */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+            
+            .btn:hover,
+            .tab:hover,
+            .top-link:hover {
+                transform: none;
+            }
+        }
+    </style>
+    
+    
+    
+<link rel="stylesheet" href="/areas/customer/css/product-practice.css" asp-append-version="true" />
+
+    
+</head>
+<body>
+    <!-- Main Content -->
+    <div class="main-content">
+        
+
+
+
+    </div>
+
+    <!-- GMetrix Fixed Footer - Professional Icons Version -->
+    <footer class="gmetrix-footer" id="gmetrixFooter">
+        
+        <div class="top-bar">
+            <div class="top-left">
+                <div class="projects-container">
+                    <div class="project-info">
+                        <i class="fas fa-file-alt"></i> 
+                        <span class="project-label">Project:</span>
+                        <div class="project-select-container">
+                            <select id="project-select" class="project-select">
+                                <option value="1" selected>Project 1 (5 tasks)</option>
+                                <option value="2">Project 2 (3 tasks)</option>
+                                <option value="3">Project 3 (7 tasks)</option>
+                            </select>
+                            <div class="select-arrow">
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="progress-indicator" class="progress-indicator">
+                    <span>Tiến độ: 1/5</span>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 20%"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="timer" id="gmetrix-timer">
+                <i class="fas fa-clock"></i> 00:20:49
+            </div>
+            
+            <div class="top-right">
+                <span class="top-link" id="summary-link">
+                    <i class="fas fa-chart-pie"></i> Tổng quan
+                </span>
+                <span class="top-link" id="restart-link">
+                    <i class="fas fa-redo"></i> Khởi động lại
+                </span>
+                <span class="top-link" id="save-link">
+                    <i class="fas fa-save"></i> Lưu bài
+                </span>
+                <span class="top-link" id="grade-link">
+                    <i class="fas fa-star"></i> Chấm điểm
+                </span>
+                <button class="toggle-footer-btn" id="toggleFooter" title="Thu gọn/Mở rộng">
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="tabs-container">
+            <button class="tab" data-tab="overview" tabindex="0" aria-label="Tổng quan bài thi">
+                <span class="tab-text">Tổng quan</span>
+                <span class="tab-badge">
+                    <i class="fas fa-th"></i>
+                </span>
+            </button>
+            <button class="tab active" data-tab="task1" tabindex="0" aria-label="Câu hỏi số 1">
+                <span class="tab-text">Câu 1</span>
+            </button>
+            <button class="tab" data-tab="task2" tabindex="0" aria-label="Câu hỏi số 2">
+                <span class="tab-text">Câu 2</span>
+            </button>
+            <button class="tab" data-tab="task3" tabindex="0" aria-label="Câu hỏi số 3">
+                <span class="tab-text">Câu 3</span>
+            </button>
+            <button class="tab" data-tab="task4" tabindex="0" aria-label="Câu hỏi số 4">
+                <span class="tab-text">Câu 4</span>
+            </button>
+            <button class="tab" data-tab="task5" tabindex="0" aria-label="Câu hỏi số 5">
+                <span class="tab-text">Câu 5</span>
+            </button>
+        </div>
+
+        <div class="instruction-area" id="instruction-text">
+            <div class="instruction-header">
+                <i class="fas fa-info-circle instruction-icon"></i>
+                <span class="instruction-title">Hướng dẫn thực hiện</span>
+            </div>
+            <div class="instruction-content">
+                Dưới tiêu đề <strong>Landscaping Made Easy</strong>, chèn một ảnh chụp màn hình của bức ảnh hiển thị trên tài liệu <strong>Project</strong>.
+            </div>
+        </div>
+
+        <div class="control-bar">
+            <button class="btn btn-dark" id="prev-task">
+                <i class="fas fa-arrow-left"></i> Câu trước
+            </button>
+            <button class="btn btn-teal" id="mark-completed">
+                <i class="fas fa-check-circle"></i> Đánh dấu hoàn thành
+            </button>
+            <button class="btn btn-orange" id="mark-review">
+                <i class="fas fa-flag-checkered"></i> Đánh dấu cần xem lại
+            </button>
+            <button class="btn btn-dark" id="next-task">
+                Câu tiếp theo <i class="fas fa-arrow-right"></i>
+            </button>
+            <button class="btn btn-blue" id="help-btn">
+                <i class="fas fa-life-ring"></i> Trợ giúp
+            </button>
+        </div>
+    </footer>
+
+    <!-- Core JS from Customer Layout -->
+    <script src="/vendor/libs/jquery/jquery.js" asp-append-version="true"></script>
+    <script src="/vendor/js/bootstrap.js" asp-append-version="true"></script>
+    <script src="/vendor/libs/perfect-scrollbar/perfect-scrollbar.js" asp-append-version="true"></script>
+    <script src="/js/main.js" asp-append-version="true"></script>
+    
+    <!-- GMetrix Footer Scripts - Improved Version -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Footer Toggle Logic
+            const toggleBtn = document.getElementById('toggleFooter');
+            const footer = document.getElementById('gmetrixFooter');
+            const body = document.body;
+            const toastContainer = document.getElementById('toast-container');
+            
+            if (toggleBtn && footer) {
+                toggleBtn.addEventListener('click', function() {
+                    footer.classList.toggle('collapsed');
+                    const icon = this.querySelector('i');
+                    
+                    if (footer.classList.contains('collapsed')) {
+                        icon.classList.remove('fa-chevron-down');
+                        icon.classList.add('fa-chevron-up');
+                        body.style.paddingBottom = '60px';
+                        if (toastContainer) toastContainer.style.bottom = '70px';
+                    } else {
+                        icon.classList.remove('fa-chevron-up');
+                        icon.classList.add('fa-chevron-down');
+                        body.style.paddingBottom = '260px';
+                        if (toastContainer) toastContainer.style.bottom = '280px';
+                    }
+                });
+            }
+
+            // Toast Notification System
+            function showToast(message, type = 'info', duration = 4000) {
+                const toastContainer = document.getElementById('toast-container') || createToastContainer();
+                const toast = document.createElement('div');
+                toast.className = `toast ${type}`;
+                toast.innerHTML = `
+                    <i class="fas ${type === 'success' ? 'fa-check-circle' : type === 'warning' ? 'fa-exclamation-triangle' : 'fa-info-circle'}"></i>
+                    <span>${message}</span>
+                `;
+                
+                toastContainer.appendChild(toast);
+                
+                // Trigger animation
+                setTimeout(() => toast.classList.add('show'), 10);
+                
+                // Auto remove
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                    setTimeout(() => {
+                        if (toast.parentNode) {
+                            toast.parentNode.removeChild(toast);
+                        }
+                    }, 400);
+                }, duration);
+                
+                // Click to dismiss
+                toast.addEventListener('click', () => {
+                    toast.classList.remove('show');
+                    setTimeout(() => {
+                        if (toast.parentNode) {
+                            toast.parentNode.removeChild(toast);
+                        }
+                    }, 400);
+                });
+            }
+            
+            function createToastContainer() {
+                const container = document.createElement('div');
+                container.id = 'toast-container';
+                container.className = 'toast-container';
+                document.body.appendChild(container);
+                return container;
+            }
+            
+            // Progress indicator - sử dụng phần tử đã có trong HTML
+            function updateProgressIndicator(current, total) {
+                const progressEl = document.getElementById('progress-indicator');
+                if (progressEl) {
+                    progressEl.innerHTML = `
+                        <span>Tiến độ: ${current}/${total}</span>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${(current/total)*100}%"></div>
+                        </div>
+                    `;
+                }
+            }
+            
+            // Tab switching with animation
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const oldActive = document.querySelector('.tab.active');
+                    if (oldActive === this) return;
+                    
+                    // Animation
+                    oldActive.classList.remove('active');
+                    this.classList.add('active');
+                    
+                    // Update instruction with fade effect
+                    const tabId = this.getAttribute('data-tab');
+                    updateInstruction(tabId);
+                    
+                    // Show toast for tab change
+                    const tabNames = {
+                        'overview': 'Tổng quan',
+                        'task1': 'Câu 1',
+                        'task2': 'Câu 2', 
+                        'task3': 'Câu 3',
+                        'task4': 'Câu 4',
+                        'task5': 'Câu 5'
+                    };
+                    showToast(`Đã chuyển đến ${tabNames[tabId]}`, 'info', 2000);
+                });
+            });
+            
+            // Button event handlers with loading states
+            document.getElementById('prev-task').addEventListener('click', function() {
+                const btn = this;
+                btn.classList.add('loading');
+                setTimeout(() => {
+                    btn.classList.remove('loading');
+                    showToast('Đã chuyển đến câu trước', 'success');
+                }, 800);
+            });
+            
+            document.getElementById('next-task').addEventListener('click', function() {
+                const btn = this;
+                btn.classList.add('loading');
+                setTimeout(() => {
+                    btn.classList.remove('loading');
+                    showToast('Đã chuyển đến câu tiếp theo', 'success');
+                }, 800);
+            });
+            
+            document.getElementById('mark-completed').addEventListener('click', function() {
+                const btn = this;
+                btn.classList.add('loading');
+                setTimeout(() => {
+                    btn.classList.remove('loading');
+                    showToast('Đã đánh dấu hoàn thành', 'success');
+                }, 800);
+            });
+            
+            document.getElementById('mark-review').addEventListener('click', function() {
+                const btn = this;
+                btn.classList.add('loading');
+                setTimeout(() => {
+                    btn.classList.remove('loading');
+                    showToast('Đã đánh dấu cần xem lại', 'warning');
+                }, 800);
+            });
+            
+            document.getElementById('help-btn').addEventListener('click', function() {
+                showToast('Đang tải trợ giúp...', 'info');
+            });
+            
+            // Top link handlers
+            document.getElementById('summary-link').addEventListener('click', function() {
+                showToast('Đang tải tổng quan...', 'info');
+            });
+            
+            document.getElementById('restart-link').addEventListener('click', function() {
+                if (confirm('Bạn có chắc muốn khởi động lại bài thi? Mọi tiến độ chưa lưu sẽ bị mất.')) {
+                    showToast('Đang khởi động lại bài thi...', 'warning', 3000);
+                }
+            });
+            
+            document.getElementById('save-link').addEventListener('click', function() {
+                const btn = this;
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang lưu...';
+                btn.disabled = true;
+                
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                    showToast('Đã lưu tiến độ thành công', 'success');
+                }, 1500);
+            });
+            
+            document.getElementById('grade-link').addEventListener('click', function() {
+                const btn = this;
+                btn.classList.add('loading');
+                setTimeout(() => {
+                    btn.classList.remove('loading');
+                    showToast('Đang chấm điểm... Vui lòng đợi', 'info', 3000);
+                }, 800);
+            });
+            
+            // Timer with countdown simulation
+            let remainingTime = 20 * 60 + 49; // 20:49 in seconds
+            function updateTimer() {
+                const timerEl = document.getElementById('gmetrix-timer');
+                if (timerEl) {
+                    remainingTime--;
+                    
+                    if (remainingTime <= 0) {
+                        timerEl.textContent = '00:00:00';
+                        timerEl.style.color = '#dc3545';
+                        timerEl.style.fontWeight = 'bold';
+                        showToast('Thời gian đã hết!', 'warning', 5000);
+                        return;
+                    }
+                    
+                    const hours = Math.floor(remainingTime / 3600);
+                    const minutes = Math.floor((remainingTime % 3600) / 60);
+                    const seconds = remainingTime % 60;
+                    
+                    const timeStr = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                    timerEl.textContent = timeStr;
+                    
+                    // Warning colors
+                    if (remainingTime <= 300) { // 5 minutes
+                        timerEl.style.color = '#ff9800';
+                    } else if (remainingTime <= 60) { // 1 minute
+                        timerEl.style.color = '#dc3545';
+                        timerEl.classList.add('pulse');
+                    }
+                }
+            }
+            
+            // Update timer every second
+            const timerInterval = setInterval(updateTimer, 1000);
+            updateTimer();
+            
+            // Keyboard navigation
+            document.addEventListener('keydown', function(e) {
+                // Tab navigation with arrow keys
+                if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+                    const tabs = Array.from(document.querySelectorAll('.tab'));
+                    const currentIndex = tabs.findIndex(tab => tab.classList.contains('active'));
+                    
+                    if (e.key === 'ArrowRight' && currentIndex < tabs.length - 1) {
+                        tabs[currentIndex + 1].click();
+                        tabs[currentIndex + 1].focus();
+                    } else if (e.key === 'ArrowLeft' && currentIndex > 0) {
+                        tabs[currentIndex - 1].click();
+                        tabs[currentIndex - 1].focus();
+                    }
+                }
+                
+                // Space/Enter for buttons
+                if (e.key === ' ' || e.key === 'Enter') {
+                    const focused = document.activeElement;
+                    if (focused.classList.contains('btn') || focused.classList.contains('tab')) {
+                        focused.click();
+                        e.preventDefault();
+                    }
+                }
+                
+                // Shortcuts
+                if (e.ctrlKey || e.metaKey) {
+                    switch(e.key) {
+                        case 's':
+                            e.preventDefault();
+                            document.getElementById('save-link').click();
+                            break;
+                        case 'r':
+                            e.preventDefault();
+                            document.getElementById('restart-link').click();
+                            break;
+                        case 'g':
+                            e.preventDefault();
+                            document.getElementById('grade-link').click();
+                            break;
+                    }
+                }
+            });
+            
+            // Add tabindex for keyboard navigation
+            document.querySelectorAll('.btn, .tab, .top-link').forEach(el => {
+                el.setAttribute('tabindex', '0');
+            });
+            
+            // Add ARIA labels for accessibility
+            document.querySelectorAll('.tab').forEach((tab, index) => {
+                tab.setAttribute('aria-label', `Câu ${index === 0 ? 'Tổng quan' : index}`);
+            });
+            
+            document.getElementById('prev-task').setAttribute('aria-label', 'Câu trước');
+            document.getElementById('next-task').setAttribute('aria-label', 'Câu tiếp theo');
+            document.getElementById('mark-completed').setAttribute('aria-label', 'Đánh dấu hoàn thành');
+            document.getElementById('mark-review').setAttribute('aria-label', 'Đánh dấu cần xem lại');
+            document.getElementById('help-btn').setAttribute('aria-label', 'Trợ giúp');
+            
+            function updateInstruction(tabId) {
+                const instructions = {
+                    'overview': 'Xem tổng quan tất cả các câu hỏi trong bài thi.',
+                    'task1': 'Dưới tiêu đề <strong>Landscaping Made Easy</strong>, chèn một ảnh chụp màn hình của bức ảnh hiển thị trên tài liệu <strong>Project</strong>.',
+                    'task2': 'Định dạng tiêu đề "Landscaping Made Easy" với kiểu chữ <strong>Title</strong>.',
+                    'task3': 'Chèn một bảng với 3 cột và 4 hàng bên dưới đoạn văn đầu tiên.',
+                    'task4': 'Áp dụng kiểu <strong>Grid Table 4 - Accent 1</strong> cho bảng vừa tạo.',
+                    'task5': 'Căn giữa bảng và thêm chú thích "Landscaping Costs" phía trên bảng.'
+                };
+                
+                const instructionEl = document.getElementById('instruction-text');
+                if (instructionEl && instructions[tabId]) {
+                    // Fade effect
+                    instructionEl.style.opacity = '0.5';
+                    setTimeout(() => {
+                        instructionEl.innerHTML = instructions[tabId];
+                        instructionEl.style.opacity = '1';
+                    }, 200);
+                }
+            }
+            
+            // Project select functionality
+            const projectSelect = document.getElementById('project-select');
+            if (projectSelect) {
+                projectSelect.addEventListener('change', function() {
+                    const projectNumber = this.value;
+                    const selectedOption = this.options[this.selectedIndex];
+                    const projectText = selectedOption.text;
+                    
+                    // Show toast notification
+                    showToast(`Đã chuyển đến ${projectText}`, 'info', 2000);
+                    
+                    // Update progress indicator based on project
+                    const projectProgress = {
+                        '1': { current: 1, total: 5 },
+                        '2': { current: 1, total: 3 },
+                        '3': { current: 1, total: 7 }
+                    };
+                    
+                    if (projectProgress[projectNumber]) {
+                        updateProgressIndicator(
+                            projectProgress[projectNumber].current,
+                            projectProgress[projectNumber].total
+                        );
+                    }
+                    
+                    // Update instruction based on project
+                    const projectInstructions = {
+                        '1': 'Dưới tiêu đề <strong>Landscaping Made Easy</strong>, chèn một ảnh chụp màn hình của bức ảnh hiển thị trên tài liệu <strong>Project</strong>.',
+                        '2': 'Định dạng tiêu đề "Landscaping Made Easy" với kiểu chữ <strong>Title</strong>.',
+                        '3': 'Chèn một bảng với 3 cột và 4 hàng bên dưới đoạn văn đầu tiên.'
+                    };
+                    
+                    if (projectInstructions[projectNumber]) {
+                        const instructionEl = document.getElementById('instruction-text');
+                        if (instructionEl) {
+                            instructionEl.style.opacity = '0.5';
+                            setTimeout(() => {
+                                instructionEl.innerHTML = projectInstructions[projectNumber];
+                                instructionEl.style.opacity = '1';
+                            }, 200);
+                        }
+                    }
+                });
+            }
+            
+            // Initialize with first tab
+            updateInstruction('task1');
+            updateProgressIndicator(1, 5);
+            
+            // Add pulse animation for timer warning
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes pulse {
+                    0% { opacity: 1; }
+                    50% { opacity: 0.7; }
+                    100% { opacity: 1; }
+                }
+                .pulse {
+                    animation: pulse 1s infinite;
+                }
+            `;
+            document.head.appendChild(style);
+        });
+    </script>
+    
+    
+<script src="/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+
+    
+<script src="/areas/customer/js/product-practice.js" asp-append-version="true"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Initialize practice session
+    window.practiceSession = {
+      productId: 1,
+      examId: 1,
+      examType: 'Practice',
+      remainingTime: 3600,
+      remainingCredits: 15,
+      currentProjectId: 1,
+      projects: [{"id":11,"name":"Project 1","description":"Project 1 cho Exam 1","examId":1,"examName":null,"taskCount":5,"completedTasks":0,"isCurrent":true,"tasks":[{"id":111,"projectId":11,"question":"C\u00E2u h\u1ECFi 1 cho Project 11: H\u00E3y th\u1EF1c hi\u1EC7n thao t\u00E1c XYZ?","hint":"G\u1EE3i \u00FD 1: S\u1EED d\u1EE5ng menu File -\u003E Save As...","answer":"\u0110\u00E1p \u00E1n 1: Ch\u1ECDn File, sau \u0111\u00F3 ch\u1ECDn Save As, \u0111\u1EB7t t\u00EAn file v\u00E0 nh\u1EA5n Save.","order":1,"userAnswer":"","isCorrect":null},{"id":112,"projectId":11,"question":"C\u00E2u h\u1ECFi 2 cho Project 11: H\u00E3y th\u1EF1c hi\u1EC7n thao t\u00E1c XYZ?","hint":"G\u1EE3i \u00FD 2: S\u1EED d\u1EE5ng menu File -\u003E Save As...","answer":"\u0110\u00E1p \u00E1n 2: Ch\u1ECDn File, sau \u0111\u00F3 ch\u1ECDn Save As, \u0111\u1EB7t t\u00EAn file v\u00E0 nh\u1EA5n Save.","order":2,"userAnswer":"","isCorrect":null},{"id":113,"projectId":11,"question":"C\u00E2u h\u1ECFi 3 cho Project 11: H\u00E3y th\u1EF1c hi\u1EC7n thao t\u00E1c XYZ?","hint":"G\u1EE3i \u00FD 3: S\u1EED d\u1EE5ng menu File -\u003E Save As...","answer":"\u0110\u00E1p \u00E1n 3: Ch\u1ECDn File, sau \u0111\u00F3 ch\u1ECDn Save As, \u0111\u1EB7t t\u00EAn file v\u00E0 nh\u1EA5n Save.","order":3,"userAnswer":"","isCorrect":null},{"id":114,"projectId":11,"question":"C\u00E2u h\u1ECFi 4 cho Project 11: H\u00E3y th\u1EF1c hi\u1EC7n thao t\u00E1c XYZ?","hint":"G\u1EE3i \u00FD 4: S\u1EED d\u1EE5ng menu File -\u003E Save As...","answer":"\u0110\u00E1p \u00E1n 4: Ch\u1ECDn File, sau \u0111\u00F3 ch\u1ECDn Save As, \u0111\u1EB7t t\u00EAn file v\u00E0 nh\u1EA5n Save.","order":4,"userAnswer":"","isCorrect":null},{"id":115,"projectId":11,"question":"C\u00E2u h\u1ECFi 5 cho Project 11: H\u00E3y th\u1EF1c hi\u1EC7n thao t\u00E1c XYZ?","hint":"G\u1EE3i \u00FD 5: S\u1EED d\u1EE5ng menu File -\u003E Save As...","answer":"\u0110\u00E1p \u00E1n 5: Ch\u1ECDn File, sau \u0111\u00F3 ch\u1ECDn Save As, \u0111\u1EB7t t\u00EAn file v\u00E0 nh\u1EA5n Save.","order":5,"userAnswer":"","isCorrect":null}],"remainingCredits":0},{"id":12,"name":"Project 2","description":"Project 2 cho Exam 1","examId":1,"examName":null,"taskCount":5,"completedTasks":1,"isCurrent":false,"tasks":[{"id":121,"projectId":12,"question":"C\u00E2u h\u1ECFi 1 cho Project 12: H\u00E3y th\u1EF1c hi\u1EC7n thao t\u00E1c XYZ?","hint":"G\u1EE3i \u00FD 1: S\u1EED d\u1EE5ng menu File -\u003E Save As...","answer":"\u0110\u00E1p \u00E1n 1: Ch\u1ECDn File, sau \u0111\u00F3 ch\u1ECDn Save As, \u0111\u1EB7t t\u00EAn file v\u00E0 nh\u1EA5n Save.","order":1,"userAnswer":"","isCorrect":null},{"id":122,"projectId":12,"question":"C\u00E2u h\u1ECFi 2 cho Project 12: H\u00E3y th\u1EF1c hi\u1EC7n thao t\u00E1c XYZ?","hint":"G\u1EE3i \u00FD 2: S\u1EED d\u1EE5ng menu File -\u003E Save As...","answer":"\u0110\u00E1p \u00E1n 2: Ch\u1ECDn File, sau \u0111\u00F3 ch\u1ECDn Save As, \u0111\u1EB7t t\u00EAn file v\u00E0 nh\u1EA5n Save.","order":2,"userAnswer":"","isCorrect":null},{"id":123,"projectId":12,"question":"C\u00E2u h\u1ECFi 3 cho Project 12: H\u00E3y th\u1EF1c hi\u1EC7n thao t\u00E1c XYZ?","hint":"G\u1EE3i \u00FD 3: S\u1EED d\u1EE5ng menu File -\u003E Save As...","answer":"\u0110\u00E1p \u00E1n 3: Ch\u1ECDn File, sau \u0111\u00F3 ch\u1ECDn Save As, \u0111\u1EB7t t\u00EAn file v\u00E0 nh\u1EA5n Save.","order":3,"userAnswer":"","isCorrect":null},{"id":124,"projectId":12,"question":"C\u00E2u h\u1ECFi 4 cho Project 12: H\u00E3y th\u1EF1c hi\u1EC7n thao t\u00E1c XYZ?","hint":"G\u1EE3i \u00FD 4: S\u1EED d\u1EE5ng menu File -\u003E Save As...","answer":"\u0110\u00E1p \u00E1n 4: Ch\u1ECDn File, sau \u0111\u00F3 ch\u1ECDn Save As, \u0111\u1EB7t t\u00EAn file v\u00E0 nh\u1EA5n Save.","order":4,"userAnswer":"","isCorrect":null},{"id":125,"projectId":12,"question":"C\u00E2u h\u1ECFi 5 cho Project 12: H\u00E3y th\u1EF1c hi\u1EC7n thao t\u00E1c XYZ?","hint":"G\u1EE3i \u00FD 5: S\u1EED d\u1EE5ng menu File -\u003E Save As...","answer":"\u0110\u00E1p \u00E1n 5: Ch\u1ECDn File, sau \u0111\u00F3 ch\u1ECDn Save As, \u0111\u1EB7t t\u00EAn file v\u00E0 nh\u1EA5n Save.","order":5,"userAnswer":"","isCorrect":null}],"remainingCredits":0},{"id":13,"name":"Project 3","description":"Project 3 cho Exam 1","examId":1,"examName":null,"taskCount":5,"completedTasks":2,"isCurrent":false,"tasks":[{"id":131,"projectId":13,"question":"C\u00E2u h\u1ECFi 1 cho Project 13: H\u00E3y th\u1EF1c hi\u1EC7n thao t\u00E1c XYZ?","hint":"G\u1EE3i \u00FD 1: S\u1EED d\u1EE5ng menu File -\u003E Save As...","answer":"\u0110\u00E1p \u00E1n 1: Ch\u1ECDn File, sau \u0111\u00F3 ch\u1ECDn Save As, \u0111\u1EB7t t\u00EAn file v\u00E0 nh\u1EA5n Save.","order":1,"userAnswer":"","isCorrect":null},{"id":132,"projectId":13,"question":"C\u00E2u h\u1ECFi 2 cho Project 13: H\u00E3y th\u1EF1c hi\u1EC7n thao t\u00E1c XYZ?","hint":"G\u1EE3i \u00FD 2: S\u1EED d\u1EE5ng menu File -\u003E Save As...","answer":"\u0110\u00E1p \u00E1n 2: Ch\u1ECDn File, sau \u0111\u00F3 ch\u1ECDn Save As, \u0111\u1EB7t t\u00EAn file v\u00E0 nh\u1EA5n Save.","order":2,"userAnswer":"","isCorrect":null},{"id":133,"projectId":13,"question":"C\u00E2u h\u1ECFi 3 cho Project 13: H\u00E3y th\u1EF1c hi\u1EC7n thao t\u00E1c XYZ?","hint":"G\u1EE3i \u00FD 3: S\u1EED d\u1EE5ng menu File -\u003E Save As...","answer":"\u0110\u00E1p \u00E1n 3: Ch\u1ECDn File, sau \u0111\u00F3 ch\u1ECDn Save As, \u0111\u1EB7t t\u00EAn file v\u00E0 nh\u1EA5n Save.","order":3,"userAnswer":"","isCorrect":null},{"id":134,"projectId":13,"question":"C\u00E2u h\u1ECFi 4 cho Project 13: H\u00E3y th\u1EF1c hi\u1EC7n thao t\u00E1c XYZ?","hint":"G\u1EE3i \u00FD 4: S\u1EED d\u1EE5ng menu File -\u003E Save As...","answer":"\u0110\u00E1p \u00E1n 4: Ch\u1ECDn File, sau \u0111\u00F3 ch\u1ECDn Save As, \u0111\u1EB7t t\u00EAn file v\u00E0 nh\u1EA5n Save.","order":4,"userAnswer":"","isCorrect":null},{"id":135,"projectId":13,"question":"C\u00E2u h\u1ECFi 5 cho Project 13: H\u00E3y th\u1EF1c hi\u1EC7n thao t\u00E1c XYZ?","hint":"G\u1EE3i \u00FD 5: S\u1EED d\u1EE5ng menu File -\u003E Save As...","answer":"\u0110\u00E1p \u00E1n 5: Ch\u1ECDn File, sau \u0111\u00F3 ch\u1ECDn Save As, \u0111\u1EB7t t\u00EAn file v\u00E0 nh\u1EA5n Save.","order":5,"userAnswer":"","isCorrect":null}],"remainingCredits":0},{"id":14,"name":"Project 4","description":"Project 4 cho Exam 1","examId":1,"examName":null,"taskCount":5,"completedTasks":3,"isCurrent":false,"tasks":[{"id":141,"projectId":14,"question":"C\u00E2u h\u1ECFi 1 cho Project 14: H\u00E3y th\u1EF1c hi\u1EC7n thao t\u00E1c XYZ?","hint":"G\u1EE3i \u00FD 1: S\u1EED d\u1EE5ng menu File -\u003E Save As...","answer":"\u0110\u00E1p \u00E1n 1: Ch\u1ECDn File, sau \u0111\u00F3 ch\u1ECDn Save As, \u0111\u1EB7t t\u00EAn file v\u00E0 nh\u1EA5n Save.","order":1,"userAnswer":"","isCorrect":null},{"id":142,"projectId":14,"question":"C\u00E2u h\u1ECFi 2 cho Project 14: H\u00E3y th\u1EF1c hi\u1EC7n thao t\u00E1c XYZ?","hint":"G\u1EE3i \u00FD 2: S\u1EED d\u1EE5ng menu File -\u003E Save As...","answer":"\u0110\u00E1p \u00E1n 2: Ch\u1ECDn File, sau \u0111\u00F3 ch\u1ECDn Save As, \u0111\u1EB7t t\u00EAn file v\u00E0 nh\u1EA5n Save.","order":2,"userAnswer":"","isCorrect":null},{"id":143,"projectId":14,"question":"C\u00E2u h\u1ECFi 3 cho Project 14: H\u00E3y th\u1EF1c hi\u1EC7n thao t\u00E1c XYZ?","hint":"G\u1EE3i \u00FD 3: S\u1EED d\u1EE5ng menu File -\u003E Save As...","answer":"\u0110\u00E1p \u00E1n 3: Ch\u1ECDn File, sau \u0111\u00F3 ch\u1ECDn Save As, \u0111\u1EB7t t\u00EAn file v\u00E0 nh\u1EA5n Save.","order":3,"userAnswer":"","isCorrect":null},{"id":144,"projectId":14,"question":"C\u00E2u h\u1ECFi 4 cho Project 14: H\u00E3y th\u1EF1c hi\u1EC7n thao t\u00E1c XYZ?","hint":"G\u1EE3i \u00FD 4: S\u1EED d\u1EE5ng menu File -\u003E Save As...","answer":"\u0110\u00E1p \u00E1n 4: Ch\u1ECDn File, sau \u0111\u00F3 ch\u1ECDn Save As, \u0111\u1EB7t t\u00EAn file v\u00E0 nh\u1EA5n Save.","order":4,"userAnswer":"","isCorrect":null},{"id":145,"projectId":14,"question":"C\u00E2u h\u1ECFi 5 cho Project 14: H\u00E3y th\u1EF1c hi\u1EC7n thao t\u00E1c XYZ?","hint":"G\u1EE3i \u00FD 5: S\u1EED d\u1EE5ng menu File -\u003E Save As...","answer":"\u0110\u00E1p \u00E1n 5: Ch\u1ECDn File, sau \u0111\u00F3 ch\u1ECDn Save As, \u0111\u1EB7t t\u00EAn file v\u00E0 nh\u1EA5n Save.","order":5,"userAnswer":"","isCorrect":null}],"remainingCredits":0},{"id":15,"name":"Project 5","description":"Project 5 cho Exam 1","examId":1,"examName":null,"taskCount":5,"completedTasks":4,"isCurrent":false,"tasks":[{"id":151,"projectId":15,"question":"C\u00E2u h\u1ECFi 1 cho Project 15: H\u00E3y th\u1EF1c hi\u1EC7n thao t\u00E1c XYZ?","hint":"G\u1EE3i \u00FD 1: S\u1EED d\u1EE5ng menu File -\u003E Save As...","answer":"\u0110\u00E1p \u00E1n 1: Ch\u1ECDn File, sau \u0111\u00F3 ch\u1ECDn Save As, \u0111\u1EB7t t\u00EAn file v\u00E0 nh\u1EA5n Save.","order":1,"userAnswer":"","isCorrect":null},{"id":152,"projectId":15,"question":"C\u00E2u h\u1ECFi 2 cho Project 15: H\u00E3y th\u1EF1c hi\u1EC7n thao t\u00E1c XYZ?","hint":"G\u1EE3i \u00FD 2: S\u1EED d\u1EE5ng menu File -\u003E Save As...","answer":"\u0110\u00E1p \u00E1n 2: Ch\u1ECDn File, sau \u0111\u00F3 ch\u1ECDn Save As, \u0111\u1EB7t t\u00EAn file v\u00E0 nh\u1EA5n Save.","order":2,"userAnswer":"","isCorrect":null},{"id":153,"projectId":15,"question":"C\u00E2u h\u1ECFi 3 cho Project 15: H\u00E3y th\u1EF1c hi\u1EC7n thao t\u00E1c XYZ?","hint":"G\u1EE3i \u00FD 3: S\u1EED d\u1EE5ng menu File -\u003E Save As...","answer":"\u0110\u00E1p \u00E1n 3: Ch\u1ECDn File, sau \u0111\u00F3 ch\u1ECDn Save As, \u0111\u1EB7t t\u00EAn file v\u00E0 nh\u1EA5n Save.","order":3,"userAnswer":"","isCorrect":null},{"id":154,"projectId":15,"question":"C\u00E2u h\u1ECFi 4 cho Project 15: H\u00E3y th\u1EF1c hi\u1EC7n thao t\u00E1c XYZ?","hint":"G\u1EE3i \u00FD 4: S\u1EED d\u1EE5ng menu File -\u003E Save As...","answer":"\u0110\u00E1p \u00E1n 4: Ch\u1ECDn File, sau \u0111\u00F3 ch\u1ECDn Save As, \u0111\u1EB7t t\u00EAn file v\u00E0 nh\u1EA5n Save.","order":4,"userAnswer":"","isCorrect":null},{"id":155,"projectId":15,"question":"C\u00E2u h\u1ECFi 5 cho Project 15: H\u00E3y th\u1EF1c hi\u1EC7n thao t\u00E1c XYZ?","hint":"G\u1EE3i \u00FD 5: S\u1EED d\u1EE5ng menu File -\u003E Save As...","answer":"\u0110\u00E1p \u00E1n 5: Ch\u1ECDn File, sau \u0111\u00F3 ch\u1ECDn Save As, \u0111\u1EB7t t\u00EAn file v\u00E0 nh\u1EA5n Save.","order":5,"userAnswer":"","isCorrect":null}],"remainingCredits":0},{"id":16,"name":"Project 6","description":"Project 6 cho Exam 1","examId":1,"examName":null,"taskCount":5,"completedTasks":5,"isCurrent":false,"tasks":[{"id":161,"projectId":16,"question":"C\u00E2u h\u1ECFi 1 cho Project 16: H\u00E3y th\u1EF1c hi\u1EC7n thao t\u00E1c XYZ?","hint":"G\u1EE3i \u00FD 1: S\u1EED d\u1EE5ng menu File -\u003E Save As...","answer":"\u0110\u00E1p \u00E1n 1: Ch\u1ECDn File, sau \u0111\u00F3 ch\u1ECDn Save As, \u0111\u1EB7t t\u00EAn file v\u00E0 nh\u1EA5n Save.","order":1,"userAnswer":"","isCorrect":null},{"id":162,"projectId":16,"question":"C\u00E2u h\u1ECFi 2 cho Project 16: H\u00E3y th\u1EF1c hi\u1EC7n thao t\u00E1c XYZ?","hint":"G\u1EE3i \u00FD 2: S\u1EED d\u1EE5ng menu File -\u003E Save As...","answer":"\u0110\u00E1p \u00E1n 2: Ch\u1ECDn File, sau \u0111\u00F3 ch\u1ECDn Save As, \u0111\u1EB7t t\u00EAn file v\u00E0 nh\u1EA5n Save.","order":2,"userAnswer":"","isCorrect":null},{"id":163,"projectId":16,"question":"C\u00E2u h\u1ECFi 3 cho Project 16: H\u00E3y th\u1EF1c hi\u1EC7n thao t\u00E1c XYZ?","hint":"G\u1EE3i \u00FD 3: S\u1EED d\u1EE5ng menu File -\u003E Save As...","answer":"\u0110\u00E1p \u00E1n 3: Ch\u1ECDn File, sau \u0111\u00F3 ch\u1ECDn Save As, \u0111\u1EB7t t\u00EAn file v\u00E0 nh\u1EA5n Save.","order":3,"userAnswer":"","isCorrect":null},{"id":164,"projectId":16,"question":"C\u00E2u h\u1ECFi 4 cho Project 16: H\u00E3y th\u1EF1c hi\u1EC7n thao t\u00E1c XYZ?","hint":"G\u1EE3i \u00FD 4: S\u1EED d\u1EE5ng menu File -\u003E Save As...","answer":"\u0110\u00E1p \u00E1n 4: Ch\u1ECDn File, sau \u0111\u00F3 ch\u1ECDn Save As, \u0111\u1EB7t t\u00EAn file v\u00E0 nh\u1EA5n Save.","order":4,"userAnswer":"","isCorrect":null},{"id":165,"projectId":16,"question":"C\u00E2u h\u1ECFi 5 cho Project 16: H\u00E3y th\u1EF1c hi\u1EC7n thao t\u00E1c XYZ?","hint":"G\u1EE3i \u00FD 5: S\u1EED d\u1EE5ng menu File -\u003E Save As...","answer":"\u0110\u00E1p \u00E1n 5: Ch\u1ECDn File, sau \u0111\u00F3 ch\u1ECDn Save As, \u0111\u1EB7t t\u00EAn file v\u00E0 nh\u1EA5n Save.","order":5,"userAnswer":"","isCorrect":null}],"remainingCredits":0},{"id":17,"name":"Project 7","description":"Project 7 cho Exam 1","examId":1,"examName":null,"taskCount":5,"completedTasks":6,"isCurrent":false,"tasks":[{"id":171,"projectId":17,"question":"C\u00E2u h\u1ECFi 1 cho Project 17: H\u00E3y th\u1EF1c hi\u1EC7n thao t\u00E1c XYZ?","hint":"G\u1EE3i \u00FD 1: S\u1EED d\u1EE5ng menu File -\u003E Save As...","answer":"\u0110\u00E1p \u00E1n 1: Ch\u1ECDn File, sau \u0111\u00F3 ch\u1ECDn Save As, \u0111\u1EB7t t\u00EAn file v\u00E0 nh\u1EA5n Save.","order":1,"userAnswer":"","isCorrect":null},{"id":172,"projectId":17,"question":"C\u00E2u h\u1ECFi 2 cho Project 17: H\u00E3y th\u1EF1c hi\u1EC7n thao t\u00E1c XYZ?","hint":"G\u1EE3i \u00FD 2: S\u1EED d\u1EE5ng menu File -\u003E Save As...","answer":"\u0110\u00E1p \u00E1n 2: Ch\u1ECDn File, sau \u0111\u00F3 ch\u1ECDn Save As, \u0111\u1EB7t t\u00EAn file v\u00E0 nh\u1EA5n Save.","order":2,"userAnswer":"","isCorrect":null},{"id":173,"projectId":17,"question":"C\u00E2u h\u1ECFi 3 cho Project 17: H\u00E3y th\u1EF1c hi\u1EC7n thao t\u00E1c XYZ?","hint":"G\u1EE3i \u00FD 3: S\u1EED d\u1EE5ng menu File -\u003E Save As...","answer":"\u0110\u00E1p \u00E1n 3: Ch\u1ECDn File, sau \u0111\u00F3 ch\u1ECDn Save As, \u0111\u1EB7t t\u00EAn file v\u00E0 nh\u1EA5n Save.","order":3,"userAnswer":"","isCorrect":null},{"id":174,"projectId":17,"question":"C\u00E2u h\u1ECFi 4 cho Project 17: H\u00E3y th\u1EF1c hi\u1EC7n thao t\u00E1c XYZ?","hint":"G\u1EE3i \u00FD 4: S\u1EED d\u1EE5ng menu File -\u003E Save As...","answer":"\u0110\u00E1p \u00E1n 4: Ch\u1ECDn File, sau \u0111\u00F3 ch\u1ECDn Save As, \u0111\u1EB7t t\u00EAn file v\u00E0 nh\u1EA5n Save.","order":4,"userAnswer":"","isCorrect":null},{"id":175,"projectId":17,"question":"C\u00E2u h\u1ECFi 5 cho Project 17: H\u00E3y th\u1EF1c hi\u1EC7n thao t\u00E1c XYZ?","hint":"G\u1EE3i \u00FD 5: S\u1EED d\u1EE5ng menu File -\u003E Save As...","answer":"\u0110\u00E1p \u00E1n 5: Ch\u1ECDn File, sau \u0111\u00F3 ch\u1ECDn Save As, \u0111\u1EB7t t\u00EAn file v\u00E0 nh\u1EA5n Save.","order":5,"userAnswer":"","isCorrect":null}],"remainingCredits":0}]
+    };
+    
+    // Initialize practice functionality
+    if (typeof initPracticeSession === 'function') {
+      initPracticeSession();
+    }
+    
+    // Initialize perfect scrollbar for sidebar
+    const sidebarEl = document.getElementById('practiceSidebar');
+    if (sidebarEl && typeof PerfectScrollbar !== 'undefined') {
+      new PerfectScrollbar(sidebarEl, {
+        wheelSpeed: 2,
+        wheelPropagation: false,
+        minScrollbarLength: 20
+      });
+    }
+  });
+</script>
+
+    
+
+<!-- Visual Studio Browser Link -->
+<script type="text/javascript" src="/_vs/browserLink" async="async" id="__browserLink_initializationData" data-requestId="7cdb53421ee74e328e2164dd60f18cdf" data-requestMappingFromServer="false" data-connectUrl="http://localhost:62366/7309c820d14f447c9bc7ea624815bf52/browserLink"></script>
+<!-- End Browser Link -->
+<script src="/_framework/aspnetcore-browser-refresh.js"></script></body>
+</html>

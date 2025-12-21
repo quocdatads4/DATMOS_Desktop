@@ -1,0 +1,17 @@
+[
+  {
+    "Name": "DATMOS",
+    "Projects": [
+      {
+        "Path": "DATMOS.Web\\DATMOS.Web.csproj",
+        "Action": "Start",
+        "DebugTarget": "http"
+      },
+      {
+        "Path": "DATMOS.WinApp\\DATMOS.WinApp.csproj",
+        "Action": "Start",
+        "DebugTarget": "DATMOS.WinApp"
+      }
+    ]
+  }
+]

@@ -1,0 +1,311 @@
+@* ! Brand demo (display only for navbar-full and hide on below xl) *@
+@if (ViewData["navbarFull"] != null)
+{
+  var menuHorizontalValue = TempData.Peek("menuHorizontal")?.ToString();
+  var isMenuHorizontal = menuHorizontalValue != null && Convert.ToBoolean(menuHorizontalValue);
+  
+  <div class="navbar-brand app-brand demo d-none d-xl-flex py-0 me-4">
+  <a asp-area="Customer" asp-controller="Home" asp-action="Index" class="app-brand-link">
+      <span class="app-brand-logo demo">
+        <div class="avatar avatar-sm me-2">
+          <span class="avatar-initial rounded-circle bg-primary">
+            <i class="ti ti-book ti-sm"></i>
+          </span>
+        </div>
+      </span>
+      <span class="app-brand-text demo menu-text fw-bold">@(TempData.Peek("appName")?.ToString() ?? "DATMOS Learning")</span>
+    </a>
+
+    @* ! Display menu close icon only for horizontal-menu with navbar-full *@
+    @if (isMenuHorizontal)
+    {
+      <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-xl-none">
+        <i class="ti ti-x ti-md align-middle"></i>
+      </a>
+    }
+  </div>
+}
+
+@* ! Not required for layout-without-menu *@
+@if (ViewData["navbarHideToggle"] == null)
+{
+  var menuHorizontalValue2 = TempData.Peek("menuHorizontal")?.ToString();
+  var isMenuHorizontal2 = menuHorizontalValue2 != null && Convert.ToBoolean(menuHorizontalValue2);
+  var hasContentNavbar = ViewData["contentNavbar"] != null && Convert.ToBoolean(ViewData["contentNavbar"]);
+  
+  <div
+  class='layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0  @(isMenuHorizontal2 ? "" : "d-xl-none") @(hasContentNavbar ? "" : "d-xl-none")'>
+  <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
+    <i class="ti ti-menu-2 ti-md"></i>
+  </a>
+  </div>
+}
+
+<div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+  <!-- Logo -->
+  <div class="navbar-logo me-3 d-none d-md-flex">
+    <a asp-area="Customer" asp-controller="Home" asp-action="Index" class="d-flex align-items-center text-decoration-none">
+      <div class="avatar avatar-sm me-2">
+        <span class="avatar-initial rounded-circle bg-primary">
+          <i class="ti ti-book ti-sm"></i>
+        </span>
+      </div>
+      <span class="fw-bold text-primary">DATMOS Learning</span>
+    </a>
+  </div>
+  <!-- /Logo -->
+
+  <!-- Search -->
+  <div class="navbar-search-wrapper">
+    <div class="input-group input-group-merge">
+      <span class="input-group-text" id="basic-addon-search"><i class="ti ti-search"></i></span>
+      <input type="text" class="form-control" placeholder="Tìm kiếm khóa học..." aria-label="Search..." aria-describedby="basic-addon-search">
+    </div>
+  </div>
+  <!-- /Search -->
+
+  <ul class="navbar-nav flex-row align-items-center ms-auto">
+    <!-- Course Progress -->
+    <li class="nav-item dropdown-notifications navbar-dropdown dropdown me-2 me-xl-2">
+      <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+        <i class="ti ti-chart-line ti-md"></i>
+        <span class="badge bg-success badge-dot"></span>
+      </a>
+      <ul class="dropdown-menu dropdown-menu-end py-0">
+        <li class="dropdown-menu-header border-bottom">
+          <div class="dropdown-header d-flex align-items-center py-3">
+            <h6 class="mb-0 me-auto">Tiến độ học tập</h6>
+            <span class="badge rounded-pill bg-label-primary">Đang học</span>
+          </div>
+        </li>
+        <li class="dropdown-notifications-list scrollable-container">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item list-group-item-action dropdown-notifications-item">
+              <div class="d-flex">
+                <div class="flex-shrink-0 me-3">
+                  <div class="avatar">
+                    <span class="avatar-initial rounded-circle bg-label-primary"><i class="ti ti-file-text"></i></span>
+                  </div>
+                </div>
+                <div class="flex-grow-1">
+                  <h6 class="mb-1">Word 2019</h6>
+                  <p class="mb-0">Đã hoàn thành: 3/12 bài học</p>
+                  <div class="progress mt-2" style="height: 6px;">
+                    <div class="progress-bar bg-primary" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
+                  <small class="text-muted">25% hoàn thành</small>
+                </div>
+              </div>
+            </li>
+            <li class="list-group-item list-group-item-action dropdown-notifications-item">
+              <div class="d-flex">
+                <div class="flex-shrink-0 me-3">
+                  <div class="avatar">
+                    <span class="avatar-initial rounded-circle bg-label-success"><i class="ti ti-table"></i></span>
+                  </div>
+                </div>
+                <div class="flex-grow-1">
+                  <h6 class="mb-1">Excel 2019</h6>
+                  <p class="mb-0">Đã hoàn thành: 5/15 bài học</p>
+                  <div class="progress mt-2" style="height: 6px;">
+                    <div class="progress-bar bg-success" role="progressbar" style="width: 33%" aria-valuenow="33" aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
+                  <small class="text-muted">33% hoàn thành</small>
+                </div>
+              </div>
+            </li>
+            <li class="list-group-item list-group-item-action dropdown-notifications-item">
+              <div class="d-flex">
+                <div class="flex-shrink-0 me-3">
+                  <div class="avatar">
+                    <span class="avatar-initial rounded-circle bg-label-warning"><i class="ti ti-presentation"></i></span>
+                  </div>
+                </div>
+                <div class="flex-grow-1">
+                  <h6 class="mb-1">PowerPoint 2019</h6>
+                  <p class="mb-0">Đã hoàn thành: 2/10 bài học</p>
+                  <div class="progress mt-2" style="height: 6px;">
+                    <div class="progress-bar bg-warning" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
+                  <small class="text-muted">20% hoàn thành</small>
+                </div>
+              </div>
+            </li>
+            <li class="list-group-item list-group-item-action dropdown-notifications-item">
+              <div class="d-flex">
+                <div class="flex-shrink-0 me-3">
+                  <div class="avatar">
+                    <span class="avatar-initial rounded-circle bg-label-info"><i class="ti ti-certificate"></i></span>
+                  </div>
+                </div>
+                <div class="flex-grow-1">
+                  <h6 class="mb-1">Bài kiểm tra gần đây</h6>
+                  <p class="mb-0">Word 2019: 85 điểm (Xuất sắc)</p>
+                  <small class="text-muted">Hôm qua</small>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </li>
+        <li class="dropdown-menu-footer border-top">
+          <a asp-area="Customer" asp-controller="Home" asp-action="Progress" class="dropdown-item d-flex justify-content-center text-primary p-2 h-px-40">
+            Xem chi tiết tiến độ
+          </a>
+        </li>
+      </ul>
+    </li>
+    <!-- /Course Progress -->
+
+    <!-- Notifications -->
+    <li class="nav-item dropdown-notifications navbar-dropdown dropdown me-2 me-xl-2">
+      <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+        <i class="ti ti-bell ti-md"></i>
+        <span class="badge bg-danger badge-dot"></span>
+      </a>
+      <ul class="dropdown-menu dropdown-menu-end py-0">
+        <li class="dropdown-menu-header border-bottom">
+          <div class="dropdown-header d-flex align-items-center py-3">
+            <h6 class="mb-0 me-auto">Thông báo</h6>
+            <span class="badge rounded-pill bg-label-primary">5 mới</span>
+          </div>
+        </li>
+        <li class="dropdown-notifications-list scrollable-container">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item list-group-item-action dropdown-notifications-item">
+              <div class="d-flex">
+                <div class="flex-shrink-0 me-3">
+                  <div class="avatar">
+                    <span class="avatar-initial rounded-circle bg-label-success"><i class="ti ti-book"></i></span>
+                  </div>
+                </div>
+                <div class="flex-grow-1">
+                  <h6 class="mb-1">Bài học mới</h6>
+                  <p class="mb-0">Đã thêm bài học mới: "Excel Nâng cao"</p>
+                  <small class="text-muted">2 giờ trước</small>
+                </div>
+              </div>
+            </li>
+            <li class="list-group-item list-group-item-action dropdown-notifications-item">
+              <div class="d-flex">
+                <div class="flex-shrink-0 me-3">
+                  <div class="avatar">
+                    <span class="avatar-initial rounded-circle bg-label-warning"><i class="ti ti-calendar"></i></span>
+                  </div>
+                </div>
+                <div class="flex-grow-1">
+                  <h6 class="mb-1">Nhắc lịch thi</h6>
+                  <p class="mb-0">Bài kiểm tra Word 2019 vào ngày mai</p>
+                  <small class="text-muted">1 ngày trước</small>
+                </div>
+              </div>
+            </li>
+            <li class="list-group-item list-group-item-action dropdown-notifications-item">
+              <div class="d-flex">
+                <div class="flex-shrink-0 me-3">
+                  <div class="avatar">
+                    <span class="avatar-initial rounded-circle bg-label-info"><i class="ti ti-message"></i></span>
+                  </div>
+                </div>
+                <div class="flex-grow-1">
+                  <h6 class="mb-1">Tin nhắn từ giảng viên</h6>
+                  <p class="mb-0">Giảng viên đã phản hồi bài tập của bạn</p>
+                  <small class="text-muted">2 ngày trước</small>
+                </div>
+              </div>
+            </li>
+            <li class="list-group-item list-group-item-action dropdown-notifications-item">
+              <div class="d-flex">
+                <div class="flex-shrink-0 me-3">
+                  <div class="avatar">
+                    <span class="avatar-initial rounded-circle bg-label-primary"><i class="ti ti-discount"></i></span>
+                  </div>
+                </div>
+                <div class="flex-grow-1">
+                  <h6 class="mb-1">Ưu đãi đặc biệt</h6>
+                  <p class="mb-0">Giảm 20% khi đăng ký khóa học mới</p>
+                  <small class="text-muted">3 ngày trước</small>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </li>
+        <li class="dropdown-menu-footer border-top">
+          <a href="javascript:void(0);" class="dropdown-item d-flex justify-content-center text-primary p-2 h-px-40">
+            Xem tất cả thông báo
+          </a>
+        </li>
+      </ul>
+    </li>
+    <!-- /Notifications -->
+
+    <!-- User -->
+    <li class="nav-item navbar-dropdown dropdown-user dropdown">
+      <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
+        <div class="avatar avatar-online">
+          <span class="avatar-initial rounded-circle bg-label-primary">
+            <i class="ti ti-user ti-sm"></i>
+          </span>
+        </div>
+      </a>
+      <ul class="dropdown-menu dropdown-menu-end">
+        <li>
+          <a class="dropdown-item" href="#">
+            <div class="d-flex">
+              <div class="flex-shrink-0 me-3">
+                <div class="avatar avatar-online">
+                  <span class="avatar-initial rounded-circle bg-label-primary">
+                    <i class="ti ti-user ti-sm"></i>
+                  </span>
+                </div>
+              </div>
+              <div class="flex-grow-1">
+                <h6 class="mb-0">Nguyễn Văn Học</h6>
+                <small class="text-muted">Học viên DATMOS</small>
+              </div>
+            </div>
+          </a>
+        </li>
+        <li>
+          <div class="dropdown-divider"></div>
+        </li>
+        <li>
+          <a class="dropdown-item waves-effect" asp-area="Customer" asp-controller="Profile" asp-action="Index">
+            <i class="ti ti-user me-2"></i>
+            <span class="align-middle">Hồ sơ của tôi</span>
+          </a>
+        </li>
+        <li>
+          <a class="dropdown-item waves-effect" asp-area="Customer" asp-controller="Course" asp-action="MyCourses">
+            <i class="ti ti-book me-2"></i>
+            <span class="align-middle">Khóa học của tôi</span>
+          </a>
+        </li>
+        <li>
+          <a class="dropdown-item waves-effect" asp-area="Customer" asp-controller="Home" asp-action="Progress">
+            <i class="ti ti-chart-line me-2"></i>
+            <span class="align-middle">Tiến độ học tập</span>
+          </a>
+        </li>
+        <li>
+          <a class="dropdown-item waves-effect" href="#">
+            <i class="ti ti-settings me-2"></i>
+            <span class="align-middle">Cài đặt</span>
+          </a>
+        </li>
+        <li>
+          <div class="dropdown-divider"></div>
+        </li>
+        <li>
+          <form asp-area="Customer" asp-controller="Auth" asp-action="Logout" method="post" id="logoutForm" class="d-none">
+            @Html.AntiForgeryToken()
+          </form>
+          <a href="javascript:void(0)" class="dropdown-item waves-effect" onclick="event.preventDefault(); document.getElementById('logoutForm').submit();">
+            <i class="ti ti-logout me-2"></i>
+            <span class="align-middle">Đăng xuất</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+    <!-- /User -->
+  </ul>
+</div>

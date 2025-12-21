@@ -1,0 +1,397 @@
+@model DATMOS.Web.Areas.Customer.Controllers.PracticeViewModel
+@{
+    ViewData["Title"] = $"Thi thử - {Model.ExamName}";
+    Layout = "~/Areas/Customer/Views/Shared/_CustomerLayout.cshtml";
+    
+    var currentProject = Model.Projects.FirstOrDefault(p => p.Id == Model.CurrentProjectId) ?? Model.Projects.First();
+    var tasks = currentProject?.Tasks ?? new List<DATMOS.Web.Areas.Customer.Controllers.TaskViewModel>();
+    
+    // Format time for display
+    var hours = Model.RemainingTime / 3600;
+    var minutes = (Model.RemainingTime % 3600) / 60;
+    var seconds = Model.RemainingTime % 60;
+    var timeDisplay = $"{hours:00}:{minutes:00}:{seconds:00}";
+}
+
+@section PageStyles {
+<link rel="stylesheet" href="~/areas/customer/css/product-practice.css" asp-append-version="true" />
+}
+
+@section VendorScripts {
+<script src="~/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+}
+
+@section PageScripts {
+<script src="~/areas/customer/js/product-test.js" asp-append-version="true"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Initialize test session
+    window.testSession = {
+      productId: @Model.ProductId,
+      examId: @Model.ExamId,
+      examType: '@Model.ExamType',
+      remainingTime: @Model.RemainingTime,
+      remainingCredits: @Model.RemainingCredits,
+      currentProjectId: @Model.CurrentProjectId,
+      projects: @Html.Raw(Json.Serialize(Model.Projects)),
+      startTime: new Date().getTime()
+    };
+    
+    // Initialize test functionality
+    if (typeof initTestSession === 'function') {
+      initTestSession();
+    }
+    
+    // Initialize perfect scrollbar for sidebar
+    const sidebarEl = document.getElementById('testSidebar');
+    if (sidebarEl && typeof PerfectScrollbar !== 'undefined') {
+      new PerfectScrollbar(sidebarEl, {
+        wheelSpeed: 2,
+        wheelPropagation: false,
+        minScrollbarLength: 20
+      });
+    }
+    
+    // Start countdown timer
+    startTestTimer(@Model.RemainingTime);
+  });
+  
+  function startTestTimer(totalSeconds) {
+    const timerElement = document.getElementById('testTimer');
+    if (!timerElement) return;
+    
+    let remainingSeconds = totalSeconds;
+    
+    function updateTimer() {
+      if (remainingSeconds <= 0) {
+        timerElement.textContent = '00:00:00';
+        timerElement.classList.remove('text-primary');
+        timerElement.classList.add('text-danger');
+        
+        // Auto-submit when time's up
+        if (typeof submitTest === 'function') {
+          submitTest();
+        }
+        return;
+      }
+      
+      const hours = Math.floor(remainingSeconds / 3600);
+      const minutes = Math.floor((remainingSeconds % 3600) / 60);
+      const seconds = remainingSeconds % 60;
+      
+      timerElement.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+      
+      // Change color when less than 5 minutes
+      if (remainingSeconds < 300) { // 5 minutes
+        timerElement.classList.remove('text-primary');
+        timerElement.classList.add('text-warning');
+      }
+      
+      // Change color when less than 1 minute
+      if (remainingSeconds < 60) {
+        timerElement.classList.remove('text-warning');
+        timerElement.classList.add('text-danger');
+      }
+      
+      remainingSeconds--;
+    }
+    
+    // Update immediately
+    updateTimer();
+    
+    // Update every second
+    window.testTimerInterval = setInterval(updateTimer, 1000);
+  }
+</script>
+}
+
+<!-- Test Session Header -->
+<div class="practice-header">
+  <div class="d-flex align-items-center justify-content-between mb-4">
+    <div class="d-flex align-items-center">
+      <a href="@Url.Action("Details", "Product", new { area = "Customer", id = Model.ProductId })" 
+         class="btn btn-outline-secondary btn-sm me-3">
+        <i class="icon-base ti ti-arrow-left me-1"></i>
+        Quay lại
+      </a>
+      <div>
+        <h4 class="mb-1">@Model.ExamName - Thi thử</h4>
+        <p class="text-muted mb-0">@Model.ProductName - Chế độ thi thử không đáp án</p>
+      </div>
+    </div>
+    
+    <div class="d-flex align-items-center gap-3">
+      <!-- Credits Display -->
+      <div class="card bg-label-info border-info">
+        <div class="card-body py-2 px-3">
+          <div class="d-flex align-items-center">
+            <div class="avatar avatar-sm bg-info rounded-2 p-1 me-2">
+              <i class="icon-base ti ti-coin text-white"></i>
+            </div>
+            <div>
+              <small class="text-info">Lượt thi còn lại</small>
+              <h5 class="mb-0 text-info">@Model.RemainingCredits</h5>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Timer (critical for test) -->
+      <div class="card bg-label-danger border-danger">
+        <div class="card-body py-2 px-3">
+          <div class="d-flex align-items-center">
+            <div class="avatar avatar-sm bg-danger rounded-2 p-1 me-2">
+              <i class="icon-base ti ti-clock text-white"></i>
+            </div>
+            <div>
+              <small class="text-danger">Thời gian còn lại</small>
+              <h5 class="mb-0 text-danger" id="testTimer">@timeDisplay</h5>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Submit Button -->
+      <button class="btn btn-danger" id="submitTestBtn">
+        <i class="icon-base ti ti-send me-1"></i>
+        Nộp bài
+      </button>
+    </div>
+  </div>
+  
+  <!-- Progress Bar -->
+  <div class="progress mb-4" style="height: 6px;">
+    @{
+      var totalTasks = Model.Projects.Sum(p => p.Tasks?.Count ?? 0);
+      var completedTasks = 0; // Mock data
+      var progressPercentage = totalTasks > 0 ? (completedTasks * 100 / totalTasks) : 0;
+    }
+    <div class="progress-bar bg-danger" role="progressbar" style="width: @progressPercentage%" 
+         aria-valuenow="@progressPercentage" aria-valuemin="0" aria-valuemax="100"></div>
+  </div>
+  <div class="d-flex justify-content-between mb-4">
+    <small class="text-muted">Tiến độ: @completedTasks/@totalTasks task đã hoàn thành</small>
+    <small class="text-muted">Chế độ: <span class="text-danger">Thi thử (không đáp án)</span></small>
+  </div>
+  
+  <!-- Test Warning -->
+  <div class="alert alert-danger" role="alert">
+    <i class="icon-base ti ti-alert-triangle me-1"></i>
+    <strong>Lưu ý quan trọng:</strong> Đây là chế độ thi thử. Bạn sẽ không được xem gợi ý hoặc đáp án. Bài thi sẽ tự động nộp khi hết thời gian.
+  </div>
+</div>
+
+<div class="row g-4">
+  <!-- Left Sidebar - Projects Navigation -->
+  <div class="col-xxl-3 col-lg-4">
+    <div class="card h-100">
+      <div class="card-header">
+        <h5 class="card-title m-0">Danh sách Project</h5>
+        <small class="text-muted">7 Project trong bài thi</small>
+      </div>
+      <div class="card-body p-0">
+        <div class="practice-sidebar" id="testSidebar">
+          <div class="list-group list-group-flush">
+            @foreach (var project in Model.Projects)
+            {
+              <a href="javascript:void(0);" 
+                 class="list-group-item list-group-item-action test-project-item @(project.IsCurrent ? "active" : "")"
+                 data-project-id="@project.Id">
+                <div class="d-flex align-items-center justify-content-between">
+                  <div class="d-flex align-items-center">
+                    <div class="avatar avatar-sm me-3">
+                      <span class="avatar-initial rounded bg-label-@(project.IsCurrent ? "danger" : "secondary")">
+                        <i class="icon-base ti ti-folder"></i>
+                      </span>
+                    </div>
+                    <div>
+                      <h6 class="mb-0">@project.Name</h6>
+                      <small class="text-muted">@project.TaskCount task</small>
+                    </div>
+                  </div>
+                  <div>
+                    @if (project.CompletedTasks > 0)
+                    {
+                      <span class="badge bg-success rounded-pill">@project.CompletedTasks/@project.TaskCount</span>
+                    }
+                    else
+                    {
+                      <span class="badge bg-secondary rounded-pill">0/@project.TaskCount</span>
+                    }
+                  </div>
+                </div>
+              </a>
+            }
+          </div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <div class="d-grid">
+          <button class="btn btn-outline-danger" id="testPrevProjectBtn">
+            <i class="icon-base ti ti-chevron-left me-1"></i>
+            Project trước
+          </button>
+          <button class="btn btn-outline-danger mt-2" id="testNextProjectBtn">
+            Project tiếp theo
+            <i class="icon-base ti ti-chevron-right ms-1"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Main Content - Tasks -->
+  <div class="col-xxl-9 col-lg-8">
+    <div class="card h-100">
+      <div class="card-header d-flex align-items-center justify-content-between">
+        <div>
+          <h5 class="card-title m-0">@currentProject.Name</h5>
+          <p class="text-muted mb-0">@currentProject.Description</p>
+        </div>
+        <div class="badge bg-label-danger">
+          Project @(Model.Projects.IndexOf(currentProject) + 1)/@Model.Projects.Count
+        </div>
+      </div>
+      
+      <div class="card-body">
+        <!-- Task Navigation -->
+        <div class="task-navigation mb-4">
+          <div class="d-flex align-items-center justify-content-between">
+            <h6 class="mb-0">Các task trong project:</h6>
+            <div class="btn-group" role="group">
+              <button type="button" class="btn btn-outline-secondary btn-sm" id="testPrevTaskBtn">
+                <i class="icon-base ti ti-chevron-left"></i>
+              </button>
+              <button type="button" class="btn btn-outline-secondary btn-sm" id="testNextTaskBtn">
+                <i class="icon-base ti ti-chevron-right"></i>
+              </button>
+            </div>
+          </div>
+          
+          <div class="task-indicators mt-3">
+            @for (int i = 0; i < tasks.Count; i++)
+            {
+              var task = tasks[i];
+              <button type="button" 
+                      class="btn btn-sm @(i == 0 ? "btn-danger" : "btn-outline-danger") task-indicator"
+                      data-task-index="@i">
+                @(i + 1)
+              </button>
+            }
+          </div>
+        </div>
+        
+        <!-- Task Content -->
+        <div class="task-content">
+          @foreach (var task in tasks)
+          {
+            <div class="task-item @(task == tasks.First() ? "active" : "")" data-task-id="@task.Id">
+              <div class="card mb-4">
+                <div class="card-header">
+                  <h6 class="card-title m-0">Task @task.Order: @task.Question</h6>
+                </div>
+                <div class="card-body">
+                  <!-- User Answer Area -->
+                  <div class="mb-4">
+                    <label class="form-label">Câu trả lời của bạn:</label>
+                    <textarea class="form-control test-answer-input" 
+                              rows="3" 
+                              placeholder="Nhập câu trả lời của bạn ở đây..."
+                              data-task-id="@task.Id">@task.UserAnswer</textarea>
+                    <div class="mt-2">
+                      <button class="btn btn-sm btn-outline-danger save-test-answer-btn" data-task-id="@task.Id">
+                        <i class="icon-base ti ti-check me-1"></i>
+                        Lưu câu trả lời
+                      </button>
+                      <button class="btn btn-sm btn-outline-secondary mark-for-review-btn" data-task-id="@task.Id">
+                        <i class="icon-base ti ti-flag me-1"></i>
+                        Đánh dấu để xem lại
+                      </button>
+                    </div>
+                  </div>
+                  
+                  <!-- Test Mode Notice -->
+                  <div class="alert alert-warning" role="alert">
+                    <i class="icon-base ti ti-info-circle me-1"></i>
+                    <strong>Chế độ thi thử:</strong> Gợi ý và đáp án đã bị ẩn. Bạn chỉ có thể xem sau khi nộp bài.
+                  </div>
+                  
+                  <!-- Review Flag (only shows if marked) -->
+                  <div class="review-flag d-none" id="review-flag-@task.Id">
+                    <div class="alert alert-info" role="alert">
+                      <i class="icon-base ti ti-flag me-1"></i>
+                      Bạn đã đánh dấu task này để xem lại sau.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+      
+      <div class="card-footer">
+        <div class="d-flex justify-content-between">
+          <div>
+            <button class="btn btn-outline-danger" id="testMarkCompleteBtn">
+              <i class="icon-base ti ti-check me-1"></i>
+              Đánh dấu đã hoàn thành
+            </button>
+            <button class="btn btn-outline-info ms-2" id="showMarkedBtn">
+              <i class="icon-base ti ti-flag me-1"></i>
+              Xem các task đã đánh dấu
+            </button>
+          </div>
+          <div>
+            <button class="btn btn-danger" id="finalSubmitBtn">
+              <i class="icon-base ti ti-send me-1"></i>
+              Nộp bài và kết thúc
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Test Instructions Modal -->
+<div class="modal fade" id="testInstructionsModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Hướng dẫn thi thử</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row g-4">
+          <div class="col-md-6">
+            <div class="card border-danger">
+              <div class="card-body">
+                <h6 class="text-danger mb-3"><i class="icon-base ti ti-clipboard-check me-1"></i> Chế độ thi thử</h6>
+                <ul class="mb-0">
+                  <li class="mb-2"><strong>Không có gợi ý hoặc đáp án</strong></li>
+                  <li class="mb-2">Giới hạn thời gian: 45-50 phút</li>
+                  <li class="mb-2">Tự động nộp khi hết giờ</li>
+                  <li>Tiêu tốn 1 lượt thi khi bắt đầu</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card border-warning">
+              <div class="card-body">
+                <h6 class="text-warning mb-3"><i class="icon-base ti ti-checklist me-1"></i> Chiến lược làm bài</h6>
+                <ul class="mb-0">
+                  <li class="mb-2">Quản lý thời gian hợp lý</li>
+                  <li class="mb-2">Đánh dấu các câu khó để xem lại</li>
+                  <li class="mb-2">Lưu câu trả lời thường xuyên</li>
+                  <li>Kiểm tra lại trước khi nộp</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="alert alert-danger mt-4" role="alert">
+          <i class="icon-base ti ti-alert-triangle me-1"></i>
+          <strong>Cảnh báo:</strong> Bài thi sẽ tự động kết thúc khi hết thời gian. Hãy chắc chắn nộp bài trước

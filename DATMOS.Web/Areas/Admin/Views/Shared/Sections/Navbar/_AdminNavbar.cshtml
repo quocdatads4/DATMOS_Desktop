@@ -1,0 +1,37 @@
+@{
+  TempData.Keep();
+  @* ViewData["navbarDetached"] = (ViewData["navbarDetached"] ?? "navbar-detached"); *@
+  ViewData["navbarDetached"] = (ViewData["navbarDetached"] ??= null);
+  ViewData["containerNav"] = (ViewData["containerNav"] ??= "container-fluid");
+  
+  // Set default TempData values if not already set (similar to User navbar)
+  if (TempData["appName"] == null)
+  {
+      TempData["appName"] = "DATMOS Admin";
+  }
+  if (TempData["menuHorizontal"] == null)
+  {
+      TempData["menuHorizontal"] = true; // Default to horizontal menu for Admin area
+  }
+  
+  var navbarDetached = ViewData["navbarDetached"] as string;
+  var containerNav = ViewData["containerNav"] as string;
+}
+@if (navbarDetached != null)
+{
+  <nav
+  class='layout-navbar @navbarDetached @containerNav navbar navbar-expand-xl align-items-center bg-navbar-theme'
+  id="layout-navbar">
+  @await Html.PartialAsync("~/Areas/Admin/Views/Shared/Sections/Navbar/_AdminNavbarPartial.cshtml")
+  </nav>
+}
+else
+{
+  <nav
+  class='layout-navbar navbar navbar-expand-xl align-items-center bg-navbar-theme'
+  id="layout-navbar">
+  <div class='@containerNav'>
+    @await Html.PartialAsync("~/Areas/Admin/Views/Shared/Sections/Navbar/_AdminNavbarPartial.cshtml")
+    </div>
+  </nav>
+}

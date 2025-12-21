@@ -1,0 +1,253 @@
+/* Product Details Page Styles */
+
+/* Product Card Hover Effects */
+.product-card {
+  transition: all 0.3s ease;
+  border: 1px solid #dee2e6;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  border-color: #7367f0;
+}
+
+/* Exam Card Styles */
+.exam-card {
+  transition: all 0.2s ease;
+  border: 1px solid #dee2e6;
+}
+
+.exam-card:hover {
+  border-color: #7367f0;
+  box-shadow: 0 0.125rem 0.25rem rgba(115, 103, 240, 0.1);
+}
+
+.exam-card .card-header {
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
+}
+
+/* Credits Display */
+.card.bg-label-info {
+  background-color: rgba(0, 207, 221, 0.08) !important;
+}
+
+.card.bg-label-info .avatar {
+  background-color: rgba(0, 207, 221, 0.2);
+}
+
+/* Statistics Cards */
+.card .avatar-initial.bg-label-primary {
+  background-color: rgba(115, 103, 240, 0.08);
+  color: #7367f0;
+}
+
+.card .avatar-initial.bg-label-success {
+  background-color: rgba(40, 199, 111, 0.08);
+  color: #28c76f;
+}
+
+.card .avatar-initial.bg-label-warning {
+  background-color: rgba(255, 159, 67, 0.08);
+  color: #ff9f43;
+}
+
+.card .avatar-initial.bg-label-info {
+  background-color: rgba(0, 207, 221, 0.08);
+  color: #00cfdd;
+}
+
+/* Button Styles */
+.btn-info.waves-effect.waves-light {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-warning.waves-effect.waves-light {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Exam Structure Cards */
+.card.border-info {
+  border-color: #00cfdd !important;
+}
+
+.card.border-info .card-body {
+  background-color: rgba(0, 207, 221, 0.02);
+}
+
+.card.border-warning {
+  border-color: #ff9f43 !important;
+}
+
+.card.border-warning .card-body {
+  background-color: rgba(255, 159, 67, 0.02);
+}
+
+/* Alert Styles */
+.alert-warning {
+  background-color: rgba(255, 159, 67, 0.08);
+  border-color: rgba(255, 159, 67, 0.3);
+  color: #ff9f43;
+}
+
+/* Badge Styles */
+.badge.bg-label-success {
+  background-color: rgba(40, 199, 111, 0.08);
+  color: #28c76f;
+  border: 1px solid rgba(40, 199, 111, 0.3);
+}
+
+.badge.bg-label-info {
+  background-color: rgba(0, 207, 221, 0.08);
+  color: #00cfdd;
+  border: 1px solid rgba(0, 207, 221, 0.3);
+}
+
+.badge.bg-label-warning {
+  background-color: rgba(255, 159, 67, 0.08);
+  color: #ff9f43;
+  border: 1px solid rgba(255, 159, 67, 0.3);
+}
+
+/* Progress Bar */
+.progress {
+  background-color: #e9ecef;
+  border-radius: 0.375rem;
+  overflow: hidden;
+}
+
+.progress-bar {
+  background-color: #7367f0;
+  transition: width 0.6s ease;
+}
+
+/* List Styles */
+.list-unstyled li {
+  padding: 0.25rem 0;
+  display: flex;
+  align-items: center;
+}
+
+.list-unstyled li i {
+  font-size: 0.875rem;
+  margin-right: 0.5rem;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 1199.98px) {
+  .exam-card {
+    margin-bottom: 1.5rem;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .d-flex.justify-content-between {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .card.bg-label-info {
+    width: 100% !important;
+  }
+  
+  .btn {
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+  
+  .row.g-2 .col-6 {
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+}
+
+/* Animation for page elements */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.exam-card {
+  animation: slideUp 0.4s ease;
+}
+
+.exam-card:nth-child(1) { animation-delay: 0.1s; }
+.exam-card:nth-child(2) { animation-delay: 0.2s; }
+.exam-card:nth-child(3) { animation-delay: 0.3s; }
+.exam-card:nth-child(4) { animation-delay: 0.4s; }
+
+/* Hover effects for buttons */
+.btn-info:hover {
+  background-color: #00a3b3;
+  border-color: #00a3b3;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 207, 221, 0.3);
+}
+
+.btn-warning:hover {
+  background-color: #ff8c1a;
+  border-color: #ff8c1a;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(255, 159, 67, 0.3);
+}
+
+/* Disabled button styles */
+.btn-outline-secondary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Tooltip customization */
+.tooltip {
+  font-size: 0.75rem;
+}
+
+.tooltip .tooltip-inner {
+  background-color: #333;
+  color: #fff;
+  border-radius: 0.25rem;
+  padding: 0.375rem 0.75rem;
+}
+
+/* Credit packages styling */
+.card.border-primary .card-body {
+  background-color: rgba(115, 103, 240, 0.02);
+}
+
+.card.border-success .card-body {
+  background-color: rgba(40, 199, 111, 0.02);
+}
+
+.card.border-warning .card-body {
+  background-color: rgba(255, 159, 67, 0.02);
+}
+
+/* How it works section */
+.avatar-initial.bg-primary {
+  background-color: #7367f0 !important;
+  color: white;
+}
+
+.avatar-initial.bg-success {
+  background-color: #28c76f !important;
+  color: white;
+}
+
+.avatar-initial.bg-warning {
+  background-color: #ff9f43 !important;
+  color: white;
+}
+
+.avatar-initial.bg-info {
+  background-color: #00cfdd !important;
+  color: white;
+}

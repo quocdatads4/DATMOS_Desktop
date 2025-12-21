@@ -1,0 +1,147 @@
+<!doctype html>
+<html
+  lang="en"
+  class="layout-navbar-fixed layout-menu-fixed layout-compact"
+  dir="ltr"
+  data-skin="default"
+  data-assets-path="/vendor/"
+  data-template="horizontal-menu-template-starter"
+  data-bs-theme="light">
+<head>
+  <meta charset="utf-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+
+  <title>DATMOS - Admin Layout with Horizontal Menu</title>
+
+  <meta name="description" content="" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="~/img/favicon/favicon.ico" asp-append-version="true" />
+
+  <!-- Fonts -->
+  <!-- We removed Google Fonts stylesheet to verify URLs and fallback to system fonts -->
+  <link rel="stylesheet" href="~/vendor/fonts/iconify-icons.css" asp-append-version="true" />
+
+  <!-- Core CSS -->
+  <!-- build:css vendor/css/theme.css  -->
+
+  <link rel="stylesheet" href="~/vendor/libs/node-waves/node-waves.css" asp-append-version="true" />
+
+  <link rel="stylesheet" href="~/vendor/libs/pickr/pickr-themes.css" asp-append-version="true" />
+
+  <link rel="stylesheet" href="~/vendor/css/core.css" asp-append-version="true" />
+  <link rel="stylesheet" href="~/css/demo.css" asp-append-version="true" />
+
+  <!-- Vendors CSS -->
+
+  <link rel="stylesheet" href="~/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" asp-append-version="true" />
+
+  <!-- endbuild -->
+
+  <!-- Page CSS -->
+
+  <!-- Helpers -->
+  <script src="~/vendor/js/helpers.js" asp-append-version="true"></script>
+  <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
+
+  <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
+  <script src="~/js/config.js" asp-append-version="true"></script>
+  
+  @RenderSection("VendorStyles", required: false)
+  @RenderSection("PageStyles", required: false)
+  @RenderSection("Styles", required: false)
+  
+  <!-- Admin Content Components CSS -->
+  <link rel="stylesheet" href="~/areas/admin/css/admin-content-components.css" asp-append-version="true" />
+</head>
+
+@using System;
+@functions {
+    public string isActive(string path)
+    {
+        var currentPath = Context.Request.Path.Value ?? string.Empty;
+        return currentPath.StartsWith(path, StringComparison.OrdinalIgnoreCase) ? " active" : "";
+    }
+}
+
+<body>
+  <!-- Layout wrapper -->
+  <div class="layout-wrapper layout-navbar-full layout-horizontal layout-without-menu">
+    <div class="layout-container">
+        <!-- Navbar -->
+        @await Html.PartialAsync("~/Areas/Admin/Views/Shared/Sections/Navbar/_AdminNavbar.cshtml")
+        <!-- / Navbar -->
+
+      <!-- Layout container -->
+      <div class="layout-page">
+        <!-- Content wrapper -->
+        <div class="content-wrapper">
+          <!-- Horizontal Menu -->
+          @await Html.PartialAsync("~/Areas/Admin/Views/Shared/Sections/Menu/_AdminMenuItems.cshtml")
+          <!-- / Horizontal Menu -->
+          <!-- Content -->
+          <div class="container-xxl flex-grow-1 container-p-y">
+            @RenderBody()
+          </div>
+          <!--/ Content -->
+
+          <!-- Footer -->
+          @await Html.PartialAsync("~/Areas/Admin/Views/Shared/Sections/Footer/_AdminFooter.cshtml")
+          <!-- / Footer -->
+
+          <div class="content-backdrop fade"></div>
+        </div>
+        <!--/ Content wrapper -->
+      </div>
+      <!--/ Layout container -->
+    </div>
+  </div>
+
+  <!-- Overlay -->
+  <div class="layout-overlay layout-menu-toggle"></div>
+
+  <!-- Drag Target Area To SlideIn Menu On Small Screens -->
+  <div class="drag-target"></div>
+  <!--/ Layout wrapper -->
+
+  <!-- Core JS -->
+  <!-- build:js vendor/js/theme.js -->
+
+  <script src="~/vendor/libs/jquery/jquery.js" asp-append-version="true"></script>
+  <script src="~/vendor/libs/popper/popper.js" asp-append-version="true"></script>
+  <script src="~/vendor/js/bootstrap.js" asp-append-version="true"></script>
+  <script src="~/vendor/libs/node-waves/node-waves.js" asp-append-version="true"></script>
+  <script src="~/vendor/libs/@@algolia/autocomplete-js.js" asp-append-version="true"></script>
+  <script src="~/vendor/libs/pickr/pickr.js" asp-append-version="true"></script>
+  <script src="~/vendor/libs/perfect-scrollbar/perfect-scrollbar.js" asp-append-version="true"></script>
+  <script src="~/vendor/libs/hammer/hammer.js" asp-append-version="true"></script>
+  <script src="~/vendor/js/menu.js" asp-append-version="true"></script>
+  <!-- endbuild -->
+
+  <!-- Template customizer: To hide customizer set displayCustomizer value false in config.js.  -->
+  <script src="~/vendor/js/template-customizer.js" asp-append-version="true"></script>
+
+  <!-- Fix for template-customizer issues -->
+  <!-- <script src="~/js/fix-template-customizer.js" asp-append-version="true"></script> -->
+
+  <!-- Patch for minified template-customizer -->
+  <!-- <script src="~/js/patch-template-customizer-minified.js" asp-append-version="true"></script> -->
+
+  <!-- Vendors JS -->
+
+  <!-- Main JS -->
+  <script src="~/js/main.js" asp-append-version="true"></script>
+
+  @RenderSection("VendorScripts", required: false)
+  @RenderSection("PageScripts", required: false)
+  
+  <!-- Page JS -->
+  @RenderSection("Scripts", required: false)
+
+  <!-- Admin Content Components JS -->
+  <script src="~/areas/admin/js/admin-content-components.js" asp-append-version="true"></script>
+
+</body>
+</html>

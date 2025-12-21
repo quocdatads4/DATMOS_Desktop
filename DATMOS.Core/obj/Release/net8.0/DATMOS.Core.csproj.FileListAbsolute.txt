@@ -1,0 +1,11 @@
+C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.Core\bin\Release\net8.0\DATMOS.Core.deps.json
+C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.Core\bin\Release\net8.0\DATMOS.Core.dll
+C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.Core\bin\Release\net8.0\DATMOS.Core.pdb
+C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.Core\obj\Release\net8.0\DATMOS.Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.Core\obj\Release\net8.0\DATMOS.Core.AssemblyInfoInputs.cache
+C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.Core\obj\Release\net8.0\DATMOS.Core.AssemblyInfo.cs
+C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.Core\obj\Release\net8.0\DATMOS.Core.csproj.CoreCompileInputs.cache
+C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.Core\obj\Release\net8.0\DATMOS.Core.dll
+C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.Core\obj\Release\net8.0\refint\DATMOS.Core.dll
+C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.Core\obj\Release\net8.0\DATMOS.Core.pdb
+C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.Core\obj\Release\net8.0\ref\DATMOS.Core.dll

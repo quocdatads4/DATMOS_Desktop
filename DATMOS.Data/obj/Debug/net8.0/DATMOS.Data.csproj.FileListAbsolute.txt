@@ -1,0 +1,17 @@
+c:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.Data\bin\Debug\net8.0\DATMOS.Data.deps.json
+c:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.Data\bin\Debug\net8.0\DATMOS.Data.runtimeconfig.json
+c:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.Data\bin\Debug\net8.0\DATMOS.Data.dll
+c:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.Data\bin\Debug\net8.0\DATMOS.Data.pdb
+c:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.Data\bin\Debug\net8.0\DATMOS.Core.dll
+c:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.Data\bin\Debug\net8.0\DATMOS.Core.pdb
+c:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.Data\obj\Debug\net8.0\DATMOS.Data.csproj.AssemblyReference.cache
+c:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.Data\obj\Debug\net8.0\DATMOS.Data.GeneratedMSBuildEditorConfig.editorconfig
+c:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.Data\obj\Debug\net8.0\DATMOS.Data.AssemblyInfoInputs.cache
+c:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.Data\obj\Debug\net8.0\DATMOS.Data.AssemblyInfo.cs
+c:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.Data\obj\Debug\net8.0\DATMOS.Data.csproj.CoreCompileInputs.cache
+c:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.Data\obj\Debug\net8.0\DATMOS.D.A4C7E5CC.Up2Date
+c:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.Data\obj\Debug\net8.0\DATMOS.Data.dll
+c:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.Data\obj\Debug\net8.0\refint\DATMOS.Data.dll
+c:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.Data\obj\Debug\net8.0\DATMOS.Data.pdb
+c:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.Data\obj\Debug\net8.0\DATMOS.Data.genruntimeconfig.cache
+c:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.Data\obj\Debug\net8.0\ref\DATMOS.Data.dll
