@@ -1,7 +1,7 @@
 @model DATMOS.Web.Areas.Customer.Controllers.PracticeViewModel
 @{
     ViewData["Title"] = $"Ôn luyện - {Model.ExamName}";
-    Layout = "~/Areas/Customer/Views/Shared/_GMetr_Word2019TraningLayoutixLayout.cshtml";
+    Layout = "~/Areas/Customer/Views/Shared/_Word2019TraningLayout.cshtml";
     
     var currentProject = Model.Projects.FirstOrDefault(p => p.Id == Model.CurrentProjectId) ?? Model.Projects.First();
     var tasks = currentProject?.Tasks ?? new List<DATMOS.Web.Areas.Customer.Controllers.TaskViewModel>();

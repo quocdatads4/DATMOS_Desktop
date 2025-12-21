@@ -11,9 +11,12 @@ wwwroot\areas\admin\js\admin-users.js
 wwwroot\areas\admin\js\blank-layout.js
 wwwroot\areas\customer\css\product-details.css
 wwwroot\areas\customer\css\product-practice.css
+wwwroot\areas\customer\css\word2019-training.css
 wwwroot\areas\customer\js\product-common.js
 wwwroot\areas\customer\js\product-practice.js
 wwwroot\areas\customer\js\product-test.js
+wwwroot\areas\customer\js\word2019-training.js
+wwwroot\areas\customer\json\gmetrix-mos-word-2019.json
 wwwroot\audio\Water_Lily.mp3
 wwwroot\css\demo.css
 wwwroot\css\site.css
@@ -500,7 +503,6 @@ wwwroot\json\ecommerce-customer-order.json
 wwwroot\json\ecommerce-order-details.json
 wwwroot\json\ecommerce-product-list.json
 wwwroot\json\ecommerce-referral.json
-wwwroot\json\gmetrix-mos-word-2019.json
 wwwroot\json\invoice-list.json
 wwwroot\json\jstree-data.json
 wwwroot\json\kanban.json

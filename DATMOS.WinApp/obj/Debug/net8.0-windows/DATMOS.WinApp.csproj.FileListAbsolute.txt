@@ -47,3 +47,4 @@ C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.WinApp\bin\Debug\net8
 C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.WinApp\bin\Debug\net8.0-windows\DocumentFormat.OpenXml.Framework.dll
 C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.WinApp\bin\Debug\net8.0-windows\Newtonsoft.Json.dll
 C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.WinApp\obj\Debug\net8.0-windows\DATMOS.WinApp.Views.GMetrixLogger.resources
+C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.WinApp\obj\Debug\net8.0-windows\DATMOS.WinApp.sourcelink.json

@@ -42,3 +42,4 @@ c:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.Web\bin\Debug\net8.0\
 c:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.Web\obj\Debug\net8.0\DATMOS.Web.genruntimeconfig.cache
 c:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.Web\obj\Debug\net8.0\ref\DATMOS.Web.dll
 C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.Web\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
+C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.Web\obj\Debug\net8.0\DATMOS.Web.sourcelink.json

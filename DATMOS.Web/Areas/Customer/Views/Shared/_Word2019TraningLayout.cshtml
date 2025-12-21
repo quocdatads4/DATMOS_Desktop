@@ -56,31 +56,22 @@
                 <button class="btn btn-blue" id="open-project-btn" title="Mở bài làm">
                     <i class="fas fa-folder-open"></i> Mở bài làm
                 </button>
-                <button class="btn btn-orange" id="submit-project-btn" title="Nộp bài và chấm điểm">
-                    <i class="fas fa-paper-plane"></i> Nộp bài
-                </button>
                 <div id="progress-indicator" class="progress-indicator">
-                    <span>Tiến độ: 1/5</span>
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: 20%"></div>
-                    </div>
+                    <!-- Progress will be rendered here by JavaScript -->
                 </div>
             </div>
             
-            <div class="timer" id="gmetrix-timer">
-                <i class="fas fa-clock"></i> 00:20:49
-            </div>
             
             <div class="top-right">
                 <span class="top-link" id="restart-link">
                     <i class="fas fa-redo"></i> Khởi động lại
                 </span>
-                <span class="top-link" id="save-link">
-                    <i class="fas fa-save"></i> Lưu bài
-                </span>
                 <span class="top-link" id="grade-link">
                     <i class="fas fa-star"></i> Chấm điểm
                 </span>
+                <button class="btn btn-orange" id="submit-project-btn" title="Nộp bài và chấm điểm" tabindex="0">
+                    <i class="fas fa-paper-plane"></i> Nộp bài
+                </button>
                 <button class="toggle-footer-btn" id="toggleFooter" title="Thu gọn/Mở rộng">
                     <i class="fas fa-chevron-down"></i>
                 </button>
@@ -98,10 +89,6 @@
         </div>
 
         <div class="instruction-area" id="instruction-text">
-            <div class="instruction-header">
-                <i class="fas fa-info-circle instruction-icon"></i>
-                <span class="instruction-title">Hướng dẫn thực hiện</span>
-            </div>
             <div class="instruction-content">
                 Dưới tiêu đề <strong>Landscaping Made Easy</strong>, chèn một ảnh chụp màn hình của bức ảnh hiển thị trên tài liệu <strong>Project</strong>.
             </div>

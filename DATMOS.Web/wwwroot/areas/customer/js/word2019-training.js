@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let gmetrixData = null;
     let projectsListData = null;
     let currentProjectId = 1;
-    let currentTaskIndex = 0;
+    let currentTaskIndex = -1;
     let jsonLoadAttempted = false;
     
     // Simple backup: if dropdown still shows "loading" after 1 second, use fallback
@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function() {
         try {
             // Use Razor to resolve the path correctly
             // Add timestamp to prevent caching
-            const jsonPath = '/json/gmetrix-mos-word-2019.json' + '?v=' + new Date().getTime();
+            const jsonPath = '/areas/customer/json/gmetrix-mos-word-2019.json' + '?v=' + new Date().getTime();
             
             console.log(`Trying to load JSON from: ${jsonPath}`);
             const gmetrixResponse = await Promise.race([
@@ -77,7 +77,8 @@ document.addEventListener('DOMContentLoaded', function() {
                             id: t.id || t.Id,
                             name: t.name || t.Name || `Task ${t.id || t.Id}`,
                             description: t.description || t.Description || '',
-                            detailedInstructions: t.detailedInstructions || t.DetailedInstructions || t.description || t.Description || ''
+                            detailedInstructions: t.detailedInstructions || t.DetailedInstructions || t.description || t.Description || '',
+                            isCompleted: false
                         }))
                     };
                 });
@@ -125,21 +126,15 @@ document.addEventListener('DOMContentLoaded', function() {
         // Update gmetrixData.projects to only include projects with tasks
         gmetrixData.projects = projectsWithTasks;
         
-        // Set current project (first project with tasks by default)
+        // Set current project, update dropdown and tabs
         currentProjectId = gmetrixData.projects[0].id;
         const currentProject = getCurrentProject();
         
-        // Update project select dropdown
         updateProjectSelect(currentProject);
-        
-        // Update tabs based on current project tasks
         updateTabs(currentProject);
         
-        // Update progress indicator
-        updateProgressIndicator(1, currentProject.tasks.length);
-        
-        // Initialize with first task
-        updateInstruction('task1');
+        // Initialize with overview, suppress toast on initial load
+        handleTabClick('overview', -1, true);
     }
     
     // Fallback to hard-coded data if JSON fails
@@ -152,20 +147,20 @@ document.addEventListener('DOMContentLoaded', function() {
                 id: 1,
                 name: "MOS Word 2019 - Project 1",
                 tasks: [
-                    { id: 1, detailedInstructions: "Dưới tiêu đề <strong>Landscaping Made Easy</strong>, chèn một ảnh chụp màn hình của bức ảnh hiển thị trên tài liệu <strong>Project</strong>." },
-                    { id: 2, detailedInstructions: "Task 2 fallback instruction." },
-                    { id: 3, detailedInstructions: "Task 3 fallback instruction." },
-                    { id: 4, detailedInstructions: "Task 4 fallback instruction." },
-                    { id: 5, detailedInstructions: "Task 5 fallback instruction." }
+                    { id: 1, detailedInstructions: "Dưới tiêu đề <strong>Landscaping Made Easy</strong>, chèn một ảnh chụp màn hình của bức ảnh hiển thị trên tài liệu <strong>Project</strong>.", isCompleted: false },
+                    { id: 2, detailedInstructions: "Task 2 fallback instruction.", isCompleted: false },
+                    { id: 3, detailedInstructions: "Task 3 fallback instruction.", isCompleted: false },
+                    { id: 4, detailedInstructions: "Task 4 fallback instruction.", isCompleted: false },
+                    { id: 5, detailedInstructions: "Task 5 fallback instruction.", isCompleted: false }
                 ]
             },
             {
                 id: 2,
                 name: "MOS Word 2019 - Project 2", 
                 tasks: [
-                    { id: 6, detailedInstructions: "Task 6 fallback instruction." },
-                    { id: 7, detailedInstructions: "Task 7 fallback instruction." },
-                    { id: 8, detailedInstructions: "Task 8 fallback instruction." }
+                    { id: 6, detailedInstructions: "Task 6 fallback instruction.", isCompleted: false },
+                    { id: 7, detailedInstructions: "Task 7 fallback instruction.", isCompleted: false },
+                    { id: 8, detailedInstructions: "Task 8 fallback instruction.", isCompleted: false }
                 ]
             }
         ];
@@ -181,11 +176,8 @@ document.addEventListener('DOMContentLoaded', function() {
         // Update tabs based on current project tasks
         updateTabs(currentProject);
         
-        // Update progress indicator
-        updateProgressIndicator(1, currentProject.tasks.length);
-        
-        // Initialize with first task
-        updateInstruction('task1');
+        // Initialize with overview
+        handleTabClick('overview', -1);
         
         // Show warning toast
         showToast('Đang sử dụng dữ liệu mẫu', 'warning', 3000);
@@ -241,37 +233,34 @@ document.addEventListener('DOMContentLoaded', function() {
     function updateTabs(currentProject) {
         const tabsContainer = document.querySelector('.tabs-container');
         if (!tabsContainer) return;
+
+        // Add click listener to overview tab if not already there
+        const overviewTab = tabsContainer.querySelector('.tab[data-tab="overview"]');
+        if (overviewTab && !overviewTab.dataset.listener) {
+            overviewTab.addEventListener('click', () => handleTabClick('overview', -1));
+            overviewTab.dataset.listener = 'true';
+        }
         
-        // Clear existing tabs (keep overview tab)
-        const existingTabs = Array.from(tabsContainer.querySelectorAll('.tab'));
-        existingTabs.forEach(tab => {
-            if (tab.getAttribute('data-tab') !== 'overview') {
-                tab.remove();
-            }
-        });
+        // Clear existing task tabs
+        tabsContainer.querySelectorAll('.tab[data-tab^="task"]').forEach(t => t.remove());
         
         // Add tabs for each task
         currentProject.tasks.forEach((task, index) => {
             const tabId = `task${index + 1}`;
             const tab = document.createElement('button');
-            tab.className = index === 0 ? 'tab active' : 'tab';
+            tab.className = 'tab'; // Active class is now managed by handleTabClick
             tab.setAttribute('data-tab', tabId);
             tab.setAttribute('tabindex', '0');
-            tab.setAttribute('aria-label', `Nhiệm vụ số ${index + 1}`);
+            tab.setAttribute('aria-label', task.shortName || task.name || `Nhiệm vụ ${index + 1}`);
             
             const tabText = document.createElement('span');
             tabText.className = 'tab-text';
-            tabText.textContent = `Nhiệm vụ ${index + 1}`;
+            tabText.textContent = task.shortName || task.name || `Nhiệm vụ ${index + 1}`;
             
             tab.appendChild(tabText);
             
-            // Insert after overview tab
-            const overviewTab = tabsContainer.querySelector('[data-tab="overview"]');
-            if (overviewTab) {
-                overviewTab.parentNode.insertBefore(tab, overviewTab.nextSibling);
-            } else {
-                tabsContainer.appendChild(tab);
-            }
+            // Append to container to maintain order
+            tabsContainer.appendChild(tab);
             
             // Add click event
             tab.addEventListener('click', function() {
@@ -284,7 +273,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Handle tab click
-    function handleTabClick(tabId, taskIndex) {
+    function handleTabClick(tabId, taskIndex, suppressToast = false) {
         const oldActive = document.querySelector('.tab.active');
         if (oldActive) oldActive.classList.remove('active');
         
@@ -293,19 +282,21 @@ document.addEventListener('DOMContentLoaded', function() {
         
         currentTaskIndex = taskIndex;
         updateInstruction(tabId);
+        updateProgressIndicator();
         
-        // Show toast
-        const taskNames = {
-            'overview': 'Tổng quan',
-            'task1': 'Nhiệm vụ 1',
-            'task2': 'Nhiệm vụ 2',
-            'task3': 'Nhiệm vụ 3',
-            'task4': 'Nhiệm vụ 4',
-            'task5': 'Nhiệm vụ 5'
-        };
-        
-        const taskName = taskNames[tabId] || `Nhiệm vụ ${taskIndex + 1}`;
-        showToast(`Đã chuyển đến ${taskName}`, 'info', 2000);
+        // Show toast with actual task name
+        if (!suppressToast) {
+            let taskName = '';
+            if (tabId === 'overview') {
+                taskName = 'Tổng quan';
+            } else {
+                const currentProject = getCurrentProject();
+                const task = currentProject.tasks[taskIndex];
+                taskName = task ? (task.shortName || task.name || `Nhiệm vụ ${taskIndex + 1}`) : `Nhiệm vụ ${taskIndex + 1}`;
+            }
+            
+            showToast(`Đã chuyển đến ${taskName}`, 'info', 2000);
+        }
     }
     
     // Update tab ARIA labels
@@ -314,7 +305,10 @@ document.addEventListener('DOMContentLoaded', function() {
             if (index === 0) {
                 tab.setAttribute('aria-label', 'Tổng quan bài thi');
             } else {
-                tab.setAttribute('aria-label', `Nhiệm vụ số ${index}`);
+                // Get task name from tab text content
+                const tabText = tab.querySelector('.tab-text');
+                const taskName = tabText ? tabText.textContent : `Nhiệm vụ số ${index}`;
+                tab.setAttribute('aria-label', taskName);
             }
         });
     }
@@ -329,10 +323,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if (tabId === 'overview') {
             const currentProject = getCurrentProject();
             instructionHtml = `
-                <div class="instruction-header">
-                    <i class="fas fa-info-circle instruction-icon"></i>
-                    <span class="instruction-title">Tổng quan bài thi</span>
-                </div>
                 <div class="instruction-content">
                     <strong>${currentProject.name}</strong><br>
                     ${currentProject.description}<br>
@@ -348,10 +338,6 @@ document.addEventListener('DOMContentLoaded', function() {
             
             if (task) {
                 instructionHtml = `
-                    <div class="instruction-header">
-                        <i class="fas fa-info-circle instruction-icon"></i>
-                        <span class="instruction-title">Hướng dẫn thực hiện</span>
-                    </div>
                     <div class="instruction-content">
                         ${task.detailedInstructions || task.description}
                     </div>
@@ -368,15 +354,22 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Update progress indicator
-    function updateProgressIndicator(current, total) {
+    function updateProgressIndicator() {
+        const project = getCurrentProject();
+        if (!project) return;
+        const tasks = project.tasks;
+        const total = tasks.length;
         const progressEl = document.getElementById('progress-indicator');
+
         if (progressEl) {
-            progressEl.innerHTML = `
-                <span>Tiến độ: ${current}/${total}</span>
-                <div class="progress-bar">
-                    <div class="progress-fill" style="width: ${(current/total)*100}%"></div>
-                </div>
-            `;
+            let progressHtml = '<div class="progress-checkboxes">';
+            tasks.forEach((task, index) => {
+                const isCompleted = task.isCompleted;
+                const isActive = index === currentTaskIndex;
+                progressHtml += `<div class="progress-check ${isCompleted ? 'completed' : ''} ${isActive ? 'active' : ''}" data-task-index="${index}" title="Task ${index + 1}"></div>`;
+            });
+            progressHtml += '</div>';
+            progressEl.innerHTML = progressHtml;
         }
     }
     
@@ -464,20 +457,16 @@ document.addEventListener('DOMContentLoaded', function() {
             
             if (newProjectId !== currentProjectId && gmetrixData) {
                 currentProjectId = newProjectId;
-                currentTaskIndex = 0;
                 
                 const currentProject = getCurrentProject();
                 
-                // Update tabs
+                // Update tabs for the new project
                 updateTabs(currentProject);
                 
-                // Update progress indicator
-                updateProgressIndicator(1, currentProject.tasks.length);
+                // Set view to overview for the new project, suppressing the default toast
+                handleTabClick('overview', -1, true);
                 
-                // Update instruction to overview
-                updateInstruction('overview');
-                
-                // Show toast
+                // Show a toast message indicating the project has changed
                 showToast(`Đã chuyển đến ${currentProject.name}`, 'info', 2000);
             }
         });
@@ -505,10 +494,19 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('mark-completed').addEventListener('click', function() {
         const btn = this;
         btn.classList.add('loading');
+
+        const project = getCurrentProject();
+        if (!project || !project.tasks[currentTaskIndex]) return;
+        
+        const task = project.tasks[currentTaskIndex];
+        task.isCompleted = !task.isCompleted; // Toggle completion
+
+        updateProgressIndicator(); // Re-render progress
+
         setTimeout(() => {
             btn.classList.remove('loading');
-            showToast('Đã đánh dấu hoàn thành', 'success');
-        }, 800);
+            showToast(task.isCompleted ? 'Đã đánh dấu hoàn thành' : 'Đã bỏ đánh dấu hoàn thành', 'success');
+        }, 300);
     });
     
     document.getElementById('mark-review').addEventListener('click', function() {
@@ -531,18 +529,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    document.getElementById('save-link').addEventListener('click', function() {
-        const btn = this;
-        const originalText = btn.innerHTML;
-        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang lưu...';
-        btn.disabled = true;
-        
-        setTimeout(() => {
-            btn.innerHTML = originalText;
-            btn.disabled = false;
-            showToast('Đã lưu tiến độ thành công', 'success');
-        }, 1500);
-    });
     
     document.getElementById('grade-link').addEventListener('click', function() {
         const btn = this;
@@ -775,41 +761,6 @@ document.addEventListener('DOMContentLoaded', function() {
         // Could navigate to tabs with incorrect questions
     }
 
-    // Timer with countdown simulation
-    let remainingTime = 20 * 60 + 49; // 20:49 in seconds
-    function updateTimer() {
-        const timerEl = document.getElementById('gmetrix-timer');
-        if (timerEl) {
-            remainingTime--;
-            
-            if (remainingTime <= 0) {
-                timerEl.textContent = '00:00:00';
-                timerEl.style.color = '#dc3545';
-                timerEl.style.fontWeight = 'bold';
-                showToast('Thời gian đã hết!', 'warning', 5000);
-                return;
-            }
-            
-            const hours = Math.floor(remainingTime / 3600);
-            const minutes = Math.floor((remainingTime % 3600) / 60);
-            const seconds = remainingTime % 60;
-            
-            const timeStr = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-            timerEl.textContent = timeStr;
-            
-            // Warning colors
-            if (remainingTime <= 300) { // 5 minutes
-                timerEl.style.color = '#ff9800';
-            } else if (remainingTime <= 60) { // 1 minute
-                timerEl.style.color = '#dc3545';
-                timerEl.classList.add('pulse');
-            }
-        }
-    }
-    
-    // Update timer every second
-    const timerInterval = setInterval(updateTimer, 1000);
-    updateTimer();
     
     // Keyboard navigation
     document.addEventListener('keydown', function(e) {
@@ -839,10 +790,6 @@ document.addEventListener('DOMContentLoaded', function() {
         // Shortcuts
         if (e.ctrlKey || e.metaKey) {
             switch(e.key) {
-                case 's':
-                    e.preventDefault();
-                    document.getElementById('save-link').click();
-                    break;
                 case 'r':
                     e.preventDefault();
                     document.getElementById('restart-link').click();
@@ -860,11 +807,13 @@ document.addEventListener('DOMContentLoaded', function() {
         el.setAttribute('tabindex', '0');
     });
     
-    // Add ARIA labels for accessibility
+    // Add ARIA labels for accessibility - will be updated by updateTabAriaLabels()
+    // Initial labels set here, will be updated when tabs are created
     document.querySelectorAll('.tab').forEach((tab, index) => {
         if (index === 0) {
             tab.setAttribute('aria-label', 'Tổng quan bài thi');
         } else {
+            // Temporary label, will be updated by updateTabAriaLabels()
             tab.setAttribute('aria-label', `Nhiệm vụ số ${index}`);
         }
     });

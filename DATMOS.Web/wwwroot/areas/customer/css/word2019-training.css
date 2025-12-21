@@ -96,23 +96,6 @@ body {
     align-items: center;
 }
 
-.timer {
-    font-weight: 700;
-    font-size: 1.3em;
-    font-family: 'Courier New', monospace;
-    background: rgba(255,255,255,0.15);
-    padding: var(--spacing-xs) var(--spacing-md);
-    border-radius: var(--radius-md);
-    border: 1px solid rgba(255,255,255,0.2);
-    min-width: 100px;
-    text-align: center;
-    transition: all var(--transition-fast);
-}
-
-.timer:hover {
-    background: rgba(255,255,255,0.2);
-    transform: translateY(-1px);
-}
 
 .top-link {
     cursor: pointer;
@@ -236,20 +219,6 @@ body {
     background: linear-gradient(to right, var(--gmetrix-primary), var(--gmetrix-secondary));
 }
 
-.instruction-header {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    gap: var(--spacing-sm);
-    margin-bottom: var(--spacing-md);
-    color: var(--gmetrix-primary);
-    font-weight: 700; /* Tăng độ đậm */
-    font-size: 18px; /* Kích thước vừa phải */
-}
-
-.instruction-icon {
-    font-size: 20px;
-}
 
 .instruction-content strong {
     color: var(--gmetrix-primary);
@@ -309,7 +278,7 @@ body {
     margin: 0;
     width: auto;
     min-width: fit-content;
-    font-size: 10px !important;
+    font-size: 18px !important;
     font-weight: 500;
     line-height: 1.1;
     padding: 0;
@@ -410,11 +379,6 @@ body {
     transform: translateY(-50%) scale(1.1);
 }
 
-/* Timer with icon */
-.timer i {
-    margin-right: 8px;
-    opacity: 0.9;
-}
 
 /* Clean Tabs without icons - only text with badge for overview */
 .tab {
@@ -633,28 +597,55 @@ body {
     padding-bottom: 300px; /* Extra space for fixed footer */
 }
 
-/* Progress indicator */
+/* Progress Indicator with Checkboxes */
 .progress-indicator {
     display: flex;
     align-items: center;
-    gap: var(--spacing-sm);
-    font-size: 13px;
-    color: var(--text-secondary);
+    gap: 8px;
 }
 
-.progress-bar {
-    width: 100px;
-    height: 6px;
-    background: var(--gmetrix-gray);
-    border-radius: 3px;
-    overflow: hidden;
+.progress-checkboxes {
+    display: flex;
+    gap: 5px;
 }
 
-.progress-fill {
-    height: 100%;
-    background: linear-gradient(to right, var(--gmetrix-secondary), var(--gmetrix-primary));
-    border-radius: 3px;
-    transition: width 0.5s ease;
+.progress-check {
+    width: 18px;
+    height: 18px;
+    border: 2px solid #bdc3c7;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    cursor: default;
+    position: relative;
+    background-color: #ecf0f1;
+}
+
+.progress-check::after {
+    content: '\f00c'; /* Font Awesome check icon */
+    font-family: 'Font Awesome 5 Free', 'Font Awesome 6 Free'; /* Fallback for different versions */
+    font-weight: 900; /* Required for solid icons */
+    font-size: 12px;
+    color: white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    transition: transform 0.2s ease-in-out;
+}
+
+.progress-check.completed {
+    background-color: #27ae60; /* Green */
+    border-color: #27ae60;
+}
+
+.progress-check.completed::after {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.progress-check.active {
+    border-color: #3498db; /* Blue */
+    transform: scale(1.1);
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.7);
 }
 
 /* Toast notification */
@@ -746,12 +737,6 @@ body {
         gap: var(--spacing-sm);
     }
     
-    .timer {
-        order: 3;
-        margin-top: var(--spacing-xs);
-        min-width: 80px;
-        font-size: 1.1em;
-    }
     
     .tabs-container {
         overflow-x: auto;
