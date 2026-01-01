@@ -1,0 +1,47 @@
+@*
+    Đây là view cho NavbarViewComponent.
+    Nó định nghĩa cấu trúc HTML của thanh điều hướng.
+    Component Menu hiện tại được gọi bên trong để hiển thị các liên kết điều hướng động.
+*@
+@{
+  // Set NavbarArea for _Brand.cshtml to identify area correctly
+  ViewData["NavbarArea"] = "Customer";
+  
+  // Set default TempData values if not already set
+  if (TempData["appName"] == null)
+  {
+      TempData["appName"] = "DATMOS";
+  }
+  if (TempData["menuHorizontal"] == null)
+  {
+      TempData["menuHorizontal"] = false;
+  }
+}
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+    <div class="container">
+        @* Brand/Logo using shared partial *@
+        @await Html.PartialAsync("~/Views/Shared/Components/Navbar/Partials/_Brand.cshtml")
+        
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain" aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarMain">
+            @* Gọi MenuViewComponent đã có để hiển thị menu động *@
+            @await Component.InvokeAsync("Menu")
+
+            @* Có thể thêm các thành phần khác của Navbar ở đây (ví dụ: tìm kiếm, hồ sơ người dùng) *@
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <i class="fas fa-user"></i> Profile
+                    </a>
+                </li>
+                 <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <i class="fas fa-shopping-cart"></i> Cart
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

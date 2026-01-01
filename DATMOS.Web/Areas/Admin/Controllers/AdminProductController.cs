@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace DATMOS.Web.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = "Admin,Manager")]
+    [Authorize(Roles = "Administrator")]
     public class AdminProductController : Controller
     {
         private readonly AppDbContext _context;

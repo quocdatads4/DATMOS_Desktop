@@ -20,8 +20,8 @@ namespace DATMOS.WinApp
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            // Tạo và chạy GMetrixMainForm làm form mặc định
-            var mainForm = new GMetrixMainForm();
+            // Tạo và chạy Word2019MainForm làm form mặc định
+            var mainForm = new Word2019MainForm();
             
             // Khởi tạo cancellation token source
             _cancellationTokenSource = new CancellationTokenSource();
@@ -108,7 +108,7 @@ namespace DATMOS.WinApp
                 }
                 else if (result == DialogResult.No)
                 {
-                    return new GMetrixMainForm();
+                    return new Word2019MainForm();
                 }
                 else
                 {

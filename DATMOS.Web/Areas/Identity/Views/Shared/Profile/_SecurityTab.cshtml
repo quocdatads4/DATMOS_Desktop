@@ -1,0 +1,184 @@
+<div class="tab-pane fade" id="security" role="tabpanel">
+    <div class="row">
+        <div class="col-md-8">
+            <!-- Change Password Card -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Thay đổi mật khẩu</h5>
+                </div>
+                <div class="card-body">
+                    <form asp-action="ChangePassword" asp-controller="Profile" 
+                          asp-area="@ViewContext.RouteData.Values["area"]" method="post" id="changePasswordForm">
+                        @Html.AntiForgeryToken()
+                        
+                        <div class="mb-3">
+                            <label for="currentPassword" class="form-label">Mật khẩu hiện tại</label>
+                            <div class="input-group">
+                                <input type="password" class="form-control" id="currentPassword" 
+                                       name="currentPassword" placeholder="Nhập mật khẩu hiện tại" required>
+                                <button class="btn btn-outline-secondary" type="button" 
+                                        onclick="togglePasswordVisibility('currentPassword')">
+                                    <i class="bx bx-show"></i>
+                                </button>
+                            </div>
+                            <div class="form-text">Nhập mật khẩu hiện tại của bạn để xác thực.</div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="newPassword" class="form-label">Mật khẩu mới</label>
+                            <div class="input-group">
+                                <input type="password" class="form-control" id="newPassword" 
+                                       name="newPassword" placeholder="Nhập mật khẩu mới" required>
+                                <button class="btn btn-outline-secondary" type="button" 
+                                        onclick="togglePasswordVisibility('newPassword')">
+                                    <i class="bx bx-show"></i>
+                                </button>
+                            </div>
+                            <div class="form-text">
+                                Mật khẩu phải có ít nhất 6 ký tự, bao gồm chữ hoa, chữ thường và số.
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="confirmPassword" class="form-label">Xác nhận mật khẩu mới</label>
+                            <div class="input-group">
+                                <input type="password" class="form-control" id="confirmPassword" 
+                                       name="confirmPassword" placeholder="Nhập lại mật khẩu mới" required>
+                                <button class="btn btn-outline-secondary" type="button" 
+                                        onclick="togglePasswordVisibility('confirmPassword')">
+                                    <i class="bx bx-show"></i>
+                                </button>
+                            </div>
+                            <div class="form-text">Nhập lại mật khẩu mới để xác nhận.</div>
+                        </div>
+                        
+                        <div class="mt-4">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bx bx-lock-alt me-1"></i> Thay đổi mật khẩu
+                            </button>
+                            <button type="reset" class="btn btn-outline-secondary">
+                                <i class="bx bx-reset me-1"></i> Đặt lại
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Two-Factor Authentication Card -->
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Xác thực hai yếu tố (2FA)</h5>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-info">
+                        <i class="bx bx-info-circle me-2"></i>
+                        <strong>Bảo mật nâng cao:</strong> Kích hoạt xác thực hai yếu tố để bảo vệ tài khoản tốt hơn.
+                    </div>
+                    
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" id="twoFactorSwitch" disabled>
+                        <label class="form-check-label" for="twoFactorSwitch">
+                            Kích hoạt xác thực hai yếu tố
+                        </label>
+                        <div class="form-text">Tính năng đang được phát triển.</div>
+                    </div>
+                    
+                    <div class="alert alert-warning">
+                        <i class="bx bx-shield-quarter me-2"></i>
+                        <strong>Lưu ý:</strong> Khi kích hoạt 2FA, bạn sẽ cần nhập mã xác thực từ ứng dụng xác thực mỗi khi đăng nhập.
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Security Tips Sidebar -->
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">
+                        <i class="bx bx-shield-alt me-2"></i> Mẹo bảo mật
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="list-group list-group-flush">
+                        <div class="list-group-item border-0 px-0 py-2">
+                            <i class="bx bx-check-circle text-success me-2"></i>
+                            <strong>Sử dụng mật khẩu mạnh:</strong> Kết hợp chữ hoa, chữ thường, số và ký tự đặc biệt.
+                        </div>
+                        <div class="list-group-item border-0 px-0 py-2">
+                            <i class="bx bx-check-circle text-success me-2"></i>
+                            <strong>Không chia sẻ mật khẩu:</strong> Không bao giờ chia sẻ mật khẩu với người khác.
+                        </div>
+                        <div class="list-group-item border-0 px-0 py-2">
+                            <i class="bx bx-check-circle text-success me-2"></i>
+                            <strong>Đổi mật khẩu định kỳ:</strong> Thay đổi mật khẩu ít nhất 3 tháng một lần.
+                        </div>
+                        <div class="list-group-item border-0 px-0 py-2">
+                            <i class="bx bx-check-circle text-success me-2"></i>
+                            <strong>Đăng xuất khi không sử dụng:</strong> Luôn đăng xuất khi sử dụng máy tính công cộng.
+                        </div>
+                        <div class="list-group-item border-0 px-0 py-2">
+                            <i class="bx bx-check-circle text-success me-2"></i>
+                            <strong>Cảnh giác với email lừa đảo:</strong> Không nhấp vào liên kết đáng ngờ trong email.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Session Management Card -->
+            <div class="card mt-3">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">
+                        <i class="bx bx-devices me-2"></i> Phiên đăng nhập
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">Quản lý các thiết bị đã đăng nhập vào tài khoản của bạn.</p>
+                    <div class="d-grid">
+                        <button type="button" class="btn btn-outline-primary" disabled>
+                            <i class="bx bx-list-check me-1"></i> Xem phiên đăng nhập
+                        </button>
+                    </div>
+                    <div class="form-text mt-2">Tính năng đang được phát triển.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function togglePasswordVisibility(inputId) {
+        const input = document.getElementById(inputId);
+        const button = input.nextElementSibling.querySelector('i');
+        
+        if (input.type === 'password') {
+            input.type = 'text';
+            button.classList.remove('bx-show');
+            button.classList.add('bx-hide');
+        } else {
+            input.type = 'password';
+            button.classList.remove('bx-hide');
+            button.classList.add('bx-show');
+        }
+    }
+    
+    // Validate password match
+    document.getElementById('changePasswordForm')?.addEventListener('submit', function(e) {
+        const newPassword = document.getElementById('newPassword').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+        
+        if (newPassword !== confirmPassword) {
+            e.preventDefault();
+            alert('Mật khẩu mới và xác nhận mật khẩu không khớp!');
+            return false;
+        }
+        
+        if (newPassword.length < 6) {
+            e.preventDefault();
+            alert('Mật khẩu phải có ít nhất 6 ký tự!');
+            return false;
+        }
+        
+        return true;
+    });
+</script>

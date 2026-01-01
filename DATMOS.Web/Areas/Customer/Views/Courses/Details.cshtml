@@ -1,0 +1,301 @@
+@model DATMOS.Web.Areas.Customer.ViewModels.CourseDetailsViewModel
+@{
+    ViewData["Title"] = Model?.Course?.Name ?? "Chi tiết khóa học";
+    Layout = "~/Areas/Customer/Views/Shared/_CustomerLayout.cshtml";
+}
+
+<div class="container-xxl flex-grow-1 container-p-y">
+    @if (Model?.Course != null)
+    {
+        <div class="row">
+            <!-- Course Header -->
+            <div class="col-lg-12 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div class="d-flex align-items-center">
+                                <a href="@Url.Action("Index", "Courses", new { area = "Customer" })" 
+                                   class="btn btn-outline-secondary btn-sm me-3">
+                                    <i class="ti ti-arrow-left"></i>
+                                </a>
+                                <div>
+                                    <h4 class="mb-0">@Model.Course.Name</h4>
+                                    <p class="text-muted mb-0">@Model.Course.Title</p>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <div class="avatar me-2">
+                                    <span class="avatar-initial rounded bg-label-@Model.Course.ColorClass">
+                                        <i class="ti @Model.Course.Icon"></i>
+                                    </span>
+                                </div>
+                                <div>
+                                    <h6 class="mb-0">@Model.Course.ShortName</h6>
+                                    <small class="text-muted">@Model.Course.Code</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-lg-8">
+                <!-- Course Description -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Giới thiệu khóa học</h5>
+                    </div>
+                    <div class="card-body">
+                        <p>@Model.Course.Description</p>
+                        
+                        <div class="row mt-4">
+                            <div class="col-md-6 mb-3">
+                                <small class="text-muted d-block">Trình độ</small>
+                                <span class="fw-semibold">@Model.Course.Level</span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <small class="text-muted d-block">Thời lượng</small>
+                                <span class="fw-semibold">@Model.Course.Duration</span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <small class="text-muted d-block">Tổng bài học</small>
+                                <span class="fw-semibold">@Model.Course.TotalLessons bài</span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <small class="text-muted d-block">Dự án thực hành</small>
+                                <span class="fw-semibold">@Model.Course.TotalProjects dự án</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Syllabus -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Nội dung khóa học</h5>
+                    </div>
+                    <div class="card-body">
+                        @if (Model.Syllabus != null && Model.Syllabus.Any())
+                        {
+                            <div class="timeline">
+                                @for (int i = 0; i < Model.Syllabus.Count; i++)
+                                {
+                                    <div class="timeline-item">
+                                        <div class="timeline-marker bg-@(i % 2 == 0 ? "primary" : "success")"></div>
+                                        <div class="timeline-content">
+                                            <h6 class="mb-1">Bài @(i + 1): @Model.Syllabus[i]</h6>
+                                            <p class="text-muted small">Thời lượng: 2 giờ</p>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        }
+                        else
+                        {
+                            <p class="text-muted">Nội dung khóa học đang được cập nhật...</p>
+                        }
+                    </div>
+                </div>
+
+                <!-- Instructor -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Giảng viên</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="avatar avatar-lg me-3">
+                                <span class="avatar-initial rounded bg-label-primary">
+                                    <i class="ti ti-user"></i>
+                                </span>
+                            </div>
+                            <div>
+                                <h6 class="mb-1">@Model.Instructor.Name</h6>
+                                <div class="d-flex align-items-center mb-2">
+                                    <div class="rating me-2">
+                                        @for (int i = 1; i <= 5; i++)
+                                        {
+                                            <i class="ti @(i <= Math.Floor(Model.Instructor.Rating) ? "ti-star-filled text-warning" : "ti-star")"></i>
+                                        }
+                                    </div>
+                                    <span class="text-muted">@Model.Instructor.Rating.ToString("0.0")</span>
+                                </div>
+                                <p class="text-muted mb-0">@Model.Instructor.TotalCourses khóa học</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="col-lg-4">
+                <!-- Course Info Card -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Thông tin khóa học</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <small class="text-muted d-block">Mã khóa học</small>
+                            <span class="fw-semibold">@Model.Course.Code</span>
+                        </div>
+                        <div class="mb-3">
+                            <small class="text-muted d-block">Trạng thái</small>
+                            <span class="badge bg-label-@(Model.Course.IsFree ? "success" : "primary")">
+                                @(Model.Course.IsFree ? "Miễn phí" : "Trả phí")
+                            </span>
+                        </div>
+                        <div class="mb-3">
+                            <small class="text-muted d-block">Học viên đã tham gia</small>
+                            <span class="fw-semibold">@Model.Course.EnrolledStudents.ToString("N0")</span>
+                        </div>
+                        <div class="mb-3">
+                            <small class="text-muted d-block">Đánh giá</small>
+                            <div class="d-flex align-items-center">
+                                <div class="rating me-2">
+                                    @for (int i = 1; i <= 5; i++)
+                                    {
+                                        <i class="ti @(i <= Math.Floor(Model.Course.Rating) ? "ti-star-filled text-warning" : "ti-star")"></i>
+                                    }
+                                </div>
+                                <span class="fw-semibold">@Model.Course.Rating.ToString("0.0")</span>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <small class="text-muted d-block">Nhiệm vụ thực hành</small>
+                            <span class="fw-semibold">@Model.Course.TotalTasks bài tập</span>
+                        </div>
+
+                        <div class="mt-4">
+                            @if (Model.Course.IsFree)
+                            {
+                                <a href="@Url.Action("Enroll", "Courses", new { area = "Customer", id = Model.Course.Id })" 
+                                   class="btn btn-success w-100 mb-2">
+                                    <i class="ti ti-play-circle me-1"></i> Học ngay miễn phí
+                                </a>
+                            }
+                            else
+                            {
+                                <div class="text-center mb-3">
+                                    <span class="h3 text-primary">@Model.Course.Price.ToString("N0") đ</span>
+                                    <p class="text-muted small">Một lần thanh toán</p>
+                                </div>
+                                <a href="@Url.Action("Enroll", "Courses", new { area = "Customer", id = Model.Course.Id })" 
+                                   class="btn btn-primary w-100 mb-2">
+                                    <i class="ti ti-shopping-cart me-1"></i> Đăng ký ngay
+                                </a>
+                            }
+                            <a href="#" class="btn btn-outline-secondary w-100">
+                                <i class="ti ti-heart me-1"></i> Thêm vào yêu thích
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Statistics -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Thống kê</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <small class="text-muted d-block">Tỷ lệ hoàn thành</small>
+                            <div class="progress mt-1">
+                                <div class="progress-bar bg-success" role="progressbar" 
+                                     style="width: @Model.Statistics.CompletionRate%" 
+                                     aria-valuenow="@Model.Statistics.CompletionRate" 
+                                     aria-valuemin="0" aria-valuemax="100">
+                                    @Model.Statistics.CompletionRate%
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <small class="text-muted d-block">Mức độ hài lòng</small>
+                            <div class="progress mt-1">
+                                <div class="progress-bar bg-primary" role="progressbar" 
+                                     style="width: @Model.Statistics.SatisfactionRate%" 
+                                     aria-valuenow="@Model.Statistics.SatisfactionRate" 
+                                     aria-valuemin="0" aria-valuemax="100">
+                                    @Model.Statistics.SatisfactionRate%
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <small class="text-muted d-block">Học viên đang học</small>
+                            <span class="fw-semibold">@Model.Statistics.TotalStudents.ToString("N0")</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Related Courses -->
+                @if (Model.RelatedCourses != null && Model.RelatedCourses.Any())
+                {
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">Khóa học liên quan</h5>
+                        </div>
+                        <div class="card-body">
+                            @foreach (var course in Model.RelatedCourses)
+                            {
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="avatar me-3">
+                                        <span class="avatar-initial rounded bg-label-@course.ColorClass">
+                                            <i class="ti @course.Icon"></i>
+                                        </span>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h6 class="mb-1">@course.ShortName</h6>
+                                        <small class="text-muted">@course.Level</small>
+                                    </div>
+                                    <a href="@Url.Action("Details", "Courses", new { area = "Customer", id = course.Id })" 
+                                       class="btn btn-outline-primary btn-sm">
+                                        <i class="ti ti-arrow-right"></i>
+                                    </a>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body text-center py-5">
+                        <div class="avatar avatar-lg mb-3">
+                            <span class="avatar-initial rounded bg-label-danger">
+                                <i class="ti ti-alert-circle"></i>
+                            </span>
+                        </div>
+                        <h5 class="card-title">Khóa học không tồn tại</h5>
+                        <p class="card-text">Không thể tìm thấy thông tin khóa học.</p>
+                        <a href="@Url.Action("Index", "Courses", new { area = "Customer" })" 
+                           class="btn btn-primary">
+                            <i class="ti ti-arrow-left me-1"></i> Quay lại danh sách
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            console.log('Course details page loaded');
+            
+            // Progress bar animation
+            $('.progress-bar').each(function() {
+                var width = $(this).attr('style').match(/width: (\d+)%/)[1];
+                $(this).css('width', '0%').animate({
+                    width: width + '%'
+                }, 1000);
+            });
+        });
+    </script>
+}

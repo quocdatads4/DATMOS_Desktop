@@ -1,0 +1,286 @@
+{
+  "projects": [
+    {
+      "id": 1,
+      "name": "MOS Word 2019 - Dự án 1: Khủng long",
+      "description": "Khủng long\nDự án về khủng long với các bài tập thực hành về thuộc tính file, định dạng văn bản, sắp xếp bảng, danh sách và hiệu ứng hình ảnh.",
+      "courseCode": "CRS001",
+      "courseName": "MOS Word 2019",
+      "totalTasks": 6,
+      "estimatedTime": "50 phút",
+      "difficulty": "Intermediate",
+      "version": "2019",
+      "isActive": true,
+      "createdDate": "2024-01-15",
+      "demoFilePath": "C:\\Users\\QuocDat-PC\\Documents\\GitHub\\DATMOS_Desktop\\DATMOS.WinApp\\bin\\Debug\\DATMOSTemplates\\Word2019\\Project1\\P1Demo\\Project1.docx",
+      "isDemoFile": true,
+      "tasks": [
+        {
+          "id": 1,
+          "projectId": 1,
+          "name": "Task 1: Thêm danh mục Dinosaur",
+          "shortName": "Thuộc tính file",
+          "description": "Thêm danh mục Dinosaur vào thuộc tính file",
+          "detailedInstructions": "Trong thuộc tính file (File Properties), thêm <strong>Dinosaur</strong> làm danh mục (category).",
+          "instructions": "1. Tab File > Info\n2. Nhấp vào Properties > Advanced Properties\n3. Chọn tab Custom\n4. Trong danh sách Name, chọn Category\n5. Trong ô Value, nhập Dinosaur\n6. Nhấn Add và OK",
+          "order": 1,
+          "maxScore": 15,
+          "timeLimit": 180,
+          "taskType": "fileProperties",
+          "keywords": ["File Properties", "Category", "Custom Properties"],
+          "prerequisites": [],
+          "hints": [
+            "Thuộc tính file nằm trong tab File > Info",
+            "Chọn tab Custom để thêm danh mục tùy chỉnh"
+          ],
+          "isCompleted": false,
+          "isReviewed": false
+        },
+        {
+          "id": 2,
+          "projectId": 1,
+          "name": "Task 2: Sao chép định dạng",
+          "shortName": "Sao chép định dạng",
+          "description": "Sao chép định dạng từ đoạn văn đầu tiên sang đoạn văn thứ hai",
+          "detailedInstructions": "Trong phần <strong>When and Where Dinosaurs Lived</strong>, sao chép định dạng của đoạn văn đầu tiên và áp dụng cho đoạn văn thứ hai.",
+          "instructions": "1. Chọn đoạn văn đầu tiên trong phần 'When and Where Dinosaurs Lived'\n2. Tab Home > Clipboard group > Format Painter (biểu tượng cọ vẽ)\n3. Chọn đoạn văn thứ hai để áp dụng định dạng",
+          "order": 2,
+          "maxScore": 15,
+          "timeLimit": 120,
+          "taskType": "formatPainter",
+          "keywords": ["Format Painter", "Copy Formatting", "Paragraph Formatting"],
+          "prerequisites": [],
+          "hints": [
+            "Có thể nhấp đúp vào Format Painter để áp dụng cho nhiều đoạn văn",
+            "Đảm bảo chọn toàn bộ đoạn văn"
+          ],
+          "isCompleted": false,
+          "isReviewed": false
+        },
+        {
+          "id": 3,
+          "projectId": 1,
+          "name": "Task 3: Sắp xếp bảng",
+          "shortName": "Sắp xếp bảng",
+          "description": "Sắp xếp bảng theo Geologic period và Dinosaur",
+          "detailedInstructions": "Trong phần <strong>Geologic eras</strong>, sắp xếp dữ liệu bảng theo <strong>Geologic period</strong> (Tăng dần) và sau đó theo <strong>Dinosaur</strong> (Tăng dần).",
+          "instructions": "1. Chọn toàn bộ bảng trong phần 'Geologic eras'\n2. Tab Table Design > Layout > Sort\n3. Trong hộp Sort by, chọn 'Geologic period'\n4. Chọn Ascending\n5. Trong hộp Then by, chọn 'Dinosaur'\n6. Chọn Ascending\n7. Nhấn OK",
+          "order": 3,
+          "maxScore": 20,
+          "timeLimit": 240,
+          "taskType": "tableSort",
+          "keywords": ["Sort Table", "Ascending", "Multiple Sort"],
+          "prerequisites": [],
+          "hints": [
+            "Đảm bảo chọn toàn bộ bảng trước khi sắp xếp",
+            "Có thể sắp xếp theo nhiều cột"
+          ],
+          "isCompleted": false,
+          "isReviewed": false
+        },
+        {
+          "id": 4,
+          "projectId": 1,
+          "name": "Task 4: Thay đổi cấp độ",
+          "shortName": "Cấp độ danh sách",
+          "description": "Thay đổi cấp độ danh sách thành Level 3",
+          "detailedInstructions": "Trong phần <strong>Ornithischian Dinosaurs</strong>, thay đổi cấp độ danh sách cho <strong>Developed a narrow eyebrow</strong> thành Cấp 3 (Level 3).",
+          "instructions": "1. Chọn dòng 'Developed a narrow eyebrow' trong danh sách\n2. Tab Home > Paragraph group > Increase Indent (hoặc nhấn Tab)\n3. Tiếp tục tăng thụt lề cho đến khi đạt Level 3\n4. Hoặc sử dụng Multilevel List để chọn Level 3",
+          "order": 4,
+          "maxScore": 15,
+          "timeLimit": 150,
+          "taskType": "listLevel",
+          "keywords": ["List Level", "Increase Indent", "Multilevel List"],
+          "prerequisites": [],
+          "hints": [
+            "Có thể sử dụng phím Tab để tăng thụt lề",
+            "Sử dụng Multilevel List để chọn cấp độ chính xác"
+          ],
+          "isCompleted": false,
+          "isReviewed": false
+        },
+        {
+          "id": 5,
+          "projectId": 1,
+          "name": "Task 5: Chèn mô hình 3D",
+          "shortName": "Mô hình 3D",
+          "description": "Chèn mô hình 3D T-Rex và định vị In Line with Text",
+          "detailedInstructions": "Trong phần <strong>Kids love dinosaurs</strong>, trong đoạn văn trống ở cuối trang, sử dụng tính năng 3D Models để chèn mô hình T-Rex từ thư mục 3D Objects. Định vị mô hình <strong>In Line with Text</strong>.",
+          "instructions": "1. Đặt con trỏ trong đoạn văn trống ở cuối trang phần 'Kids love dinosaurs'\n2. Tab Insert > Illustrations group > 3D Models > From a File\n3. Tìm đến thư mục 3D Objects và chọn mô hình T-Rex\n4. Nhấn Insert\n5. Tab 3D Model > Arrange group > Wrap Text > In Line with Text",
+          "order": 5,
+          "maxScore": 20,
+          "timeLimit": 300,
+          "taskType": "3dModels",
+          "keywords": ["3D Models", "Insert 3D", "Wrap Text", "In Line with Text"],
+          "prerequisites": [],
+          "hints": [
+            "Tính năng 3D Models có trong tab Insert > Illustrations",
+            "Đảm bảo chọn đúng định vị In Line with Text"
+          ],
+          "isCompleted": false,
+          "isReviewed": false
+        },
+        {
+          "id": 6,
+          "projectId": 1,
+          "name": "Task 6: Hiệu ứng Pencil Sketch",
+          "shortName": "Hiệu ứng hình ảnh",
+          "description": "Áp dụng hiệu ứng nghệ thuật Pencil Sketch cho hình ảnh",
+          "detailedInstructions": "Trong phần <strong>Theropod</strong>, áp dụng hiệu ứng nghệ thuật <strong>Pencil Sketch</strong> cho hình ảnh hóa thạch khủng long.",
+          "instructions": "1. Chọn hình ảnh hóa thạch khủng long trong phần 'Theropod'\n2. Tab Picture Format > Adjust group > Artistic Effects\n3. Tìm và chọn Pencil Sketch từ danh sách hiệu ứng",
+          "order": 6,
+          "maxScore": 15,
+          "timeLimit": 180,
+          "taskType": "artisticEffects",
+          "keywords": ["Artistic Effects", "Pencil Sketch", "Picture Format"],
+          "prerequisites": [],
+          "hints": [
+            "Hiệu ứng Artistic Effects nằm trong tab Picture Format",
+            "Hover chuột để xem trước các hiệu ứng trước khi áp dụng"
+          ],
+          "isCompleted": false,
+          "isReviewed": false
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "MOS Word 2019 - Dự án 2: Muffin Shop",
+      "description": "Dự án về cửa hàng muffin với các bài tập thực hành về header/footer, chèn ký tự đặc biệt, định dạng đoạn văn, danh sách và hiệu ứng SmartArt.",
+      "courseCode": "CRS001",
+      "courseName": "MOS Word 2019",
+      "totalTasks": 5,
+      "estimatedTime": "45 phút",
+      "difficulty": "Intermediate",
+      "version": "2019",
+      "isActive": true,
+      "createdDate": "2024-01-20",
+      "demoFilePath": "C:\\Users\\QuocDat-PC\\Documents\\GitHub\\DATMOS_Desktop\\DATMOS.WinApp\\bin\\Debug\\DATMOSTemplates\\Word2019\\Project2\\P2Demo\\Project2.docx",
+      "isDemoFile": true,
+      "tasks": [
+        {
+          "id": 6,
+          "projectId": 2,
+          "name": "Task 1: Hiển thị Integral header",
+          "shortName": "Header tích hợp",
+          "description": "Hiển thị Integral header trên tất cả các trang ngoại trừ trang 1",
+          "detailedInstructions": "Hiển thị <strong>Integral header</strong> trên tất cả các trang của tài liệu ngoại trừ trang 1.",
+          "instructions": "1. Tab Insert > Header > Edit Header\n2. Tab Header & Footer Tools > Design\n3. Chọn Different First Page\n4. Đảm bảo header chỉ xuất hiện từ trang 2 trở đi\n5. Chọn Integral header từ thư viện header",
+          "order": 1,
+          "maxScore": 20,
+          "timeLimit": 240,
+          "taskType": "headersFooters",
+          "keywords": ["Header", "Different First Page", "Integral Header", "Page Layout"],
+          "prerequisites": [],
+          "hints": [
+            "Tùy chọn Different First Page nằm trong tab Design của Header & Footer Tools",
+            "Integral header là một mẫu header có sẵn trong thư viện"
+          ],
+          "isCompleted": false,
+          "isReviewed": false
+        },
+        {
+          "id": 7,
+          "projectId": 2,
+          "name": "Task 2: Chèn biểu tượng thermometer",
+          "shortName": "Ký tự đặc biệt",
+          "description": "Chèn biểu tượng thermometer trước cụm từ 'The muffin tray will still be hot!'",
+          "detailedInstructions": "Trong phần <strong>Depanning</strong>, chèn biểu tượng thermometer (nhiệt kế) trước cụm từ <strong>'The muffin tray will still be hot!'</strong>. Sử dụng font Webdings và mã ký tự <strong>225</strong>.",
+          "instructions": "1. Đặt con trỏ trước cụm từ 'The muffin tray will still be hot!'\n2. Tab Insert > Symbol > More Symbols\n3. Chọn font Webdings từ danh sách\n4. Nhập mã ký tự 225 trong ô Character code\n5. Nhấn Insert để chèn biểu tượng thermometer\n6. Nhấn Close",
+          "order": 2,
+          "maxScore": 15,
+          "timeLimit": 180,
+          "taskType": "specialCharacters",
+          "keywords": ["Symbol", "Webdings", "Character Code", "Thermometer", "Special Characters"],
+          "prerequisites": [],
+          "hints": [
+            "Font Webdings chứa nhiều biểu tượng đồ họa",
+            "Mã ký tự 225 tương ứng với biểu tượng thermometer trong font Webdings"
+          ],
+          "isCompleted": false,
+          "isReviewed": false
+        },
+        {
+          "id": 8,
+          "projectId": 2,
+          "name": "Task 3: Đặt khoảng cách giãn dòng",
+          "shortName": "Giãn dòng",
+          "description": "Đặt khoảng cách giãn dòng thành 1.3 lines cho toàn bộ tài liệu",
+          "detailedInstructions": "Đặt khoảng cách giãn dòng thành <strong>1.3 lines</strong> cho toàn bộ tài liệu.",
+          "instructions": "1. Nhấn Ctrl+A để chọn toàn bộ tài liệu\n2. Tab Home > Paragraph group > Line and Paragraph Spacing\n3. Chọn Line Spacing Options\n4. Trong hộp thoại Paragraph, chọn Multiple từ danh sách Line spacing\n5. Nhập 1.3 vào ô At\n6. Nhấn OK",
+          "order": 3,
+          "maxScore": 15,
+          "timeLimit": 150,
+          "taskType": "paragraphFormatting",
+          "keywords": ["Line Spacing", "Paragraph Formatting", "Multiple", "1.3 lines"],
+          "prerequisites": [],
+          "hints": [
+            "Có thể sử dụng Line Spacing Options để nhập giá trị tùy chỉnh",
+            "Giá trị 1.3 lines tương đương với khoảng cách 1.3 lần kích thước font"
+          ],
+          "isCompleted": false,
+          "isReviewed": false
+        },
+        {
+          "id": 9,
+          "projectId": 2,
+          "name": "Task 4: Tiếp tục đánh số danh sách",
+          "shortName": "Đánh số danh sách",
+          "description": "Tiếp tục đánh số danh sách ở đầu cột thứ hai trong phần 'Top Sellers'",
+          "detailedInstructions": "Trong phần <strong>Top Sellers</strong>, tiếp tục đánh số danh sách ở đầu cột thứ hai, để các mục danh sách được đánh số từ 1 đến 6.",
+          "instructions": "1. Chọn danh sách trong cột thứ hai của phần 'Top Sellers'\n2. Tab Home > Paragraph group > Numbering\n3. Chọn tiếp tục đánh số từ danh sách trước đó\n4. Hoặc nhấp chuột phải > Numbering > Continue Numbering\n5. Đảm bảo các mục được đánh số liên tục từ 1 đến 6",
+          "order": 4,
+          "maxScore": 20,
+          "timeLimit": 210,
+          "taskType": "numbering",
+          "keywords": ["Numbering", "Continue Numbering", "Lists", "Top Sellers"],
+          "prerequisites": [],
+          "hints": [
+            "Tùy chọn Continue Numbering cho phép tiếp tục đánh số từ danh sách trước",
+            "Đảm bảo chọn đúng danh sách trong cột thứ hai"
+          ],
+          "isCompleted": false,
+          "isReviewed": false
+        },
+        {
+          "id": 10,
+          "projectId": 2,
+          "name": "Task 5: Áp dụng hiệu ứng Soft Round bevel",
+          "shortName": "Hiệu ứng SmartArt",
+          "description": "Áp dụng hiệu ứng hình vát tròn mềm (Soft Round bevel) cho đồ họa SmartArt",
+          "detailedInstructions": "Trong phần <strong>Overview</strong>, áp dụng hiệu ứng hình vát tròn mềm <strong>Soft Round bevel</strong> cho đồ họa SmartArt. (Hãy chắc chắn chọn toàn bộ đồ họa SmartArt).",
+          "instructions": "1. Chọn toàn bộ đồ họa SmartArt trong phần 'Overview'\n2. Tab SmartArt Design > SmartArt Styles group > Effects\n3. Chọn Bevel > Soft Round\n4. Hoặc tab Format > Shape Effects > Bevel > Soft Round",
+          "order": 5,
+          "maxScore": 20,
+          "timeLimit": 210,
+          "taskType": "smartArtEffects",
+          "keywords": ["SmartArt", "Bevel Effects", "Soft Round", "Shape Effects", "SmartArt Styles"],
+          "prerequisites": [],
+          "hints": [
+            "Đảm bảo chọn toàn bộ SmartArt, không chỉ một phần tử",
+            "Hiệu ứng Bevel nằm trong nhóm Shape Effects"
+          ],
+          "isCompleted": false,
+          "isReviewed": false
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "version": "1.0.3",
+    "createdDate": "2024-01-15",
+    "lastUpdated": "2024-12-22",
+    "author": "DATMOS System",
+    "description": "Dữ liệu Project và Task cho Gmetrix MOS Word 2019 - Đã cập nhật Project 1: Khủng long và Project 2: Muffin Shop",
+    "totalProjects": 2,
+    "totalTasks": 11,
+    "courseInfo": {
+      "courseCode": "CRS001",
+      "courseName": "MOS Word 2019",
+      "examCode": "77-725",
+      "passingScore": 700,
+      "totalPoints": 1000,
+      "timeLimit": 50
+    }
+  }
+}

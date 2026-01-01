@@ -1,0 +1,211 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "userName": "student001",
+      "email": "nguyenvanan@example.com",
+      "emailConfirmed": true,
+      "phoneNumber": "0912345678",
+      "phoneNumberConfirmed": true,
+      "twoFactorEnabled": false,
+      "lockoutEnd": null,
+      "lockoutEnabled": true,
+      "accessFailedCount": 0,
+      "studentInfo": {
+        "studentCode": "SV001",
+        "fullName": "Nguyễn Văn An",
+        "dateOfBirth": "2000-03-15",
+        "gender": "Nam",
+        "address": "123 Đường Lê Lợi, Quận 1, TP.HCM",
+        "enrollmentDate": "2023-09-01",
+        "status": "Đang học",
+        "class": "CĐ21A",
+        "major": "Công nghệ thông tin",
+        "avatar": "avatar-1.jpg"
+      },
+      "courseEnrollments": [
+        {
+          "courseCode": "CRS001",
+          "courseName": "MOS Word 2019",
+          "enrollmentDate": "2024-01-15",
+          "completionStatus": "Đang học",
+          "progress": 65,
+          "currentProjectId": 1,
+          "completedTasks": [1, 2, 3, 4],
+          "scores": [
+            {
+              "projectId": 1,
+              "taskId": 1,
+              "score": 15,
+              "maxScore": 15,
+              "completedDate": "2024-01-20"
+            },
+            {
+              "projectId": 1,
+              "taskId": 2,
+              "score": 14,
+              "maxScore": 15,
+              "completedDate": "2024-01-22"
+            }
+          ]
+        }
+      ],
+      "createdAt": "2023-09-01T08:00:00",
+      "lastLogin": "2024-12-21T14:30:00"
+    },
+    {
+      "id": "2",
+      "userName": "student002",
+      "email": "tranthibinh@example.com",
+      "emailConfirmed": true,
+      "phoneNumber": "0923456789",
+      "phoneNumberConfirmed": true,
+      "twoFactorEnabled": false,
+      "lockoutEnd": null,
+      "lockoutEnabled": true,
+      "accessFailedCount": 0,
+      "studentInfo": {
+        "studentCode": "SV002",
+        "fullName": "Trần Thị Bình",
+        "dateOfBirth": "2001-05-22",
+        "gender": "Nữ",
+        "address": "456 Đường Nguyễn Huệ, Quận 1, TP.HCM",
+        "enrollmentDate": "2023-09-01",
+        "status": "Đang học",
+        "class": "CĐ21B",
+        "major": "Kế toán",
+        "avatar": "avatar-2.jpg"
+      },
+      "courseEnrollments": [
+        {
+          "courseCode": "CRS001",
+          "courseName": "MOS Word 2019",
+          "enrollmentDate": "2024-02-10",
+          "completionStatus": "Đang học",
+          "progress": 30,
+          "currentProjectId": 1,
+          "completedTasks": [1, 2],
+          "scores": [
+            {
+              "projectId": 1,
+              "taskId": 1,
+              "score": 13,
+              "maxScore": 15,
+              "completedDate": "2024-02-15"
+            }
+          ]
+        }
+      ],
+      "createdAt": "2023-09-01T08:00:00",
+      "lastLogin": "2024-12-20T10:15:00"
+    },
+    {
+      "id": "3",
+      "userName": "student003",
+      "email": "levancuong@example.com",
+      "emailConfirmed": true,
+      "phoneNumber": "0934567890",
+      "phoneNumberConfirmed": true,
+      "twoFactorEnabled": false,
+      "lockoutEnd": null,
+      "lockoutEnabled": true,
+      "accessFailedCount": 0,
+      "studentInfo": {
+        "studentCode": "SV003",
+        "fullName": "Lê Văn Cường",
+        "dateOfBirth": "1999-11-30",
+        "gender": "Nam",
+        "address": "789 Đường Pasteur, Quận 3, TP.HCM",
+        "enrollmentDate": "2023-09-01",
+        "status": "Đang học",
+        "class": "CĐ21C",
+        "major": "Quản trị kinh doanh",
+        "avatar": "avatar-3.jpg"
+      },
+      "courseEnrollments": [
+        {
+          "courseCode": "CRS001",
+          "courseName": "MOS Word 2019",
+          "enrollmentDate": "2024-01-20",
+          "completionStatus": "Đang học",
+          "progress": 85,
+          "currentProjectId": 2,
+          "completedTasks": [1, 2, 3, 4, 5, 6],
+          "scores": [
+            {
+              "projectId": 1,
+              "taskId": 1,
+              "score": 15,
+              "maxScore": 15,
+              "completedDate": "2024-01-25"
+            },
+            {
+              "projectId": 1,
+              "taskId": 2,
+              "score": 15,
+              "maxScore": 15,
+              "completedDate": "2024-01-26"
+            }
+          ]
+        }
+      ],
+      "createdAt": "2023-09-01T08:00:00",
+      "lastLogin": "2024-12-21T16:45:00"
+    },
+    {
+      "id": "4",
+      "userName": "student004",
+      "email": "phamthidung@example.com",
+      "emailConfirmed": true,
+      "phoneNumber": "0945678901",
+      "phoneNumberConfirmed": true,
+      "twoFactorEnabled": false,
+      "lockoutEnd": null,
+      "lockoutEnabled": true,
+      "accessFailedCount": 0,
+      "studentInfo": {
+        "studentCode": "SV004",
+        "fullName": "Phạm Thị Dung",
+        "dateOfBirth": "2000-07-18",
+        "gender": "Nữ",
+        "address": "321 Đường Cách Mạng Tháng 8, Quận 10, TP.HCM",
+        "enrollmentDate": "2023-09-01",
+        "status": "Tạm ngừng",
+        "class": "CĐ21A",
+        "major": "Công nghệ thông tin",
+        "avatar": "avatar-4.jpg"
+      },
+      "courseEnrollments": [
+        {
+          "courseCode": "CRS001",
+          "courseName": "MOS Word 2019",
+          "enrollmentDate": "2024-01-25",
+          "completionStatus": "Tạm ngừng",
+          "progress": 20,
+          "currentProjectId": 1,
+          "completedTasks": [1],
+          "scores": [
+            {
+              "projectId": 1,
+              "taskId": 1,
+              "score": 12,
+              "maxScore": 15,
+              "completedDate": "2024-02-01"
+            }
+          ]
+        }
+      ],
+      "createdAt": "2023-09-01T08:00:00",
+      "lastLogin": "2024-11-15T09:20:00"
+    }
+  ],
+  "metadata": {
+    "version": "1.0.0",
+    "createdDate": "2024-12-22",
+    "description": "Dữ liệu mẫu tài khoản học viên cho hệ thống DATMOS - 4 học viên mẫu",
+    "totalUsers": 4,
+    "totalActiveUsers": 3,
+    "dataSource": "JSON File (Mock Data)",
+    "lastUpdated": "2024-12-22T00:07:00"
+  }
+}

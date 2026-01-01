@@ -1,0 +1,293 @@
+@model DATMOS.Web.Areas.Customer.ViewModels.ExamSubjectDetailsViewModel
+@{
+    ViewData["Title"] = Model?.Subject?.Name ?? "Chi tiết môn học";
+    Layout = "~/Areas/Customer/Views/Shared/_CustomerLayout.cshtml";
+}
+
+<div class="container-xxl flex-grow-1 container-p-y">
+    @if (Model?.Subject != null)
+    {
+        <div class="row">
+            <!-- Subject Header -->
+            <div class="col-lg-12 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <div class="d-flex align-items-center">
+                                <div class="avatar me-3">
+                                    <span class="avatar-initial rounded bg-label-@Model.Subject.ColorClass" style="width: 60px; height: 60px;">
+                                        <i class="ti @Model.Subject.Icon fs-1"></i>
+                                    </span>
+                                </div>
+                                <div>
+                                    <h4 class="mb-0">@Model.Subject.Title</h4>
+                                    <p class="text-muted mb-0">@Model.Subject.Code - @Model.Subject.Name</p>
+                                </div>
+                            </div>
+                            @if (!string.IsNullOrEmpty(Model.Subject.BadgeText))
+                            {
+                                <span class="badge @Model.Subject.BadgeColorClass fs-6">
+                                    <i class="ti @Model.Subject.BadgeIcon me-1"></i>@Model.Subject.BadgeText
+                                </span>
+                            }
+                        </div>
+                        
+                        <p class="mb-4">@Model.Subject.Description</p>
+                        
+                        <div class="row">
+                            <div class="col-md-3 col-6 mb-3">
+                                <div class="d-flex align-items-center">
+                                    <div class="avatar avatar-sm me-2">
+                                        <span class="avatar-initial rounded bg-label-primary">
+                                            <i class="ti ti-clock"></i>
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <small class="text-muted d-block">Thời lượng</small>
+                                        <span class="fw-semibold">@Model.Subject.Duration</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-6 mb-3">
+                                <div class="d-flex align-items-center">
+                                    <div class="avatar avatar-sm me-2">
+                                        <span class="avatar-initial rounded bg-label-success">
+                                            <i class="ti ti-book"></i>
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <small class="text-muted d-block">Bài học</small>
+                                        <span class="fw-semibold">@Model.Subject.TotalLessons bài</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-6 mb-3">
+                                <div class="d-flex align-items-center">
+                                    <div class="avatar avatar-sm me-2">
+                                        <span class="avatar-initial rounded bg-label-warning">
+                                            <i class="ti ti-file-text"></i>
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <small class="text-muted d-block">Bài kiểm tra</small>
+                                        <span class="fw-semibold">@Model.Subject.TotalExams bài</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-6 mb-3">
+                                <div class="d-flex align-items-center">
+                                    <div class="avatar avatar-sm me-2">
+                                        <span class="avatar-initial rounded bg-label-info">
+                                            <i class="ti ti-users"></i>
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <small class="text-muted d-block">Học viên</small>
+                                        <span class="fw-semibold">@Model.Statistics.TotalStudents</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Statistics -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Thống kê môn học</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-4">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span class="text-muted">Điểm trung bình</span>
+                                <span class="fw-semibold">@Model.Statistics.AverageScore.ToString("0.0")/100</span>
+                            </div>
+                            <div class="progress" style="height: 8px;">
+                                <div class="progress-bar bg-success" role="progressbar" 
+                                     style="width: @Model.Statistics.AverageScore%" 
+                                     aria-valuenow="@Model.Statistics.AverageScore" 
+                                     aria-valuemin="0" 
+                                     aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span class="text-muted">Tỷ lệ hoàn thành</span>
+                                <span class="fw-semibold">@Model.Statistics.CompletionRate.ToString("0.0")%</span>
+                            </div>
+                            <div class="progress" style="height: 8px;">
+                                <div class="progress-bar bg-primary" role="progressbar" 
+                                     style="width: @Model.Statistics.CompletionRate%" 
+                                     aria-valuenow="@Model.Statistics.CompletionRate" 
+                                     aria-valuemin="0" 
+                                     aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="text-center mt-4">
+                            <a href="@Url.Action("Courses", "ExamSubject", new { area = "Customer", subjectId = Model.Subject.Id })" 
+                               class="btn btn-primary">
+                                <i class="ti ti-play-circle me-1"></i> Bắt đầu học
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Related Courses -->
+            <div class="col-lg-8 col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-header d-flex align-items-center justify-content-between">
+                        <h5 class="card-title mb-0">Khóa học liên quan</h5>
+                        <a href="@Url.Action("Courses", "ExamSubject", new { area = "Customer", subjectId = Model.Subject.Id })" 
+                           class="btn btn-sm btn-outline-primary">Xem tất cả</a>
+                    </div>
+                    <div class="card-body">
+                        @if (Model.RelatedCourses != null && Model.RelatedCourses.Any())
+                        {
+                            <div class="row">
+                                @foreach (var course in Model.RelatedCourses)
+                                {
+                                    <div class="col-md-6 mb-3">
+                                        <div class="card border">
+                                            <div class="card-body">
+                                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                                    <h6 class="card-title mb-0">@course.Name</h6>
+                                                    <span class="badge bg-label-@(course.IsFree ? "success" : "warning")">
+                                                        @(course.IsFree ? "Miễn phí" : course.Price.ToString("N0") + " đ")
+                                                    </span>
+                                                </div>
+                                                <p class="card-text small text-muted">@course.Description</p>
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <div>
+                                                        <small class="text-muted d-block">Trình độ</small>
+                                                        <span class="fw-semibold">@course.Level</span>
+                                                    </div>
+                                                    <div>
+                                                        <small class="text-muted d-block">Thời lượng</small>
+                                                        <span class="fw-semibold">@course.Duration</span>
+                                                    </div>
+                                                    <div>
+                                                        <a href="#" class="btn btn-sm btn-outline-primary">Đăng ký</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="text-center py-4">
+                                <div class="avatar avatar-lg mb-3">
+                                    <span class="avatar-initial rounded bg-label-secondary">
+                                        <i class="ti ti-book-off"></i>
+                                    </span>
+                                </div>
+                                <h6 class="card-title">Chưa có khóa học</h6>
+                                <p class="card-text text-muted">Hiện tại chưa có khóa học nào cho môn học này.</p>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title mb-3">Bắt đầu học tập</h5>
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <a href="@Url.Action("Index", "Product", new { area = "Customer" })" 
+                                   class="card card-hover border-primary text-center h-100">
+                                    <div class="card-body">
+                                        <div class="avatar avatar-lg mb-3">
+                                            <span class="avatar-initial rounded bg-label-primary">
+                                                <i class="ti ti-book-2"></i>
+                                            </span>
+                                        </div>
+                                        <h6 class="card-title">Bài học</h6>
+                                        <p class="card-text small text-muted">Học lý thuyết và xem video hướng dẫn</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <a href="@Url.Action("Practice", "Product", new { area = "Customer", productId = Model.Subject.Id, examId = 1 })" 
+                                   class="card card-hover border-success text-center h-100">
+                                    <div class="card-body">
+                                        <div class="avatar avatar-lg mb-3">
+                                            <span class="avatar-initial rounded bg-label-success">
+                                                <i class="ti ti-play-circle"></i>
+                                            </span>
+                                        </div>
+                                        <h6 class="card-title">Thực hành</h6>
+                                        <p class="card-text small text-muted">Làm bài tập thực hành không giới hạn</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <a href="@Url.Action("Test", "Product", new { area = "Customer", productId = Model.Subject.Id, examId = 1 })" 
+                                   class="card card-hover border-warning text-center h-100">
+                                    <div class="card-body">
+                                        <div class="avatar avatar-lg mb-3">
+                                            <span class="avatar-initial rounded bg-label-warning">
+                                                <i class="ti ti-file-text"></i>
+                                            </span>
+                                        </div>
+                                        <h6 class="card-title">Kiểm tra</h6>
+                                        <p class="card-text small text-muted">Làm bài kiểm tra đánh giá năng lực</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body text-center py-5">
+                        <div class="avatar avatar-lg mb-3">
+                            <span class="avatar-initial rounded bg-label-danger">
+                                <i class="ti ti-alert-circle"></i>
+                            </span>
+                        </div>
+                        <h5 class="card-title">Môn học không tồn tại</h5>
+                        <p class="card-text">Môn học bạn đang tìm kiếm không tồn tại hoặc đã bị xóa.</p>
+                        <a href="@Url.Action("Index", "ExamSubject", new { area = "Customer" })" 
+                           class="btn btn-primary">
+                            <i class="ti ti-arrow-left me-1"></i> Quay lại danh sách
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            console.log('Exam Subject Details page loaded');
+            
+            // Add hover effect to cards
+            $('.card-hover').hover(
+                function() {
+                    $(this).addClass('shadow-sm');
+                },
+                function() {
+                    $(this).removeClass('shadow-sm');
+                }
+            );
+        });
+    </script>
+}

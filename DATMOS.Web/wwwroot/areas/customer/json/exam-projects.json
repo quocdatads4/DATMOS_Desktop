@@ -1,0 +1,172 @@
+{
+  "projects": [
+    {
+      "id": 1,
+      "examId": 1,
+      "name": "Project 1: Khủng long",
+      "description": "Dự án về khủng long với các bài tập thực hành về thuộc tính file, định dạng văn bản.",
+      "totalTasks": 6,
+      "order": 1
+    },
+    {
+      "id": 2,
+      "examId": 1,
+      "name": "Project 2: Muffin Shop",
+      "description": "Dự án về cửa hàng muffin với các bài tập thực hành về header/footer, SmartArt.",
+      "totalTasks": 5,
+      "order": 2
+    },
+    {
+      "id": 3,
+      "examId": 1,
+      "name": "Project 3: Ice Cream Shop",
+      "description": "Thiết kế thực đơn và bảng giá cho cửa hàng kem.",
+      "totalTasks": 5,
+      "order": 3
+    },
+    {
+      "id": 4,
+      "examId": 1,
+      "name": "Project 4: Tech Newsletter",
+      "description": "Soạn thảo bản tin công nghệ hàng tháng cho nhân viên.",
+      "totalTasks": 5,
+      "order": 4
+    },
+    {
+      "id": 5,
+      "examId": 1,
+      "name": "Project 5: Hiking Guide",
+      "description": "Tài liệu hướng dẫn an toàn khi leo núi.",
+      "totalTasks": 6,
+      "order": 5
+    },
+    {
+      "id": 6,
+      "examId": 1,
+      "name": "Project 6: Annual Report",
+      "description": "Báo cáo thường niên tóm tắt hoạt động kinh doanh.",
+      "totalTasks": 5,
+      "order": 6
+    },
+    {
+      "id": 7,
+      "examId": 1,
+      "name": "Project 7: School Memo",
+      "description": "Thông báo nội bộ về quy định mới của trường học.",
+      "totalTasks": 5,
+      "order": 7
+    },
+    {
+      "id": 8,
+      "examId": 2,
+      "name": "Project 1: Fishing Brochure",
+      "description": "Tạo tờ rơi quảng cáo cho dịch vụ câu cá dã ngoại.",
+      "totalTasks": 5,
+      "order": 1
+    },
+    {
+      "id": 9,
+      "examId": 2,
+      "name": "Project 2: Music Festival",
+      "description": "Tờ rơi quảng bá cho lễ hội âm nhạc mùa hè.",
+      "totalTasks": 6,
+      "order": 2
+    },
+    {
+      "id": 10,
+      "examId": 2,
+      "name": "Project 3: Gym Schedule",
+      "description": "Lịch tập luyện và các lớp học yoga hàng tuần.",
+      "totalTasks": 5,
+      "order": 3
+    },
+    {
+      "id": 11,
+      "examId": 2,
+      "name": "Project 4: Book Club",
+      "description": "Danh sách sách đọc và lịch thảo luận của CLB.",
+      "totalTasks": 5,
+      "order": 4
+    },
+    {
+      "id": 12,
+      "examId": 2,
+      "name": "Project 5: Gardening Tips",
+      "description": "Cẩm nang chăm sóc cây cảnh trong nhà.",
+      "totalTasks": 6,
+      "order": 5
+    },
+    {
+      "id": 13,
+      "examId": 2,
+      "name": "Project 6: Charity Event",
+      "description": "Thư mời tham gia sự kiện từ thiện gây quỹ.",
+      "totalTasks": 5,
+      "order": 6
+    },
+    {
+      "id": 14,
+      "examId": 2,
+      "name": "Project 7: Job Description",
+      "description": "Bản mô tả công việc cho vị trí Marketing.",
+      "totalTasks": 5,
+      "order": 7
+    },
+    {
+      "id": 15,
+      "examId": 3,
+      "name": "Project 1: Recipe Book",
+      "description": "Tổng hợp các công thức nấu ăn món Á.",
+      "totalTasks": 5,
+      "order": 1
+    },
+    {
+      "id": 16,
+      "examId": 3,
+      "name": "Project 2: Wedding Invite",
+      "description": "Thiệp mời đám cưới với thiết kế trang trọng.",
+      "totalTasks": 6,
+      "order": 2
+    },
+    {
+      "id": 17,
+      "examId": 3,
+      "name": "Project 3: Conference Agenda",
+      "description": "Chương trình nghị sự cho hội thảo quốc tế.",
+      "totalTasks": 5,
+      "order": 3
+    },
+    {
+      "id": 18,
+      "examId": 3,
+      "name": "Project 4: Press Release",
+      "description": "Thông cáo báo chí ra mắt sản phẩm mới.",
+      "totalTasks": 5,
+      "order": 4
+    },
+    {
+      "id": 19,
+      "examId": 3,
+      "name": "Project 5: Resume",
+      "description": "CV xin việc chuyên nghiệp cho sinh viên mới ra trường.",
+      "totalTasks": 6,
+      "order": 5
+    },
+    {
+      "id": 20,
+      "examId": 3,
+      "name": "Project 6: Cover Letter",
+      "description": "Thư ngỏ gửi nhà tuyển dụng.",
+      "totalTasks": 5,
+      "order": 6
+    },
+    {
+      "id": 21,
+      "examId": 3,
+      "name": "Project 7: Thank You Note",
+      "description": "Thư cảm ơn khách hàng đã sử dụng dịch vụ.",
+      "totalTasks": 5,
+      "order": 7
+    }
+  ]
+}

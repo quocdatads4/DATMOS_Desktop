@@ -20,6 +20,9 @@
     
     <!-- Helpers (Required for main.js) -->
     <script src="~/vendor/js/helpers.js"></script>
+    <script src="~/js/config.js" asp-append-version="true"></script>
+    <!-- Template Customizer (Required for theme settings) -->
+    <script src="~/vendor/js/template-customizer.js"></script>
     
     <!-- GMetrix Footer CSS - Improved Version -->
     <link rel="stylesheet" href="~/areas/customer/css/word2019-training.css" asp-append-version="true" />
@@ -39,6 +42,7 @@
         
         <div class="top-bar">
             <div class="top-left">
+                <div id="student-info-container"></div>
                 <div class="projects-container">
                     <div class="project-info">
                         <i class="fas fa-file-alt"></i> 
@@ -53,9 +57,6 @@
                         </div>
                     </div>
                 </div>
-                <button class="btn btn-blue" id="open-project-btn" title="Mở bài làm">
-                    <i class="fas fa-folder-open"></i> Mở bài làm
-                </button>
                 <div id="progress-indicator" class="progress-indicator">
                     <!-- Progress will be rendered here by JavaScript -->
                 </div>
@@ -117,10 +118,30 @@
     <script src="~/vendor/libs/jquery/jquery.js" asp-append-version="true"></script>
     <script src="~/vendor/js/bootstrap.js" asp-append-version="true"></script>
     <script src="~/vendor/libs/perfect-scrollbar/perfect-scrollbar.js" asp-append-version="true"></script>
+    
+    <!-- Template Customizer must be initialized after Bootstrap -->
+    <script>
+        // Initialize Bootstrap components
+        $(document).ready(function() {
+            // Initialize all Bootstrap tooltips
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+            
+            // Initialize all Bootstrap popovers
+            var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
+            var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+                return new bootstrap.Popover(popoverTriggerEl);
+            });
+        });
+    </script>
+    
+    <!-- Main JS -->
     <script src="~/js/main.js" asp-append-version="true"></script>
     
     <!-- Common Product Logic (Fixes ProductCommon is not defined) -->
-    <script src="~/js/product-common.js" asp-append-version="true"></script>
+    <script src="~/areas/customer/js/product-common.js" asp-append-version="true"></script>
     
     <!-- GMetrix Footer Scripts - Improved Version -->
     <script src="~/areas/customer/js/word2019-training.js" asp-append-version="true"></script>

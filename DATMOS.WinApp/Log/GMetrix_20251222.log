@@ -1,0 +1,134 @@
+[2025-12-22 18:06:56.218] [INFO] Word2019MainForm khởi tạo thành công
+[2025-12-22 18:07:08.489] [INFO] Bắt đầu tạo file bài làm cho Project 1, Student 1
+[2025-12-22 18:07:09.066] [INFO] Student name: Nguyễn Văn An -> nguyenvanan
+[2025-12-22 18:07:09.085] [INFO] Found demo file path from JSON: C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.WinApp\bin\Debug\DATMOSTemplates\Word2019\Project1\P1Demo\Project1.docx
+[2025-12-22 18:07:09.086] [INFO] Demo file path: C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.WinApp\bin\Debug\DATMOSTemplates\Word2019\Project1\P1Demo\Project1.docx
+[2025-12-22 18:07:09.088] [INFO] Creating folder: C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.WinApp\bin\Debug\DATMOSTemplates\Word2019\Project1\P1SWork\1-nguyenvanan
+[2025-12-22 18:07:09.089] [INFO] Folder created successfully
+[2025-12-22 18:07:09.089] [INFO] Student file path: C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.WinApp\bin\Debug\DATMOSTemplates\Word2019\Project1\P1SWork\1-nguyenvanan\1-nguyenvanan-project1-20251222_180709.docx
+[2025-12-22 18:07:09.090] [INFO] Copying template from C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.WinApp\bin\Debug\DATMOSTemplates\Word2019\Project1\P1Demo\Project1.docx to C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.WinApp\bin\Debug\DATMOSTemplates\Word2019\Project1\P1SWork\1-nguyenvanan\1-nguyenvanan-project1-20251222_180709.docx
+[2025-12-22 18:07:09.105] [INFO] File copied successfully
+[2025-12-22 18:07:09.106] [INFO] Created student work file: C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.WinApp\bin\Debug\DATMOSTemplates\Word2019\Project1\P1SWork\1-nguyenvanan\1-nguyenvanan-project1-20251222_180709.docx
+[2025-12-22 18:07:09.107] [INFO] Stored student file path for project 1: C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.WinApp\bin\Debug\DATMOSTemplates\Word2019\Project1\P1SWork\1-nguyenvanan\1-nguyenvanan-project1-20251222_180709.docx
+[2025-12-22 18:07:10.667] [INFO] Đã mở file bài làm cho học viên: C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.WinApp\bin\Debug\DATMOSTemplates\Word2019\Project1\P1SWork\1-nguyenvanan\1-nguyenvanan-project1-20251222_180709.docx
+[2025-12-22 18:07:48.647] [INFO] Bắt đầu AutoSaveAndCloseWordDocument cho Project 1
+[2025-12-22 18:07:48.649] [INFO] Sử dụng file student work đã tạo: C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.WinApp\bin\Debug\DATMOSTemplates\Word2019\Project1\P1SWork\1-nguyenvanan\1-nguyenvanan-project1-20251222_180709.docx
+[2025-12-22 18:07:48.650] [INFO] Đang đóng cửa sổ Word...
+[2025-12-22 18:07:49.683] [INFO] Đã đóng cửa sổ Word thành công
+[2025-12-22 18:07:51.722] [INFO] Killed 1 Word processes to ensure file unlock
+[2025-12-22 18:07:52.731] [INFO] Bắt đầu chấm điểm Project 1
+[2025-12-22 18:07:52.732] [INFO] File học viên: C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.WinApp\bin\Debug\DATMOSTemplates\Word2019\Project1\P1SWork\1-nguyenvanan\1-nguyenvanan-project1-20251222_180709.docx
+[2025-12-22 18:07:55.240] [INFO] Kết quả chấm điểm Project 1: 65/100 - RỚT
+[2025-12-22 18:07:55.241] [INFO] Chi tiết chấm điểm Project 1:
+[2025-12-22 18:07:55.242] [INFO]   ✓ Task 1: Thêm danh mục Dinosaur: 15/15
+[2025-12-22 18:07:55.244] [INFO]     Feedback: ✓ Đã thêm danh mục Dinosaur
+[2025-12-22 18:07:55.245] [INFO]   ✓ Task 2: Sao chép định dạng: 15/15
+[2025-12-22 18:07:55.246] [INFO]     Feedback: ✓ Định dạng đồng nhất
+[2025-12-22 18:07:55.247] [INFO]   ✓ Task 3: Sắp xếp bảng: 20/20
+[2025-12-22 18:07:55.247] [INFO]     Feedback: ✓ Có bảng (giả định đã sắp xếp)
+[2025-12-22 18:07:55.248] [INFO]   ✓ Task 4: Thay đổi cấp độ: 15/15
+[2025-12-22 18:07:55.249] [INFO]     Feedback: ✓ Có danh sách đa cấp
+[2025-12-22 18:07:55.250] [INFO]   ✗ Task 5: Chèn mô hình 3D: 0/20
+[2025-12-22 18:07:55.250] [INFO]     Feedback: ✗ Không có tham chiếu 3D/model
+[2025-12-22 18:07:55.251] [INFO]   ✗ Task 6: Hiệu ứng Pencil Sketch: 0/15
+[2025-12-22 18:07:55.252] [INFO]     Feedback: ✗ Không có hiệu ứng Pencil Sketch
+[2025-12-22 18:07:55.276] [INFO] Bắt đầu lưu kết quả vào JSON cho Project 1
+[2025-12-22 18:07:55.303] [INFO] Student info: ID=1, Name=Nguyễn Văn An, Code=SV001
+[2025-12-22 18:07:55.355] [INFO] Project info từ solutions: Name=MOS Word 2019 - Dự án 1: Khủng long, MaxScore=100, Passing=70
+[2025-12-22 18:07:55.356] [INFO] Đường dẫn file kết quả: C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.Web\wwwroot\areas\customer\json\dmos-word-2019-traning-results.json
+[2025-12-22 18:07:55.360] [INFO] Đã đọc file kết quả hiện tại
+[2025-12-22 18:07:55.380] [INFO] Generated next ID: TR007 (maxId=6)
+[2025-12-22 18:07:55.381] [INFO] Tạo task results, tổng số items: 6
+[2025-12-22 18:07:55.590] [INFO] Đã tạo 6 task results
+[2025-12-22 18:07:55.733] [INFO] Đã cập nhật file kết quả với ID TR007
+[2025-12-22 18:07:55.750] [INFO] Đã lưu kết quả vào file: C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.Web\wwwroot\areas\customer\json\dmos-word-2019-traning-results.json
+[2025-12-22 18:07:55.751] [INFO] Kết quả đã được lưu với ID: TR007
+[2025-12-22 18:20:56.607] [INFO] Word2019MainForm khởi tạo thành công
+[2025-12-22 18:21:08.565] [INFO] Bắt đầu tạo file bài làm cho Project 1, Student 1
+[2025-12-22 18:21:09.160] [INFO] Student name: Nguyễn Văn An -> nguyenvanan
+[2025-12-22 18:21:09.175] [INFO] Found demo file path from JSON: C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.WinApp\bin\Debug\DATMOSTemplates\Word2019\Project1\P1Demo\Project1.docx
+[2025-12-22 18:21:09.176] [INFO] Demo file path: C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.WinApp\bin\Debug\DATMOSTemplates\Word2019\Project1\P1Demo\Project1.docx
+[2025-12-22 18:21:09.179] [INFO] Creating folder: C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.WinApp\bin\Debug\DATMOSTemplates\Word2019\Project1\P1SWork\1-nguyenvanan
+[2025-12-22 18:21:09.180] [INFO] Folder created successfully
+[2025-12-22 18:21:09.182] [INFO] Student file path: C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.WinApp\bin\Debug\DATMOSTemplates\Word2019\Project1\P1SWork\1-nguyenvanan\1-nguyenvanan-project1-20251222_182109.docx
+[2025-12-22 18:21:09.184] [INFO] Copying template from C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.WinApp\bin\Debug\DATMOSTemplates\Word2019\Project1\P1Demo\Project1.docx to C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.WinApp\bin\Debug\DATMOSTemplates\Word2019\Project1\P1SWork\1-nguyenvanan\1-nguyenvanan-project1-20251222_182109.docx
+[2025-12-22 18:21:09.203] [INFO] File copied successfully
+[2025-12-22 18:21:09.204] [INFO] Created student work file: C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.WinApp\bin\Debug\DATMOSTemplates\Word2019\Project1\P1SWork\1-nguyenvanan\1-nguyenvanan-project1-20251222_182109.docx
+[2025-12-22 18:21:09.205] [INFO] Stored student file path for project 1: C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.WinApp\bin\Debug\DATMOSTemplates\Word2019\Project1\P1SWork\1-nguyenvanan\1-nguyenvanan-project1-20251222_182109.docx
+[2025-12-22 18:21:10.554] [INFO] Đã mở file bài làm cho học viên: C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.WinApp\bin\Debug\DATMOSTemplates\Word2019\Project1\P1SWork\1-nguyenvanan\1-nguyenvanan-project1-20251222_182109.docx
+[2025-12-22 18:22:49.103] [INFO] Bắt đầu tạo file bài làm cho Project 2, Student 1
+[2025-12-22 18:22:49.108] [INFO] Student name: Nguyễn Văn An -> nguyenvanan
+[2025-12-22 18:22:49.114] [INFO] Found demo file path from JSON: C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.WinApp\bin\Debug\DATMOSTemplates\Word2019\Project2\P2Demo\Project2.docx
+[2025-12-22 18:22:49.115] [INFO] Demo file path: C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.WinApp\bin\Debug\DATMOSTemplates\Word2019\Project2\P2Demo\Project2.docx
+[2025-12-22 18:22:49.117] [INFO] Creating folder: C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.WinApp\bin\Debug\DATMOSTemplates\Word2019\Project2\P2SWork\1-nguyenvanan
+[2025-12-22 18:22:49.121] [INFO] Folder created successfully
+[2025-12-22 18:22:49.122] [INFO] Student file path: C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.WinApp\bin\Debug\DATMOSTemplates\Word2019\Project2\P2SWork\1-nguyenvanan\1-nguyenvanan-project2-20251222_182249.docx
+[2025-12-22 18:22:49.123] [INFO] Copying template from C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.WinApp\bin\Debug\DATMOSTemplates\Word2019\Project2\P2Demo\Project2.docx to C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.WinApp\bin\Debug\DATMOSTemplates\Word2019\Project2\P2SWork\1-nguyenvanan\1-nguyenvanan-project2-20251222_182249.docx
+[2025-12-22 18:22:49.141] [INFO] File copied successfully
+[2025-12-22 18:22:49.144] [INFO] Created student work file: C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.WinApp\bin\Debug\DATMOSTemplates\Word2019\Project2\P2SWork\1-nguyenvanan\1-nguyenvanan-project2-20251222_182249.docx
+[2025-12-22 18:22:49.146] [INFO] Stored student file path for project 2: C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.WinApp\bin\Debug\DATMOSTemplates\Word2019\Project2\P2SWork\1-nguyenvanan\1-nguyenvanan-project2-20251222_182249.docx
+[2025-12-22 18:22:50.788] [INFO] Đã mở file bài làm cho học viên: C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.WinApp\bin\Debug\DATMOSTemplates\Word2019\Project2\P2SWork\1-nguyenvanan\1-nguyenvanan-project2-20251222_182249.docx
+[2025-12-22 18:24:20.346] [INFO] Bắt đầu AutoSaveAndCloseWordDocument cho Project 2
+[2025-12-22 18:24:20.349] [INFO] Sử dụng file student work đã tạo: C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.WinApp\bin\Debug\DATMOSTemplates\Word2019\Project2\P2SWork\1-nguyenvanan\1-nguyenvanan-project2-20251222_182249.docx
+[2025-12-22 18:24:20.350] [INFO] Đang đóng cửa sổ Word...
+[2025-12-22 18:24:21.365] [INFO] Đã đóng cửa sổ Word thành công
+[2025-12-22 18:24:23.384] [INFO] Killed 1 Word processes to ensure file unlock
+[2025-12-22 18:24:24.402] [INFO] Bắt đầu chấm điểm Project 2
+[2025-12-22 18:24:24.404] [INFO] File học viên: C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.WinApp\bin\Debug\DATMOSTemplates\Word2019\Project2\P2SWork\1-nguyenvanan\1-nguyenvanan-project2-20251222_182249.docx
+[2025-12-22 18:24:27.167] [INFO] Kết quả chấm điểm Project 2: 25/50 - RỚT
+[2025-12-22 18:24:27.170] [INFO] Chi tiết chấm điểm Project 2:
+[2025-12-22 18:24:27.172] [INFO]   ✗ Tiêu đề chính: 0/10
+[2025-12-22 18:24:27.174] [INFO]     Feedback: ✗ Thiếu tiêu đề DNetworking
+[2025-12-22 18:24:27.175] [INFO]   ✗ Nội dung mạng máy tính: 0/15
+[2025-12-22 18:24:27.176] [INFO]     Feedback: ✗ Thiếu nội dung về mạng
+[2025-12-22 18:24:27.178] [INFO]   ✓ Bảng hoặc danh sách: 25/25
+[2025-12-22 18:24:27.179] [INFO]     Feedback: ✓ Có bảng hoặc danh sách
+[2025-12-22 18:24:27.224] [INFO] Bắt đầu lưu kết quả vào JSON cho Project 2
+[2025-12-22 18:24:27.272] [INFO] Student info: ID=1, Name=Nguyễn Văn An, Code=SV001
+[2025-12-22 18:24:27.355] [INFO] Project info từ solutions: Name=MOS Word 2019 - Dự án 2: Muffin Shop, MaxScore=90, Passing=63
+[2025-12-22 18:24:27.356] [INFO] Đường dẫn file kết quả: C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.Web\wwwroot\areas\customer\json\dmos-word-2019-traning-results.json
+[2025-12-22 18:24:27.365] [INFO] Đã đọc file kết quả hiện tại
+[2025-12-22 18:24:27.385] [INFO] Generated next ID: TR008 (maxId=7)
+[2025-12-22 18:24:27.387] [INFO] Tạo task results, tổng số items: 3
+[2025-12-22 18:24:27.612] [INFO] Đã tạo 3 task results
+[2025-12-22 18:24:27.872] [INFO] Đã cập nhật file kết quả với ID TR008
+[2025-12-22 18:24:27.893] [INFO] Đã lưu kết quả vào file: C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.Web\wwwroot\areas\customer\json\dmos-word-2019-traning-results.json
+[2025-12-22 18:24:27.894] [INFO] Kết quả đã được lưu với ID: TR008
+[2025-12-22 18:28:26.963] [INFO] Bắt đầu tạo file bài làm cho Project 1, Student 1
+[2025-12-22 18:28:26.972] [INFO] Student name: Nguyễn Văn An -> nguyenvanan
+[2025-12-22 18:28:26.976] [INFO] Found demo file path from JSON: C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.WinApp\bin\Debug\DATMOSTemplates\Word2019\Project1\P1Demo\Project1.docx
+[2025-12-22 18:28:26.978] [INFO] Demo file path: C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.WinApp\bin\Debug\DATMOSTemplates\Word2019\Project1\P1Demo\Project1.docx
+[2025-12-22 18:28:26.980] [INFO] Creating folder: C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.WinApp\bin\Debug\DATMOSTemplates\Word2019\Project1\P1SWork\1-nguyenvanan
+[2025-12-22 18:28:26.981] [INFO] Folder created successfully
+[2025-12-22 18:28:26.983] [INFO] Student file path: C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.WinApp\bin\Debug\DATMOSTemplates\Word2019\Project1\P1SWork\1-nguyenvanan\1-nguyenvanan-project1-20251222_182826.docx
+[2025-12-22 18:28:26.985] [INFO] Copying template from C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.WinApp\bin\Debug\DATMOSTemplates\Word2019\Project1\P1Demo\Project1.docx to C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.WinApp\bin\Debug\DATMOSTemplates\Word2019\Project1\P1SWork\1-nguyenvanan\1-nguyenvanan-project1-20251222_182826.docx
+[2025-12-22 18:28:27.004] [INFO] File copied successfully
+[2025-12-22 18:28:27.005] [INFO] Created student work file: C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.WinApp\bin\Debug\DATMOSTemplates\Word2019\Project1\P1SWork\1-nguyenvanan\1-nguyenvanan-project1-20251222_182826.docx
+[2025-12-22 18:28:27.006] [INFO] Stored student file path for project 1: C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.WinApp\bin\Debug\DATMOSTemplates\Word2019\Project1\P1SWork\1-nguyenvanan\1-nguyenvanan-project1-20251222_182826.docx
+[2025-12-22 18:28:28.421] [INFO] Đã mở file bài làm cho học viên: C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.WinApp\bin\Debug\DATMOSTemplates\Word2019\Project1\P1SWork\1-nguyenvanan\1-nguyenvanan-project1-20251222_182826.docx
+[2025-12-22 19:16:30.204] [INFO] Word2019MainForm khởi tạo thành công
+[2025-12-22 19:16:45.750] [INFO] Bắt đầu tạo file bài làm cho Project 1, Student 1
+[2025-12-22 19:16:46.302] [INFO] Student name: Nguyễn Văn An -> nguyenvanan
+[2025-12-22 19:16:46.326] [INFO] Found demo file path from JSON: C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.WinApp\bin\Debug\DATMOSTemplates\Word2019\Project1\P1Demo\Project1.docx
+[2025-12-22 19:16:46.327] [INFO] Demo file path: C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.WinApp\bin\Debug\DATMOSTemplates\Word2019\Project1\P1Demo\Project1.docx
+[2025-12-22 19:16:46.330] [INFO] Creating folder: C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.WinApp\bin\Debug\DATMOSTemplates\Word2019\Project1\P1SWork\1-nguyenvanan
+[2025-12-22 19:16:46.331] [INFO] Folder created successfully
+[2025-12-22 19:16:46.333] [INFO] Student file path: C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.WinApp\bin\Debug\DATMOSTemplates\Word2019\Project1\P1SWork\1-nguyenvanan\1-nguyenvanan-project1-20251222_191646.docx
+[2025-12-22 19:16:46.334] [INFO] Copying template from C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.WinApp\bin\Debug\DATMOSTemplates\Word2019\Project1\P1Demo\Project1.docx to C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.WinApp\bin\Debug\DATMOSTemplates\Word2019\Project1\P1SWork\1-nguyenvanan\1-nguyenvanan-project1-20251222_191646.docx
+[2025-12-22 19:16:46.358] [INFO] File copied successfully
+[2025-12-22 19:16:46.360] [INFO] Created student work file: C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.WinApp\bin\Debug\DATMOSTemplates\Word2019\Project1\P1SWork\1-nguyenvanan\1-nguyenvanan-project1-20251222_191646.docx
+[2025-12-22 19:16:46.362] [INFO] Stored student file path for project 1: C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.WinApp\bin\Debug\DATMOSTemplates\Word2019\Project1\P1SWork\1-nguyenvanan\1-nguyenvanan-project1-20251222_191646.docx
+[2025-12-22 19:16:47.907] [INFO] Đã mở file bài làm cho học viên: C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.WinApp\bin\Debug\DATMOSTemplates\Word2019\Project1\P1SWork\1-nguyenvanan\1-nguyenvanan-project1-20251222_191646.docx
+[2025-12-22 20:51:48.104] [INFO] Word2019MainForm khởi tạo thành công
+[2025-12-22 20:52:00.124] [INFO] Bắt đầu tạo file bài làm cho Project 1, Student 1
+[2025-12-22 20:52:00.567] [INFO] Student name: Nguyễn Văn An -> nguyenvanan
+[2025-12-22 20:52:00.578] [INFO] Found demo file path from JSON: C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.WinApp\bin\Debug\DATMOSTemplates\Word2019\Project1\P1Demo\Project1.docx
+[2025-12-22 20:52:00.579] [INFO] Demo file path: C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.WinApp\bin\Debug\DATMOSTemplates\Word2019\Project1\P1Demo\Project1.docx
+[2025-12-22 20:52:00.581] [INFO] Creating folder: C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.WinApp\bin\Debug\DATMOSTemplates\Word2019\Project1\P1SWork\1-nguyenvanan
+[2025-12-22 20:52:00.582] [INFO] Folder created successfully
+[2025-12-22 20:52:00.583] [INFO] Student file path: C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.WinApp\bin\Debug\DATMOSTemplates\Word2019\Project1\P1SWork\1-nguyenvanan\1-nguyenvanan-project1-20251222_205200.docx
+[2025-12-22 20:52:00.584] [INFO] Copying template from C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.WinApp\bin\Debug\DATMOSTemplates\Word2019\Project1\P1Demo\Project1.docx to C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.WinApp\bin\Debug\DATMOSTemplates\Word2019\Project1\P1SWork\1-nguyenvanan\1-nguyenvanan-project1-20251222_205200.docx
+[2025-12-22 20:52:00.603] [INFO] File copied successfully
+[2025-12-22 20:52:00.605] [INFO] Created student work file: C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.WinApp\bin\Debug\DATMOSTemplates\Word2019\Project1\P1SWork\1-nguyenvanan\1-nguyenvanan-project1-20251222_205200.docx
+[2025-12-22 20:52:00.606] [INFO] Stored student file path for project 1: C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.WinApp\bin\Debug\DATMOSTemplates\Word2019\Project1\P1SWork\1-nguyenvanan\1-nguyenvanan-project1-20251222_205200.docx
+[2025-12-22 20:52:01.940] [INFO] Đã mở file bài làm cho học viên: C:\Users\QuocDat-PC\Documents\GitHub\DATMOS_Desktop\DATMOS.WinApp\bin\Debug\DATMOSTemplates\Word2019\Project1\P1SWork\1-nguyenvanan\1-nguyenvanan-project1-20251222_205200.docx

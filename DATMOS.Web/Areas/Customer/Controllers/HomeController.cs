@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DATMOS.Web.Areas.Customer.Controllers
 {
     [Area("Customer")]
-    public class HomeController : Controller
+    [Authorize(Roles = "User")]
+public class HomeController : Controller
     {
         public IActionResult Index()
         {

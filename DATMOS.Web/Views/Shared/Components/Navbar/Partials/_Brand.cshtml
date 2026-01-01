@@ -1,0 +1,121 @@
+@* Brand/Logo dynamic for Admin, Customer, Teacher areas *@
+@{
+  // Get app name from TempData or use default
+  var appName = TempData.Peek("appName")?.ToString() ?? "DATMOS Learning";
+  var isMenuHorizontal = Convert.ToBoolean(TempData.Peek("menuHorizontal")?.ToString() ?? "false");
+  
+  // Determine current area based on multiple factors
+  string currentArea = "Customer"; // default
+  string logoColor = "text-primary";
+  
+  // Priority 1: Check ViewData (set by navbar components)
+  if (ViewData["NavbarArea"] != null)
+  {
+    currentArea = ViewData["NavbarArea"]?.ToString();
+  }
+  // Priority 2: Check route data
+  else if (ViewContext.RouteData.Values["area"] != null)
+  {
+    currentArea = ViewContext.RouteData.Values["area"]?.ToString();
+  }
+  // Priority 3: Check user role (fallback)
+  else if (User.IsInRole("Administrator"))
+  {
+    currentArea = "Admin";
+  }
+  else if (User.IsInRole("Teacher"))
+  {
+    currentArea = "Teacher";
+  }
+  
+  // Set area-specific configurations
+  switch (currentArea?.ToLower())
+  {
+    case "admin":
+      appName = TempData.Peek("appName")?.ToString() ?? "DATMOS Admin";
+      logoColor = "text-danger"; // Different color for Admin
+      break;
+    case "teacher":
+      appName = TempData.Peek("appName")?.ToString() ?? "DATMOS Teacher";
+      logoColor = "text-warning"; // Different color for Teacher
+      break;
+    case "customer":
+    default:
+      appName = TempData.Peek("appName")?.ToString() ?? "DATMOS Learning";
+      logoColor = "text-primary"; // Default color for Customer
+      break;
+  }
+}
+<div class="navbar-brand app-brand demo py-0 me-4">
+  @if (currentArea?.ToLower() == "admin")
+  {
+    <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="app-brand-link">
+      <span class="app-brand-logo demo">
+        <span class="@logoColor">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="32" height="32" rx="6" fill="currentColor"/>
+            <path d="M10 16L14 20L22 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+      </span>
+      <span class="app-brand-text demo menu-text fw-bold text-heading">@appName</span>
+    </a>
+  }
+  else if (currentArea?.ToLower() == "teacher")
+  {
+    <a asp-area="Teacher" asp-controller="Home" asp-action="Index" class="app-brand-link">
+      <span class="app-brand-logo demo">
+        <span class="@logoColor">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="32" height="32" rx="6" fill="currentColor"/>
+            <path d="M12 10L16 14L20 10" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M12 18L16 22L20 18" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+      </span>
+      <span class="app-brand-text demo menu-text fw-bold text-heading">@appName</span>
+    </a>
+  }
+  else
+  {
+    <a asp-area="Customer" asp-controller="Home" asp-action="Index" class="app-brand-link">
+      <span class="app-brand-logo demo">
+        <span class="@logoColor">
+          <svg width="32" height="22" viewBox="0 0 32 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M0.00172773 0V6.85398C0.00172773 6.85398 -0.133178 9.01207 1.98092 10.8388L13.6912 21.9964L19.7809 21.9181L18.8042 9.88248L16.4951 7.17289L9.23799 0H0.00172773Z"
+              fill="currentColor" />
+            <path
+              opacity="0.06"
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M7.69824 16.4364L12.5199 3.23696L16.5541 7.25596L7.69824 16.4364Z"
+              fill="#161616" />
+            <path
+              opacity="0.06"
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M8.07751 15.9175L13.9419 4.63989L16.5849 7.28475L8.07751 15.9175Z"
+              fill="#161616" />
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M7.77295 16.3566L23.6563 0H32V6.88383C32 6.88383 31.8262 9.17836 30.6591 10.4057L19.7824 22H13.6938L7.77295 16.3566Z"
+              fill="currentColor" />
+          </svg>
+        </span>
+      </span>
+      <span class="app-brand-text demo menu-text fw-bold text-heading">@appName</span>
+    </a>
+  }
+
+  @* Menu toggle for horizontal menu on mobile *@
+  @if (isMenuHorizontal)
+  {
+    <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-xl-none">
+      <i class="ti ti-x ti-md align-middle"></i>
+    </a>
+  }
+</div>

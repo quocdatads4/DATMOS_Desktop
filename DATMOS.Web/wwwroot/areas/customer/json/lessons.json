@@ -1,0 +1,240 @@
+{
+  "lessons": [
+    {
+      "id": 1,
+      "courseId": 1,
+      "courseCode": "CRS101",
+      "code": "LES101",
+      "name": "Giới thiệu giao diện Word 2019",
+      "title": "Làm quen với giao diện Microsoft Word 2019",
+      "description": "Bài học đầu tiên giúp bạn làm quen với giao diện, thanh công cụ và các tính năng cơ bản của Word 2019.",
+      "icon": "ti-layout",
+      "colorClass": "primary",
+      "order": 1,
+      "duration": "45 phút",
+      "videoUrl": "https://example.com/videos/word-intro.mp4",
+      "thumbnail": "/img/lessons/word-intro.jpg",
+      "contentType": "video",
+      "isFree": true,
+      "difficulty": "Dễ",
+      "objectives": [
+        "Hiểu được giao diện chính của Word 2019",
+        "Biết cách mở và lưu tài liệu",
+        "Làm quen với thanh công cụ Quick Access",
+        "Hiểu các tab chức năng trên Ribbon"
+      ],
+      "resources": [
+        {
+          "type": "pdf",
+          "name": "Tài liệu hướng dẫn",
+          "url": "/resources/word-intro-guide.pdf"
+        },
+        {
+          "type": "exercise",
+          "name": "Bài tập thực hành",
+          "url": "/resources/word-intro-exercise.docx"
+        }
+      ],
+      "completed": false,
+      "progress": 0
+    },
+    {
+      "id": 2,
+      "courseId": 1,
+      "courseCode": "CRS101",
+      "code": "LES102",
+      "name": "Soạn thảo văn bản cơ bản",
+      "title": "Kỹ thuật soạn thảo văn bản trong Word",
+      "description": "Học cách nhập văn bản, chỉnh sửa, sao chép, di chuyển và định dạng văn bản cơ bản.",
+      "icon": "ti-pencil",
+      "colorClass": "primary",
+      "order": 2,
+      "duration": "60 phút",
+      "videoUrl": "https://example.com/videos/word-typing.mp4",
+      "thumbnail": "/img/lessons/word-typing.jpg",
+      "contentType": "video",
+      "isFree": true,
+      "difficulty": "Dễ",
+      "objectives": [
+        "Nhập và chỉnh sửa văn bản",
+        "Sử dụng các phím tắt cơ bản",
+        "Sao chép và di chuyển văn bản",
+        "Tìm kiếm và thay thế văn bản"
+      ],
+      "resources": [
+        {
+          "type": "pdf",
+          "name": "Tài liệu hướng dẫn",
+          "url": "/resources/word-typing-guide.pdf"
+        },
+        {
+          "type": "template",
+          "name": "Mẫu văn bản",
+          "url": "/resources/word-template.docx"
+        }
+      ],
+      "completed": false,
+      "progress": 0
+    },
+    {
+      "id": 3,
+      "courseId": 1,
+      "courseCode": "CRS101",
+      "code": "LES103",
+      "name": "Định dạng văn bản",
+      "title": "Kỹ thuật định dạng văn bản chuyên nghiệp",
+      "description": "Học cách định dạng font chữ, đoạn văn, bullet, numbering và các kiểu định dạng nâng cao.",
+      "icon": "ti-text",
+      "colorClass": "primary",
+      "order": 3,
+      "duration": "75 phút",
+      "videoUrl": "https://example.com/videos/word-formatting.mp4",
+      "thumbnail": "/img/lessons/word-formatting.jpg",
+      "contentType": "video",
+      "isFree": false,
+      "difficulty": "Trung bình",
+      "objectives": [
+        "Định dạng font chữ và kích thước",
+        "Căn chỉnh đoạn văn",
+        "Sử dụng bullet và numbering",
+        "Áp dụng styles và themes"
+      ],
+      "resources": [
+        {
+          "type": "pdf",
+          "name": "Tài liệu hướng dẫn",
+          "url": "/resources/word-formatting-guide.pdf"
+        },
+        {
+          "type": "exercise",
+          "name": "Bài tập định dạng",
+          "url": "/resources/word-formatting-exercise.docx"
+        }
+      ],
+      "completed": false,
+      "progress": 0
+    },
+    {
+      "id": 4,
+      "courseId": 2,
+      "courseCode": "CRS102",
+      "code": "LES201",
+      "name": "Styles và Templates",
+      "title": "Làm chủ Styles và Templates trong Word",
+      "description": "Học cách sử dụng Styles để định dạng nhanh và tạo Templates để tái sử dụng thiết kế.",
+      "icon": "ti-palette",
+      "colorClass": "success",
+      "order": 1,
+      "duration": "90 phút",
+      "videoUrl": "https://example.com/videos/word-styles.mp4",
+      "thumbnail": "/img/lessons/word-styles.jpg",
+      "contentType": "video",
+      "isFree": false,
+      "difficulty": "Trung bình",
+      "objectives": [
+        "Hiểu và áp dụng Styles",
+        "Tạo và chỉnh sửa Styles",
+        "Tạo Templates từ Styles",
+        "Quản lý và chia sẻ Templates"
+      ],
+      "resources": [
+        {
+          "type": "pdf",
+          "name": "Tài liệu Styles",
+          "url": "/resources/word-styles-guide.pdf"
+        },
+        {
+          "type": "template",
+          "name": "Template mẫu",
+          "url": "/resources/word-cv-template.dotx"
+        }
+      ],
+      "completed": false,
+      "progress": 0
+    },
+    {
+      "id": 5,
+      "courseId": 2,
+      "courseCode": "CRS102",
+      "code": "LES202",
+      "name": "Mail Merge",
+      "title": "Tự động hóa với Mail Merge",
+      "description": "Học cách sử dụng Mail Merge để tạo hàng loạt thư, nhãn, email từ danh sách dữ liệu.",
+      "icon": "ti-email",
+      "colorClass": "success",
+      "order": 2,
+      "duration": "120 phút",
+      "videoUrl": "https://example.com/videos/word-mailmerge.mp4",
+      "thumbnail": "/img/lessons/word-mailmerge.jpg",
+      "contentType": "video",
+      "isFree": false,
+      "difficulty": "Khó",
+      "objectives": [
+        "Hiểu nguyên lý Mail Merge",
+        "Tạo danh sách dữ liệu",
+        "Thiết kế template thư",
+        "Thực hiện merge và xuất kết quả"
+      ],
+      "resources": [
+        {
+          "type": "pdf",
+          "name": "Hướng dẫn Mail Merge",
+          "url": "/resources/word-mailmerge-guide.pdf"
+        },
+        {
+          "type": "dataset",
+          "name": "Dataset mẫu",
+          "url": "/resources/mailmerge-data.xlsx"
+        }
+      ],
+      "completed": false,
+      "progress": 0
+    },
+    {
+      "id": 6,
+      "courseId": 3,
+      "courseCode": "CRS201",
+      "code": "LES301",
+      "name": "Giao diện Excel 2019",
+      "title": "Làm quen với giao diện Excel 2019",
+      "description": "Bài học giới thiệu giao diện Excel 2019, các thành phần cơ bản và cách điều hướng.",
+      "icon": "ti-layout",
+      "colorClass": "info",
+      "order": 1,
+      "duration": "40 phút",
+      "videoUrl": "https://example.com/videos/excel-intro.mp4",
+      "thumbnail": "/img/lessons/excel-intro.jpg",
+      "contentType": "video",
+      "isFree": true,
+      "difficulty": "Dễ",
+      "objectives": [
+        "Hiểu giao diện Excel 2019",
+        "Làm quen với Workbook và Worksheet",
+        "Điều hướng các tab chức năng",
+        "Mở và lưu file Excel"
+      ],
+      "resources": [
+        {
+          "type": "pdf",
+          "name": "Tài liệu hướng dẫn",
+          "url": "/resources/excel-intro-guide.pdf"
+        },
+        {
+          "type": "exercise",
+          "name": "Bài tập làm quen",
+          "url": "/resources/excel-intro-exercise.xlsx"
+        }
+      ],
+      "completed": false,
+      "progress": 0
+    }
+  ],
+  "metadata": {
+    "version": "1.0.0",
+    "lastUpdated": "2024-12-23",
+    "totalLessons": 6,
+    "freeLessons": 3,
+    "paidLessons": 3,
+    "totalDuration": "430 phút"
+  }
+}

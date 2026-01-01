@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace DATMOS.Web.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    // [Authorize(Roles = "Admin,Manager")] // Temporarily disabled for testing
+    [Authorize(Roles = "Administrator")]
     public class HomeController : Controller
     {
         public IActionResult Index()

@@ -1,0 +1,30 @@
+@model List<DATMOS.Web.Models.ViewModels.Navigation.FooterItemViewModel>
+@if (Model.Any())
+{
+    <div class="footer-contact-section">
+        <h5 class="footer-section-title">Liên hệ</h5>
+        <ul class="footer-contact-list list-unstyled">
+            @foreach (var item in Model.OrderBy(m => m.Order))
+            {
+                @if (!item.IsVisible) continue;
+                
+                <li class="footer-contact-item @item.CssClass">
+                    @if (!string.IsNullOrEmpty(item.Icon))
+                    {
+                        <i class="@item.Icon me-2"></i>
+                    }
+                    @if (!string.IsNullOrEmpty(item.Url))
+                    {
+                        <a href="@item.Url" target="@item.Target" class="footer-contact-link">
+                            @item.Title
+                        </a>
+                    }
+                    else
+                    {
+                        <span>@item.Title</span>
+                    }
+                </li>
+            }
+        </ul>
+    </div>
+}

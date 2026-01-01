@@ -1,0 +1,279 @@
+@model DATMOS.Web.Areas.Teacher.Controllers.TeacherCourseDetailsViewModel
+@{
+    ViewData["Title"] = Model.Course.Name;
+    Layout = "~/Areas/Teacher/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index", "Courses")">Khóa học</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">@Model.Course.Name</li>
+                </ol>
+            </nav>
+            
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="h3 mb-0">@Model.Course.Name</h1>
+                    <p class="text-muted mb-0">@Model.Course.Code • @Model.Course.Level</p>
+                </div>
+                <div class="btn-group">
+                    <a href="@Url.Action("Students", new { id = Model.Course.Id })" class="btn btn-outline-primary">
+                        <i class="ti ti-users me-1"></i>Học viên
+                    </a>
+                    <a href="@Url.Action("Analytics", new { id = Model.Course.Id })" class="btn btn-outline-success">
+                        <i class="ti ti-chart-bar me-1"></i>Phân tích
+                    </a>
+                    <button type="button" class="btn btn-outline-secondary">
+                        <i class="ti ti-settings me-1"></i>Cài đặt
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Thông tin khóa học -->
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0"><i class="ti ti-info-circle me-2"></i>Thông tin khóa học</h5>
+                </div>
+                <div class="card-body">
+                    <p>@Model.Course.Description</p>
+                    
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="ti ti-clock text-info me-2"></i>
+                                <div>
+                                    <small class="text-muted d-block">Thời lượng</small>
+                                    <strong>@Model.Course.Duration</strong>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="ti ti-user text-primary me-2"></i>
+                                <div>
+                                    <small class="text-muted d-block">Giảng viên</small>
+                                    <strong>@Model.Course.Instructor</strong>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="ti ti-star text-warning me-2"></i>
+                                <div>
+                                    <small class="text-muted d-block">Đánh giá</small>
+                                    <strong>@Model.Course.Rating.ToString("0.0")/5.0</strong>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="ti ti-calendar text-success me-2"></i>
+                                <div>
+                                    <small class="text-muted d-block">Cập nhật</small>
+                                    <strong>@Model.Course.LastActivity.ToString("dd/MM/yyyy")</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Syllabus -->
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0"><i class="ti ti-book me-2"></i>Nội dung khóa học</h5>
+                </div>
+                <div class="card-body">
+                    @if (Model.Syllabus.Any())
+                    {
+                        <div class="list-group list-group-flush">
+                            @for (int i = 0; i < Model.Syllabus.Count; i++)
+                            {
+                                <div class="list-group-item border-0 px-0 py-2">
+                                    <div class="d-flex align-items-center">
+                                        <span class="badge bg-primary rounded-circle me-3" style="width: 30px; height: 30px; line-height: 30px;">@(i + 1)</span>
+                                        <div class="flex-grow-1">
+                                            <h6 class="mb-0">@Model.Syllabus[i]</h6>
+                                        </div>
+                                        <span class="badge bg-success">Đã hoàn thành</span>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <p class="text-muted text-center py-3">Chưa có nội dung khóa học.</p>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Thống kê và hoạt động -->
+        <div class="col-lg-4">
+            <!-- Thống kê -->
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0"><i class="ti ti-chart-pie me-2"></i>Thống kê</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-6">
+                            <div class="text-center p-3 border rounded">
+                                <div class="display-6 fw-bold text-primary">@Model.Statistics.TotalStudents</div>
+                                <small class="text-muted">Học viên</small>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="text-center p-3 border rounded">
+                                <div class="display-6 fw-bold text-success">@Model.Statistics.AverageProgress.ToString("0.0")%</div>
+                                <small class="text-muted">Tiến độ TB</small>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="text-center p-3 border rounded">
+                                <div class="display-6 fw-bold text-warning">@Model.Statistics.AssignmentCompletionRate.ToString("0.0")%</div>
+                                <small class="text-muted">Hoàn thành bài tập</small>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="text-center p-3 border rounded">
+                                <div class="display-6 fw-bold text-info">@Model.Statistics.AverageScore.ToString("0.0")</div>
+                                <small class="text-muted">Điểm TB</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hoạt động gần đây -->
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0"><i class="ti ti-activity me-2"></i>Hoạt động gần đây</h5>
+                </div>
+                <div class="card-body">
+                    @if (Model.RecentActivities.Any())
+                    {
+                        <div class="list-group list-group-flush">
+                            @foreach (var activity in Model.RecentActivities.Take(5))
+                            {
+                                <div class="list-group-item border-0 px-0 py-2">
+                                    <div class="d-flex">
+                                        <div class="flex-grow-1">
+                                            <h6 class="mb-0">@activity.StudentName</h6>
+                                            <small class="text-muted">@activity.Activity</small>
+                                            <div class="mt-1">
+                                                <small class="text-muted">
+                                                    <i class="ti ti-clock me-1"></i>@activity.Time.ToString("HH:mm dd/MM")
+                                                </small>
+                                                @if (activity.Score.HasValue)
+                                                {
+                                                    <span class="badge bg-success ms-2">@activity.Score.Value.ToString("0.0") điểm</span>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <p class="text-muted text-center py-3">Chưa có hoạt động nào.</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Học viên -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0"><i class="ti ti-users me-2"></i>Học viên tiêu biểu</h5>
+                    <a href="@Url.Action("Students", new { id = Model.Course.Id })" class="btn btn-sm btn-outline-primary">Xem tất cả</a>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Học viên</th>
+                                    <th>Tiến độ</th>
+                                    <th>Điểm TB</th>
+                                    <th>Lần đăng nhập cuối</th>
+                                    <th>Trạng thái</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var student in Model.Students.Take(5))
+                                {
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div class="avatar avatar-sm bg-primary rounded-circle me-2 d-flex align-items-center justify-content-center text-white">
+                                                    @student.Name.Substring(0, 1)
+                                                </div>
+                                                <div>
+                                                    <div class="fw-bold">@student.Name</div>
+                                                    <small class="text-muted">@student.Email</small>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div class="progress flex-grow-1 me-2" style="height: 6px;">
+                                                    <div class="progress-bar bg-@(student.Progress >= 70 ? "success" : student.Progress >= 40 ? "warning" : "danger")" 
+                                                         role="progressbar" style="width: @student.Progress%" 
+                                                         aria-valuenow="@student.Progress" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                                <small>@student.Progress.ToString("0.0")%</small>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            @if (student.AssignmentScore.HasValue)
+                                            {
+                                                <span class="badge bg-@(student.AssignmentScore >= 8 ? "success" : student.AssignmentScore >= 6 ? "warning" : "danger")">
+                                                    @student.AssignmentScore.Value.ToString("0.0")
+                                                </span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-secondary">Chưa có</span>
+                                            }
+                                        </td>
+                                        <td>
+                                            <small class="text-muted">@student.LastLogin.ToString("HH:mm dd/MM")</small>
+                                        </td>
+                                        <td>
+                                            @if (student.LastLogin > DateTime.Now.AddDays(-1))
+                                            {
+                                                <span class="badge bg-success">Đang hoạt động</span>
+                                            }
+                                            else if (student.LastLogin > DateTime.Now.AddDays(-7))
+                                            {
+                                                <span class="badge bg-warning">Ít hoạt động</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-danger">Không hoạt động</span>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

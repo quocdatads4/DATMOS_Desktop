@@ -1,0 +1,352 @@
+{
+  "trainingResults": [
+    {
+      "id": "TR006",
+      "studentId": "1",
+      "studentName": "Nguyễn Văn An",
+      "studentCode": "SV001",
+      "examId": "EXAM1",
+      "examName": "MOS Word 2019 - Practice Test 1",
+      "courseCode": "CRS001",
+      "courseName": "MOS Word 2019",
+      "projectId": 1,
+      "projectName": "MOS Word 2019 - Dự án 1: Khủng long",
+      "startTime": "2025-12-22T15:06:05",
+      "endTime": "2025-12-22T15:51:05",
+      "durationMinutes": 45,
+      "totalTasks": 7,
+      "completedTasks": 7,
+      "score": 15,
+      "maxScore": 100,
+      "percentage": 15.0,
+      "passed": false,
+      "passingScore": 70,
+      "status": "Completed",
+      "submissionDate": "2025-12-22T15:51:05",
+      "gradedBy": "System",
+      "taskResults": [
+        {
+          "taskId": 1,
+          "taskName": "Task 1: Thêm danh mục Dinosaur",
+          "shortName": "Thuộc tính file",
+          "description": "Mở hộp thoại File Properties; Chọn tab Custom; Kiểm tra property 'Category' có giá trị 'Dinosaur'",
+          "isCorrect": false,
+          "userAnswer": "Chưa thực hiện đúng yêu cầu",
+          "correctAnswer": "Thuộc tính file: Task 1: Thêm danh mục Dinosaur",
+          "points": 0,
+          "maxPoints": 15,
+          "feedback": "✗ Thiếu tiêu đề chính",
+          "timeSpentSeconds": 120
+        },
+        {
+          "taskId": 2,
+          "taskName": "Task 2: Sao chép định dạng",
+          "shortName": "Sao chép định dạng",
+          "description": "Chọn đoạn văn đầu tiên trong phần 'When and Where Dinosaurs Lived'; Sử dụng Format Painter; Áp dụng cho đoạn văn thứ hai; So sánh định dạng hai đoạn văn",
+          "isCorrect": false,
+          "userAnswer": "Chưa thực hiện đúng yêu cầu",
+          "correctAnswer": "Sao chép định dạng: Task 2: Sao chép định dạng",
+          "points": 0,
+          "maxPoints": 15,
+          "feedback": "Không tìm thấy phần 'Bicycle Advantages'",
+          "timeSpentSeconds": 120
+        },
+        {
+          "taskId": 3,
+          "taskName": "Task 3: Sắp xếp bảng",
+          "shortName": "Sắp xếp bảng",
+          "description": "Chọn toàn bộ bảng trong phần 'Geologic eras'; Mở hộp thoại Sort; Thiết lập Sort by: 'Geologic period' - Ascending; Thiết lập Then by: 'Dinosaur' - Ascending; Kiểm tra thứ tự các dòng trong bảng",
+          "isCorrect": false,
+          "userAnswer": "Chưa thực hiện đúng yêu cầu",
+          "correctAnswer": "Sắp xếp bảng: Task 3: Sắp xếp bảng",
+          "points": 0,
+          "maxPoints": 20,
+          "feedback": "Không tìm thấy bảng giá thuê",
+          "timeSpentSeconds": 120
+        },
+        {
+          "taskId": 4,
+          "taskName": "Task 4: Thay đổi cấp độ",
+          "shortName": "Cấp độ danh sách",
+          "description": "Tìm dòng 'Developed a narrow eyebrow' trong danh sách; Kiểm tra level của list item; Xác nhận level = 3",
+          "isCorrect": true,
+          "userAnswer": "Đã thực hiện đúng yêu cầu",
+          "correctAnswer": "Cấp độ danh sách: Task 4: Thay đổi cấp độ",
+          "points": 15,
+          "maxPoints": 15,
+          "feedback": "✓ Bảng có áp dụng kiểu",
+          "timeSpentSeconds": 120
+        },
+        {
+          "taskId": 5,
+          "taskName": "Task 5: Chèn mô hình 3D",
+          "shortName": "Mô hình 3D",
+          "description": "Kiểm tra trong phần 'Kids love dinosaurs' có 3D Model; Chọn 3D Model; Kiểm tra Wrap Text setting; Xác nhận là 'In Line with Text'",
+          "isCorrect": false,
+          "userAnswer": "Chưa thực hiện đúng yêu cầu",
+          "correctAnswer": "Mô hình 3D: Task 5: Chèn mô hình 3D",
+          "points": 0,
+          "maxPoints": 20,
+          "feedback": "✗ Thiếu cả căn giữa và chú thích",
+          "timeSpentSeconds": 120
+        },
+        {
+          "taskId": 6,
+          "taskName": "Task 6: Hiệu ứng Pencil Sketch",
+          "shortName": "Hiệu ứng hình ảnh",
+          "description": "Chọn hình ảnh hóa thạch khủng long trong phần 'Theropod'; Mở Picture Format tab; Kiểm tra Artistic Effects; Xác nhận hiệu ứng Pencil Sketch được áp dụng",
+          "isCorrect": false,
+          "userAnswer": "Chưa thực hiện đúng yêu cầu",
+          "correctAnswer": "Hiệu ứng hình ảnh: Task 6: Hiệu ứng Pencil Sketch",
+          "points": 0,
+          "maxPoints": 15,
+          "feedback": "Bold: 0, Italic: 0",
+          "timeSpentSeconds": 120
+        },
+        {
+          "taskId": 7,
+          "taskName": "Nội dung đầy đủ",
+          "shortName": "Nội dung đầy đủ",
+          "description": "Nội dung đầy đủ",
+          "isCorrect": false,
+          "userAnswer": "Chưa thực hiện đúng yêu cầu",
+          "correctAnswer": "Nội dung đầy đủ",
+          "points": 0,
+          "maxPoints": 10,
+          "feedback": "Tìm thấy 0/8 từ khóa quan trọng",
+          "timeSpentSeconds": 120
+        }
+      ],
+      "summary": {
+        "correctTasks": 1,
+        "incorrectTasks": 6,
+        "partiallyCorrectTasks": 0,
+        "averageTimePerTask": 140,
+        "difficultyLevel": "Intermediate",
+        "strengths": [
+          "Cấp độ danh sách"
+        ],
+        "weaknesses": [
+          "Thuộc tính file",
+          "Sao chép định dạng",
+          "Sắp xếp bảng"
+        ],
+        "recommendations": "Cần ôn tập lại các phần chưa đạt"
+      }
+    },
+    {
+      "id": "TR007",
+      "studentId": "1",
+      "studentName": "Nguyễn Văn An",
+      "studentCode": "SV001",
+      "examId": "EXAM1",
+      "examName": "MOS Word 2019 - Practice Test 1",
+      "courseCode": "CRS001",
+      "courseName": "MOS Word 2019",
+      "projectId": 1,
+      "projectName": "MOS Word 2019 - Dự án 1: Khủng long",
+      "startTime": "2025-12-22T17:22:55",
+      "endTime": "2025-12-22T18:07:55",
+      "durationMinutes": 45,
+      "totalTasks": 6,
+      "completedTasks": 6,
+      "score": 65,
+      "maxScore": 100,
+      "percentage": 65.0,
+      "passed": false,
+      "passingScore": 70,
+      "status": "Completed",
+      "submissionDate": "2025-12-22T18:07:55",
+      "gradedBy": "System",
+      "taskResults": [
+        {
+          "taskId": 1,
+          "taskName": "Task 1: Thêm danh mục Dinosaur",
+          "shortName": "Thuộc tính file",
+          "description": "Mở hộp thoại File Properties; Chọn tab Custom; Kiểm tra property 'Category' có giá trị 'Dinosaur'",
+          "isCorrect": true,
+          "userAnswer": "Đã thực hiện đúng yêu cầu",
+          "correctAnswer": "Thuộc tính file: Task 1: Thêm danh mục Dinosaur",
+          "points": 15,
+          "maxPoints": 15,
+          "feedback": "✓ Đã thêm danh mục Dinosaur",
+          "timeSpentSeconds": 120
+        },
+        {
+          "taskId": 2,
+          "taskName": "Task 2: Sao chép định dạng",
+          "shortName": "Sao chép định dạng",
+          "description": "Chọn đoạn văn đầu tiên trong phần 'When and Where Dinosaurs Lived'; Sử dụng Format Painter; Áp dụng cho đoạn văn thứ hai; So sánh định dạng hai đoạn văn",
+          "isCorrect": true,
+          "userAnswer": "Đã thực hiện đúng yêu cầu",
+          "correctAnswer": "Sao chép định dạng: Task 2: Sao chép định dạng",
+          "points": 15,
+          "maxPoints": 15,
+          "feedback": "✓ Định dạng đồng nhất",
+          "timeSpentSeconds": 120
+        },
+        {
+          "taskId": 3,
+          "taskName": "Task 3: Sắp xếp bảng",
+          "shortName": "Sắp xếp bảng",
+          "description": "Chọn toàn bộ bảng trong phần 'Geologic eras'; Mở hộp thoại Sort; Thiết lập Sort by: 'Geologic period' - Ascending; Thiết lập Then by: 'Dinosaur' - Ascending; Kiểm tra thứ tự các dòng trong bảng",
+          "isCorrect": true,
+          "userAnswer": "Đã thực hiện đúng yêu cầu",
+          "correctAnswer": "Sắp xếp bảng: Task 3: Sắp xếp bảng",
+          "points": 20,
+          "maxPoints": 20,
+          "feedback": "✓ Có bảng (giả định đã sắp xếp)",
+          "timeSpentSeconds": 120
+        },
+        {
+          "taskId": 4,
+          "taskName": "Task 4: Thay đổi cấp độ",
+          "shortName": "Cấp độ danh sách",
+          "description": "Tìm dòng 'Developed a narrow eyebrow' trong danh sách; Kiểm tra level của list item; Xác nhận level = 3",
+          "isCorrect": true,
+          "userAnswer": "Đã thực hiện đúng yêu cầu",
+          "correctAnswer": "Cấp độ danh sách: Task 4: Thay đổi cấp độ",
+          "points": 15,
+          "maxPoints": 15,
+          "feedback": "✓ Có danh sách đa cấp",
+          "timeSpentSeconds": 120
+        },
+        {
+          "taskId": 5,
+          "taskName": "Task 5: Chèn mô hình 3D",
+          "shortName": "Mô hình 3D",
+          "description": "Kiểm tra trong phần 'Kids love dinosaurs' có 3D Model; Chọn 3D Model; Kiểm tra Wrap Text setting; Xác nhận là 'In Line with Text'",
+          "isCorrect": false,
+          "userAnswer": "Chưa thực hiện đúng yêu cầu",
+          "correctAnswer": "Mô hình 3D: Task 5: Chèn mô hình 3D",
+          "points": 0,
+          "maxPoints": 20,
+          "feedback": "✗ Không có tham chiếu 3D/model",
+          "timeSpentSeconds": 120
+        },
+        {
+          "taskId": 6,
+          "taskName": "Task 6: Hiệu ứng Pencil Sketch",
+          "shortName": "Hiệu ứng hình ảnh",
+          "description": "Chọn hình ảnh hóa thạch khủng long trong phần 'Theropod'; Mở Picture Format tab; Kiểm tra Artistic Effects; Xác nhận hiệu ứng Pencil Sketch được áp dụng",
+          "isCorrect": false,
+          "userAnswer": "Chưa thực hiện đúng yêu cầu",
+          "correctAnswer": "Hiệu ứng hình ảnh: Task 6: Hiệu ứng Pencil Sketch",
+          "points": 0,
+          "maxPoints": 15,
+          "feedback": "✗ Không có hiệu ứng Pencil Sketch",
+          "timeSpentSeconds": 120
+        }
+      ],
+      "summary": {
+        "correctTasks": 4,
+        "incorrectTasks": 2,
+        "partiallyCorrectTasks": 0,
+        "averageTimePerTask": 140,
+        "difficultyLevel": "Intermediate",
+        "strengths": [
+          "Thuộc tính file",
+          "Sao chép định dạng",
+          "Sắp xếp bảng"
+        ],
+        "weaknesses": [
+          "Mô hình 3D",
+          "Hiệu ứng hình ảnh"
+        ],
+        "recommendations": "Cần ôn tập lại các phần chưa đạt"
+      }
+    },
+    {
+      "id": "TR008",
+      "studentId": "1",
+      "studentName": "Nguyễn Văn An",
+      "studentCode": "SV001",
+      "examId": "EXAM2",
+      "examName": "MOS Word 2019 - Practice Test 2",
+      "courseCode": "CRS001",
+      "courseName": "MOS Word 2019",
+      "projectId": 2,
+      "projectName": "MOS Word 2019 - Dự án 2: Muffin Shop",
+      "startTime": "2025-12-22T17:39:27",
+      "endTime": "2025-12-22T18:24:27",
+      "durationMinutes": 45,
+      "totalTasks": 3,
+      "completedTasks": 3,
+      "score": 25,
+      "maxScore": 90,
+      "percentage": 27.77777777777778,
+      "passed": false,
+      "passingScore": 63,
+      "status": "Completed",
+      "submissionDate": "2025-12-22T18:24:27",
+      "gradedBy": "System",
+      "taskResults": [
+        {
+          "taskId": 1,
+          "taskName": "Task 1: Hiển thị Integral header",
+          "shortName": "Header tích hợp",
+          "description": "Header Integral được áp dụng",
+          "isCorrect": false,
+          "userAnswer": "Chưa thực hiện đúng yêu cầu",
+          "correctAnswer": "Header tích hợp: Task 1: Hiển thị Integral header",
+          "points": 0,
+          "maxPoints": 20,
+          "feedback": "✗ Thiếu tiêu đề DNetworking",
+          "timeSpentSeconds": 120
+        },
+        {
+          "taskId": 2,
+          "taskName": "Task 2: Chèn biểu tượng thermometer",
+          "shortName": "Ký tự đặc biệt",
+          "description": "Biểu tượng thermometer (mã 225) từ font Webdings được chèn",
+          "isCorrect": false,
+          "userAnswer": "Chưa thực hiện đúng yêu cầu",
+          "correctAnswer": "Ký tự đặc biệt: Task 2: Chèn biểu tượng thermometer",
+          "points": 0,
+          "maxPoints": 15,
+          "feedback": "✗ Thiếu nội dung về mạng",
+          "timeSpentSeconds": 120
+        },
+        {
+          "taskId": 3,
+          "taskName": "Task 3: Đặt khoảng cách giãn dòng",
+          "shortName": "Giãn dòng",
+          "description": "Khoảng cách giãn dòng = 1.3 lines cho toàn bộ tài liệu",
+          "isCorrect": true,
+          "userAnswer": "Đã thực hiện đúng yêu cầu",
+          "correctAnswer": "Giãn dòng: Task 3: Đặt khoảng cách giãn dòng",
+          "points": 25,
+          "maxPoints": 15,
+          "feedback": "✓ Có bảng hoặc danh sách",
+          "timeSpentSeconds": 120
+        }
+      ],
+      "summary": {
+        "correctTasks": 1,
+        "incorrectTasks": 2,
+        "partiallyCorrectTasks": 0,
+        "averageTimePerTask": 140,
+        "difficultyLevel": "Intermediate",
+        "strengths": [
+          "Giãn dòng"
+        ],
+        "weaknesses": [
+          "Header tích hợp",
+          "Ký tự đặc biệt"
+        ],
+        "recommendations": "Cần ôn tập lại các phần chưa đạt"
+      }
+    }
+  ],
+  "metadata": {
+    "version": "1.0.0",
+    "createdDate": "2025-12-22",
+    "description": "Dữ liệu kết quả bài thi training MOS Word 2019 - Lưu điểm số và chi tiết câu trả lời",
+    "totalResults": 3,
+    "totalPassed": 0,
+    "totalFailed": 3,
+    "averageScore": 35.0,
+    "dataSource": "JSON File (Auto-generated from grading solutions)",
+    "lastUpdated": "2025-12-22T18:24:27"
+  }
+}

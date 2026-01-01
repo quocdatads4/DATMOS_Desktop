@@ -1,0 +1,63 @@
+{
+  "subjects": [
+    {
+      "id": 1,
+      "code": "CRS001",
+      "name": "Microsoft Word 2019",
+      "shortName": "Word 2019",
+      "title": "Word 2019 Specialist",
+      "description": "Làm chủ kỹ năng soạn thảo văn bản chuyên nghiệp với Microsoft Word 2019.",
+      "icon": "ti-file-text",
+      "colorClass": "primary",
+      "duration": "8 giờ",
+      "totalLessons": 12,
+      "totalExams": 2,
+      "badge": {
+        "text": "Phổ biến",
+        "icon": "ti-trending-up",
+        "colorClass": "bg-label-primary"
+      }
+    },
+    {
+      "id": 2,
+      "code": "CRS002",
+      "name": "Microsoft Excel 2019",
+      "shortName": "Excel 2019",
+      "title": "Excel 2019 Specialist",
+      "description": "Thành thạo phân tích dữ liệu và báo cáo với Microsoft Excel 2019.",
+      "icon": "ti-table",
+      "colorClass": "success",
+      "duration": "10 giờ",
+      "totalLessons": 15,
+      "totalExams": 2,
+      "badge": {
+        "text": "Được yêu thích",
+        "icon": "ti-heart",
+        "colorClass": "bg-label-success"
+      }
+    },
+    {
+      "id": 3,
+      "code": "CRS003",
+      "name": "Microsoft PowerPoint 2019",
+      "shortName": "PowerPoint 2019",
+      "title": "PowerPoint 2019 Specialist",
+      "description": "Tạo bài thuyết trình ấn tượng với Microsoft PowerPoint 2019.",
+      "icon": "ti-presentation",
+      "colorClass": "warning",
+      "duration": "6 giờ",
+      "totalLessons": 10,
+      "totalExams": 2,
+      "badge": {
+        "text": "Mới",
+        "icon": "ti-star",
+        "colorClass": "bg-label-warning"
+      }
+    }
+  ],
+  "metadata": {
+    "version": "1.0.0",
+    "lastUpdated": "2024-12-22",
+    "totalSubjects": 3
+  }
+}

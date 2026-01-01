@@ -1,0 +1,73 @@
+@model DATMOS.Web.ViewModels.UserProfileViewModel
+
+@if (User.Identity.IsAuthenticated && Model != null)
+      {
+          <li class="nav-item navbar-dropdown dropdown-user dropdown">
+            <a class="nav-link dropdown-toggle hide-arrow p-0" href="javascript:void(0);" data-bs-toggle="dropdown">
+              <div class="avatar avatar-online">
+                <img src="@(Model.ProfilePictureUrl ?? "/img/avatars/1.png")" alt class="rounded-circle">
+              </div>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li>
+                <a class="dropdown-item mt-0" asp-controller="Pages" asp-action="AccountSettings">
+                  <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0 me-2">
+                      <div class="avatar avatar-online">
+                        <img src="@(Model.ProfilePictureUrl ?? "/img/avatars/1.png")" alt class="rounded-circle">
+                      </div>
+                    </div>
+                    <div class="flex-grow-1">
+                      <h6 class="mb-0">@Model.DisplayName</h6>
+                      <small class="text-muted">@Model.Email</small>
+                    </div>
+                  </div>
+                </a>
+              </li>
+              <li>
+                <div class="dropdown-divider my-1 mx-n2"></div>
+              </li>
+              <li>
+                <a class="dropdown-item" asp-area="Customer" asp-controller="Profile" asp-action="Index">
+                  <i class="ti ti-user me-3 ti-md"></i><span class="align-middle">Hồ sơ của tôi</span>
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" asp-controller="Pages" asp-action="AccountSettings">
+                  <i class="ti ti-settings me-3 ti-md"></i><span class="align-middle">Cài đặt</span>
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" asp-controller="Pages" asp-action="AccountSettingsBilling">
+                  <span class="d-flex align-items-center align-middle">
+                    <i class="flex-shrink-0 ti ti-file-dollar me-3 ti-md"></i><span class="flex-grow-1 align-middle">Thanh toán</span>
+                    <span class="flex-shrink-0 badge bg-danger d-flex align-items-center justify-content-center">4</span>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <div class="dropdown-divider my-1 mx-n2"></div>
+              </li>
+              <li>
+                <a class="dropdown-item" asp-controller="Pages" asp-action="Pricing">
+                  <i class="ti ti-currency-dollar me-3 ti-md"></i><span class="align-middle">Bảng giá</span>
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" asp-controller="Pages" asp-action="Faq">
+                  <i class="ti ti-question-mark me-3 ti-md"></i><span class="align-middle">Hỏi đáp</span>
+                </a>
+              </li>
+              <li>
+                <div class="d-grid px-2 pt-2 pb-1">
+                  <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Index", new { area = "" })" method="post">
+                    <button type="submit" class="btn btn-sm btn-danger d-flex w-100 justify-content-center">
+                      <small class="align-middle">Đăng xuất</small>
+                      <i class="ti ti-logout ms-2 ti-14px"></i>
+                    </button>
+                  </form>
+                </div>
+              </li>
+            </ul>
+          </li>
+      }

@@ -1,0 +1,37 @@
+@model List<DATMOS.Web.Models.ViewModels.Navigation.FooterItemViewModel>
+@if (Model.Any())
+{
+    <div class="footer-copyright-section">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                @foreach (var item in Model.Where(m => m.CssClass == "copyright-text").OrderBy(m => m.Order))
+                {
+                    @if (!item.IsVisible) continue;
+                    
+                    <span class="footer-copyright-text">@item.Title</span>
+                }
+            </div>
+            <div class="col-md-6 text-md-end">
+                <ul class="footer-copyright-links list-inline mb-0">
+                    @foreach (var item in Model.Where(m => m.CssClass != "copyright-text").OrderBy(m => m.Order))
+                    {
+                        @if (!item.IsVisible) continue;
+                        
+                        <li class="list-inline-item">
+                            @if (!string.IsNullOrEmpty(item.Url))
+                            {
+                                <a href="@item.Url" target="@item.Target" class="footer-copyright-link">
+                                    @item.Title
+                                </a>
+                            }
+                            else
+                            {
+                                <span>@item.Title</span>
+                            }
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+}

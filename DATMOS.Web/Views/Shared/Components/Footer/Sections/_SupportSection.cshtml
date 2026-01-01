@@ -1,0 +1,10 @@
+@model List<DATMOS.Web.Models.ViewModels.Navigation.FooterItemViewModel>
+@if (Model.Any())
+{
+    <div class="footer-support-section">
+        <h5 class="footer-section-title">Hỗ trợ</h5>
+        <ul class="footer-support-list list-unstyled">
+            @await Html.PartialAsync("~/Views/Shared/Components/Footer/RenderFooter.cshtml", Model)
+        </ul>
+    </div>
+}

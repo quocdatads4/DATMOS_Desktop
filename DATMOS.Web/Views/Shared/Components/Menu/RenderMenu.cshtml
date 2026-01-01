@@ -1,0 +1,68 @@
+@model List<DATMOS.Web.Models.ViewModels.Navigation.MenuItemViewModel>
+@using Microsoft.AspNetCore.Mvc.Rendering
+@functions {
+    private bool IsMenuItemActive(string controller, string action)
+    {
+        var routeData = ViewContext.RouteData.Values;
+        var currentController = routeData["controller"]?.ToString();
+        var currentAction = routeData["action"]?.ToString();
+        
+        return string.Equals(controller, currentController, StringComparison.OrdinalIgnoreCase) &&
+               string.Equals(action, currentAction, StringComparison.OrdinalIgnoreCase);
+    }
+    
+    private bool IsParentMenuItemActive(List<DATMOS.Web.Models.ViewModels.Navigation.MenuItemViewModel> children)
+    {
+        if (children == null) return false;
+        
+        foreach (var child in children)
+        {
+            if (IsMenuItemActive(child.Controller, child.Action))
+                return true;
+                
+            if (child.Children != null && IsParentMenuItemActive(child.Children))
+                return true;
+        }
+        
+        return false;
+    }
+}
+@foreach (var item in Model.OrderBy(m => m.Order))
+{
+    @if (!item.IsVisible) continue;
+    
+    var hasChildren = item.Children != null && item.Children.Any();
+    var isActive = IsMenuItemActive(item.Controller, item.Action) || 
+                   (hasChildren && IsParentMenuItemActive(item.Children));
+    var hasUrl = !string.IsNullOrEmpty(item.Url);
+    var linkUrl = hasUrl ? item.Url : 
+                 (!string.IsNullOrEmpty(item.Area) ? 
+                  Url.Action(item.Action, item.Controller, new { area = item.Area }) : 
+                  Url.Action(item.Action, item.Controller));
+    
+    <li class="menu-item @(isActive ? "active" : "") @(hasChildren ? "menu-toggle" : "")">
+        @if (hasChildren)
+        {
+            <a href="javascript:void(0)" class="menu-link">
+                @if (!string.IsNullOrEmpty(item.Icon))
+                {
+                    <i class="menu-icon icon-base ti @item.Icon"></i>
+                }
+                <div>@item.Text</div>
+            </a>
+            <ul class="menu-sub">
+                @await Html.PartialAsync("Components/Menu/RenderMenu", item.Children)
+            </ul>
+        }
+        else
+        {
+            <a href="@linkUrl" class="menu-link" data-no-toggle="true">
+                @if (!string.IsNullOrEmpty(item.Icon))
+                {
+                    <i class="menu-icon icon-base ti @item.Icon"></i>
+                }
+                <div>@item.Text</div>
+            </a>
+        }
+    </li>
+}

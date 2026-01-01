@@ -1,0 +1,188 @@
+@model DATMOS.Web.ViewModels.UserProfileViewModel
+@{
+  TempData.Keep();
+  // Set default values for navbar rendering
+  ViewData["navbarDetached"] = (ViewData["navbarDetached"] ??= "navbar-detached");
+  ViewData["containerNav"] = (ViewData["containerNav"] ??= "container-fluid");
+  ViewData["navbarFull"] = true; // Enable full navbar brand for Admin area
+  
+  // Set NavbarArea for _Brand.cshtml to identify area correctly
+  ViewData["NavbarArea"] = "Admin";
+  
+  // Set default TempData values if not already set
+  if (TempData["appName"] == null)
+  {
+      TempData["appName"] = "DATMOS Admin Portal";
+  }
+  if (TempData["menuHorizontal"] == null)
+  {
+      TempData["menuHorizontal"] = true; // Default to horizontal menu for Admin area
+  }
+  
+  var navbarDetached = ViewData["navbarDetached"] as string;
+  var containerNav = ViewData["containerNav"] as string;
+}
+<nav
+class='layout-navbar @navbarDetached @containerNav navbar navbar-expand-xl align-items-center bg-navbar-theme admin-navbar'
+id="layout-navbar">
+  
+<div class="container-xxl">
+  @* Brand/Logo *@
+  @await Html.PartialAsync("~/Views/Shared/Components/Navbar/Partials/_Brand.cshtml")
+  
+  @* Menu Toggle *@
+  @await Html.PartialAsync("~/Views/Shared/Components/Navbar/Partials/_MenuToggle.cshtml")
+
+  @* Horizontal Menu *@
+  <div class="navbar-menu-wrapper flex-grow-1">
+      @{
+          // Set flag to indicate menu is being rendered in navbar context
+          ViewData["IsInNavbar"] = true;
+      }
+      @await Component.InvokeAsync("Menu", new { menuType = "Admin", area = "Admin" })
+  </div>
+
+  <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+  <!-- Logo (Secondary - hidden on xl screens where primary brand is visible) -->
+  <div class="navbar-logo me-3 d-none d-md-flex d-xl-none">
+    <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="d-flex align-items-center text-decoration-none">
+      <div class="avatar avatar-sm me-2">
+        <span class="avatar-initial rounded-circle bg-primary">
+          <i class="ti ti-shield-lock ti-sm"></i>
+        </span>
+      </div>
+      <span class="fw-bold text-primary">DATMOS Admin</span>
+    </a>
+  </div>
+  <!-- /Logo -->
+
+
+   <ul class="navbar-nav flex-row align-items-center ms-auto">
+    <!-- System Status -->
+    <li class="nav-item dropdown-notifications navbar-dropdown dropdown me-2 me-xl-2">
+      <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+        <i class="ti ti-dashboard ti-md"></i>
+        <span class="badge bg-success badge-dot"></span>
+      </a>
+      <ul class="dropdown-menu dropdown-menu-end py-0">
+        <li class="dropdown-menu-header border-bottom">
+          <div class="dropdown-header d-flex align-items-center py-3">
+            <h6 class="mb-0 me-auto">Trạng thái hệ thống</h6>
+            <span class="badge rounded-pill bg-label-success">Ổn định</span>
+          </div>
+        </li>
+        <li class="dropdown-notifications-list scrollable-container">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item list-group-item-action dropdown-notifications-item">
+              <div class="d-flex">
+                <div class="flex-shrink-0 me-3">
+                  <div class="avatar">
+                    <span class="avatar-initial rounded-circle bg-label-success"><i class="ti ti-server"></i></span>
+                  </div>
+                </div>
+                <div class="flex-grow-1">
+                  <h6 class="mb-1">Web Server</h6>
+                  <p class="mb-0">Hoạt động: 99.8%</p>
+                  <div class="progress mt-2" style="height: 6px;">
+                    <div class="progress-bar bg-success" role="progressbar" style="width: 99.8%" aria-valuenow="99.8" aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
+                  <small class="text-muted">Online</small>
+                </div>
+              </div>
+            </li>
+            <li class="list-group-item list-group-item-action dropdown-notifications-item">
+              <div class="d-flex">
+                <div class="flex-shrink-0 me-3">
+                  <div class="avatar">
+                    <span class="avatar-initial rounded-circle bg-label-info"><i class="ti ti-database"></i></span>
+                  </div>
+                </div>
+                <div class="flex-grow-1">
+                  <h6 class="mb-1">Database</h6>
+                  <p class="mb-0">Truy vấn: 1,234/giây</p>
+                  <div class="progress mt-2" style="height: 6px;">
+                    <div class="progress-bar bg-info" role="progressbar" style="width: 78%" aria-valuenow="78" aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
+                  <small class="text-muted">Tải trung bình</small>
+                </div>
+              </div>
+            </li>
+            <li class="list-group-item list-group-item-action dropdown-notifications-item">
+              <div class="d-flex">
+                <div class="flex-shrink-0 me-3">
+                  <div class="avatar">
+                    <span class="avatar-initial rounded-circle bg-label-warning"><i class="ti ti-users"></i></span>
+                  </div>
+                </div>
+                <div class="flex-grow-1">
+                  <h6 class="mb-1">Người dùng online</h6>
+                  <p class="mb-0">Đang hoạt động: 245 người</p>
+                  <div class="progress mt-2" style="height: 6px;">
+                    <div class="progress-bar bg-warning" role="progressbar" style="width: 65%" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
+                  <small class="text-muted">+12% so với hôm qua</small>
+                </div>
+              </div>
+            </li>
+            <li class="list-group-item list-group-item-action dropdown-notifications-item">
+              <div class="d-flex">
+                <div class="flex-shrink-0 me-3">
+                  <div class="avatar">
+                    <span class="avatar-initial rounded-circle bg-label-primary"><i class="ti ti-chart-bar"></i></span>
+                  </div>
+                </div>
+                <div class="flex-grow-1">
+                  <h6 class="mb-1">Hiệu suất hệ thống</h6>
+                  <p class="mb-0">CPU: 45%, RAM: 68%</p>
+                  <div class="progress mt-2" style="height: 6px;">
+                    <div class="progress-bar bg-primary" role="progressbar" style="width: 68%" aria-valuenow="68" aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
+                  <small class="text-muted">Trong mức cho phép</small>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </li>
+        <li class="dropdown-menu-footer border-top">
+          <a asp-area="Admin" asp-controller="System" asp-action="Monitoring" class="dropdown-item d-flex justify-content-center text-primary p-2 h-px-40">
+            Xem bảng điều khiển giám sát
+          </a>
+        </li>
+      </ul>
+    </li>
+    <!-- /System Status -->
+
+    @* Notifications *@
+    @await Html.PartialAsync("~/Views/Shared/Components/Navbar/Partials/_Notification.cshtml")
+
+    @* User Dropdown *@
+    @await Html.PartialAsync("~/Views/Shared/Components/Navbar/Partials/_UserDropdown.cshtml", Model)
+    
+  </ul>
+</div>
+</div>
+</nav>
+
+<style>
+.admin-navbar {
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0,0,0,.1);
+  border-bottom: 1px solid #e9ecef;
+}
+
+.navbar-search-wrapper {
+  width: 300px;
+}
+
+@@media (max-width: 1199.98px) {
+  .navbar-search-wrapper {
+    width: 200px;
+  }
+}
+
+@@media (max-width: 767.98px) {
+  .navbar-search-wrapper {
+    display: none;
+  }
+}
+</style>

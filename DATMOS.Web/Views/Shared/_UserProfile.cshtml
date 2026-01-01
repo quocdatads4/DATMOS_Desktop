@@ -1,0 +1,112 @@
+@model DATMOS.Web.ViewModels.UserProfileViewModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<div class="card mb-6">
+    <!-- Account -->
+    <form asp-action="UpdateAccount" asp-controller="Profile" 
+          asp-area="@ViewContext.RouteData.Values["area"]" 
+          method="post" enctype="multipart/form-data">
+        <div class="card-body">
+            <div class="row">
+                <!-- Cột 1: Avatar và upload ảnh -->
+                <div class="col-md-4">
+                    <div class="d-flex flex-column align-items-center gap-6">
+                        <img src="@(string.IsNullOrEmpty(Model.ProfilePictureUrl) ? Url.Content("~/img/avatars/1.png") : Url.Content("" + Model.ProfilePictureUrl))"
+                             alt="user-avatar"
+                             class="d-block w-px-200 h-px-200 rounded"
+                             id="uploadedAvatar" />
+                        <div class="button-wrapper text-center">
+                            <label for="upload" class="btn btn-primary mb-4 waves-effect waves-light" tabindex="0">
+                                <i class="icon-base ti ti-upload d-none d-sm-inline-block me-2"></i>
+                                <span class="d-none d-sm-block">Tải ảnh mới</span>
+                                <i class="icon-base ti ti-upload d-block d-sm-none"></i>
+                                <input type="file"
+                                       asp-for="ProfilePictureFile"
+                                       id="upload"
+                                       class="account-file-input"
+                                       hidden
+                                       accept="image/png, image/jpeg" />
+                            </label>
+
+                            <div>Cho phép JPG, GIF hoặc PNG. Kích thước tối đa 800KB</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Cột 2: Form thông tin -->
+                <div class="col-md-8 pt-4">
+                    <div class="row gy-4 gx-6 mb-6">
+                        <!-- Dòng 1: Họ và tên + Email -->
+                        <div class="col-md-6 form-control-validation">
+                            <label class="form-label" for="FullName">
+                                <i class="icon-base ti ti-user me-2"></i>Họ và tên
+                            </label>
+                            <input class="form-control" type="text" autofocus placeholder="Nhập họ và tên" 
+                                   value="@Model.FullName"
+                                   data-val="true" 
+                                   data-val-length="Họ và tên không được vượt quá 100 ký tự" 
+                                   data-val-length-max="100" 
+                                   data-val-required="Họ và tên là bắt buộc" 
+                                   maxlength="100" 
+                                   id="FullName" 
+                                   name="FullName">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" for="Email">
+                                <i class="icon-base ti ti-mail me-2"></i>Email
+                            </label>
+                            <input class="form-control" type="text" placeholder="example@email.com" 
+                                   value="@Model.Email"
+                                   data-val="true" 
+                                   data-val-email="Địa chỉ email không hợp lệ" 
+                                   data-val-required="Email là bắt buộc" 
+                                   id="Email" 
+                                   name="Email">
+                        </div>
+                        
+                        <!-- Dòng 2: Số điện thoại + Địa chỉ -->
+                        <div class="col-md-6">
+                            <label class="form-label" for="PhoneNumber">
+                                <i class="icon-base ti ti-phone me-2"></i>Số điện thoại
+                            </label>
+                            <div class="input-group input-group-merge">
+                                <span class="input-group-text">VN (+84)</span>
+                                <input type="text" class="form-control" placeholder="912 345 678" 
+                                       value="@Model.PhoneNumber"
+                                       data-val="true" 
+                                       data-val-length="Số điện thoại không được vượt quá 20 ký tự" 
+                                       data-val-length-max="20" 
+                                       data-val-phone="Số điện thoại không hợp lệ" 
+                                       id="PhoneNumber" 
+                                       maxlength="20" 
+                                       name="PhoneNumber">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" for="Address">
+                                <i class="icon-base ti ti-home me-2"></i>Địa chỉ
+                            </label>
+                            <input type="text" class="form-control" placeholder="Nhập địa chỉ" 
+                                   value="@Model.Address"
+                                   data-val="true" 
+                                   data-val-length="Địa chỉ không được vượt quá 200 ký tự" 
+                                   data-val-length-max="200" 
+                                   id="Address" 
+                                   maxlength="200" 
+                                   name="Address">
+                        </div>
+                    </div>
+                    <div class="mt-2">
+                        <button type="submit" class="btn btn-primary me-3 waves-effect waves-light">
+                            <i class="icon-base ti ti-check me-2"></i>Lưu thay đổi
+                        </button>
+                        <button type="reset" class="btn btn-label-secondary waves-effect">
+                            <i class="icon-base ti ti-x me-2"></i>Hủy
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <!-- /Account -->
+</div>

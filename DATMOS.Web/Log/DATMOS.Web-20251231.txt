@@ -1,0 +1,6 @@
+2025-12-31 15:59:51.208 +07:00 [WRN] Overriding address(es) 'http://localhost:5000'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-12-31 18:48:48.544 +07:00 [WRN] Overriding address(es) 'http://localhost:5000'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-12-31 18:56:35.162 +07:00 [WRN] Overriding address(es) 'http://localhost:5000'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-12-31 19:12:48.553 +07:00 [WRN] Overriding address(es) 'http://localhost:5000'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-12-31 19:37:47.535 +07:00 [ERR] Failed executing DbCommand (903ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+DROP DATABASE datprofilecms WITH (FORCE);

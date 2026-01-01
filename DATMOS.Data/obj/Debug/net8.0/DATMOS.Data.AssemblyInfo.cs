@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DATMOS.Data")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+75874c9108c790590f120e462e5619594f49cd95")]
 [assembly: System.Reflection.AssemblyProductAttribute("DATMOS.Data")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DATMOS.Data")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

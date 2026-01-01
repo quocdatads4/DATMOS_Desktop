@@ -7,6 +7,8 @@ document.addEventListener('DOMContentLoaded', function() {
     let currentProjectId = 1;
     let currentTaskIndex = -1;
     let jsonLoadAttempted = false;
+
+    loadStudentData();
     
     // Simple backup: if dropdown still shows "loading" after 1 second, use fallback
     setTimeout(() => {
@@ -33,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
         try {
             // Use Razor to resolve the path correctly
             // Add timestamp to prevent caching
-            const jsonPath = '/areas/customer/json/gmetrix-mos-word-2019.json' + '?v=' + new Date().getTime();
+            const jsonPath = '/areas/customer/json/dmos-word-2019-project-task.json' + '?v=' + new Date().getTime();
             
             console.log(`Trying to load JSON from: ${jsonPath}`);
             const gmetrixResponse = await Promise.race([
@@ -103,6 +105,45 @@ document.addEventListener('DOMContentLoaded', function() {
             initializeWithFallbackData();
         }
     }
+
+    // Load student data
+    function loadStudentData() {
+        console.log('Loading student data...');
+        const studentDataPath = '/areas/customer/json/dmos-students-data.json' + '?v=' + new Date().getTime();
+        console.log('Fetching from:', studentDataPath);
+        fetch(studentDataPath)
+            .then(response => {
+                console.log('Student data response:', response);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Student data received:', data);
+                const student = data.users.find(u => u.id === '1');
+                console.log('Found student:', student);
+                if (student) {
+                    const studentInfoContainer = document.getElementById('student-info-container');
+                    console.log('Student info container:', studentInfoContainer);
+                    if (studentInfoContainer) {
+                        studentInfoContainer.innerHTML = `
+                            <div class="student-info">
+                                <i class="fas fa-user"></i>
+                                <span class="student-label">Học viên:</span>
+                                <span class="student-name">${student.studentInfo.fullName} (ID: ${student.id})</span>
+                            </div>
+                        `;
+                        console.log('Student info updated with ID');
+                    } else {
+                        console.error('Student info container not found');
+                    }
+                } else {
+                    console.error('Student with ID=1 not found');
+                }
+            })
+            .catch(error => console.error('Error fetching student data:', error));
+    }
     
     // Initialize UI with loaded data
     function initializeGmetrixUI() {
@@ -135,6 +176,12 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Initialize with overview, suppress toast on initial load
         handleTabClick('overview', -1, true);
+        
+        // Mở Project 1 mặc định khi trang load xong
+        if (window.chrome && window.chrome.webview) {
+            window.chrome.webview.postMessage(`OPEN_PROJECT_${currentProjectId}`);
+            console.log(`Sent OPEN_PROJECT_${currentProjectId} message to WinForms (default on load)`);
+        }
     }
     
     // Fallback to hard-coded data if JSON fails
@@ -146,6 +193,9 @@ document.addEventListener('DOMContentLoaded', function() {
             {
                 id: 1,
                 name: "MOS Word 2019 - Project 1",
+                description: "Bicycles\nThe bicycle sales and rental store Bellows Bicycle Barn has asked you to update their summer sales flier to help attract new customers.",
+                estimatedTime: "45 phút",
+                difficulty: "Intermediate",
                 tasks: [
                     { id: 1, detailedInstructions: "Dưới tiêu đề <strong>Landscaping Made Easy</strong>, chèn một ảnh chụp màn hình của bức ảnh hiển thị trên tài liệu <strong>Project</strong>.", isCompleted: false },
                     { id: 2, detailedInstructions: "Task 2 fallback instruction.", isCompleted: false },
@@ -156,7 +206,10 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             {
                 id: 2,
-                name: "MOS Word 2019 - Project 2", 
+                name: "MOS Word 2019 - Project 2",
+                description: "Bài thi thực hành MOS Word 2019 - Project thứ hai với các task nâng cao",
+                estimatedTime: "30 phút",
+                difficulty: "Advanced",
                 tasks: [
                     { id: 6, detailedInstructions: "Task 6 fallback instruction.", isCompleted: false },
                     { id: 7, detailedInstructions: "Task 7 fallback instruction.", isCompleted: false },
@@ -324,11 +377,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const currentProject = getCurrentProject();
             instructionHtml = `
                 <div class="instruction-content">
-                    <strong>${currentProject.name}</strong><br>
-                    ${currentProject.description}<br>
-                    Tổng số task: ${currentProject.tasks.length}<br>
-                    Thời gian ước tính: ${currentProject.estimatedTime}<br>
-                    Độ khó: ${currentProject.difficulty}
+                    ${currentProject.description}
                 </div>
             `;
         } else {
@@ -362,7 +411,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const progressEl = document.getElementById('progress-indicator');
 
         if (progressEl) {
-            let progressHtml = '<div class="progress-checkboxes">';
+            // Add a label with an icon before the checkboxes
+            let progressHtml = '<span class="progress-label"><i class="fas fa-tasks"></i> Tiến độ:</span>';
+            
+            progressHtml += '<div class="progress-checkboxes">';
             tasks.forEach((task, index) => {
                 const isCompleted = task.isCompleted;
                 const isActive = index === currentTaskIndex;
@@ -403,38 +455,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Toast Notification System
     function showToast(message, type = 'info', duration = 4000) {
-        const toastContainer = document.getElementById('toast-container') || createToastContainer();
-        const toast = document.createElement('div');
-        toast.className = `toast ${type}`;
-        toast.innerHTML = `
-            <i class="fas ${type === 'success' ? 'fa-check-circle' : type === 'warning' ? 'fa-exclamation-triangle' : 'fa-info-circle'}"></i>
-            <span>${message}</span>
-        `;
-        
-        toastContainer.appendChild(toast);
-        
-        // Trigger animation
-        setTimeout(() => toast.classList.add('show'), 10);
-        
-        // Auto remove
-        setTimeout(() => {
-            toast.classList.remove('show');
-            setTimeout(() => {
-                if (toast.parentNode) {
-                    toast.parentNode.removeChild(toast);
-                }
-            }, 400);
-        }, duration);
-        
-        // Click to dismiss
-        toast.addEventListener('click', () => {
-            toast.classList.remove('show');
-            setTimeout(() => {
-                if (toast.parentNode) {
-                    toast.parentNode.removeChild(toast);
-                }
-            }, 400);
-        });
+        // Toast notifications have been disabled as per user request.
+        return;
     }
     
     function createToastContainer() {
@@ -468,6 +490,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // Show a toast message indicating the project has changed
                 showToast(`Đã chuyển đến ${currentProject.name}`, 'info', 2000);
+                
+                // Gửi message mở file Word cho project được chọn
+                if (window.chrome && window.chrome.webview) {
+                    window.chrome.webview.postMessage(`OPEN_PROJECT_${newProjectId}`);
+                    console.log(`Sent OPEN_PROJECT_${newProjectId} message to WinForms`);
+                }
             }
         });
     }
@@ -539,28 +567,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 800);
     });
     
-    // Open project button handler
-    document.getElementById('open-project-btn').addEventListener('click', function() {
-        const btn = this;
-        btn.classList.add('loading');
-        
-        // Lấy project ID được chọn
-        const projectSelect = document.getElementById('project-select');
-        const projectId = projectSelect ? projectSelect.value : '1';
-        
-        // Kiểm tra nếu WebView2 bridge tồn tại
-        if (window.chrome && window.chrome.webview) {
-            // Gửi message đến ứng dụng WinForms với project ID
-            window.chrome.webview.postMessage(`OPEN_PROJECT_${projectId}`);
-            
-            // Hiển thị thông báo đang xử lý
-            showToast(`Đang mở bài làm Project ${projectId}...`, 'info', 2000);
-        } else {
-            // Fallback cho trình duyệt thông thường
-            showToast('Không thể mở bài làm trong môi trường này', 'warning');
-            btn.classList.remove('loading');
-        }
-    });
 
     // Submit project button handler
     document.getElementById('submit-project-btn').addEventListener('click', function() {
@@ -823,6 +829,5 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('mark-completed').setAttribute('aria-label', 'Đánh dấu hoàn thành');
     document.getElementById('mark-review').setAttribute('aria-label', 'Đánh dấu cần xem lại');
     document.getElementById('help-btn').setAttribute('aria-label', 'Trợ giúp');
-    document.getElementById('open-project-btn').setAttribute('aria-label', 'Mở bài làm');
     
 });

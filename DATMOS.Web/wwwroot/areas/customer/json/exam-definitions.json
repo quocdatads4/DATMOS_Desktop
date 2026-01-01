@@ -1,0 +1,63 @@
+{
+  "exams": [
+    {
+      "id": "EX-WORD-PT1",
+      "code": "MO-100-PT1",
+      "name": "MOS Word 2019 - Practice Test 1",
+      "application": "Word 2019",
+      "category": "Practice Test",
+      "description": "Bài thi thử tổng hợp số 1. Mô phỏng chính xác cấu trúc bài thi MOS Word 2019 với 7 Project.",
+      "totalProjects": 7,
+      "totalTasks": 35,
+      "timeLimitMinutes": 50,
+      "passingScore": 700,
+      "modes": [
+        {
+          "type": "Testing",
+          "name": "Thi thử (Testing Mode)",
+          "description": "Có tính giờ, không có gợi ý (Help), chấm điểm khi nộp bài.",
+          "allowSave": false
+        },
+        {
+          "type": "Training",
+          "name": "Luyện tập (Training Mode)",
+          "description": "Không giới hạn thời gian, có hướng dẫn chi tiết từng bước (Step-by-step Help).",
+          "allowSave": true
+        }
+      ],
+      "difficulty": "Hard"
+    },
+    {
+      "id": "EX-WORD-SR1",
+      "code": "MO-100-SR1",
+      "name": "MOS Word 2019 - Skill Review 1",
+      "application": "Word 2019",
+      "category": "Skill Review",
+      "description": "Bài ôn tập tập trung vào kỹ năng Quản lý tài liệu và Chèn văn bản.",
+      "totalProjects": 3,
+      "totalTasks": 15,
+      "timeLimitMinutes": 0,
+      "passingScore": 0,
+      "modes": [
+        {
+          "type": "Training",
+          "name": "Luyện tập",
+          "description": "Làm bài tập theo chủ đề cụ thể.",
+          "allowSave": true
+        }
+      ],
+      "difficulty": "Medium"
+    },
+    {
+      "id": "EX-EXCEL-PT1",
+      "code": "MO-200-PT1",
+      "name": "MOS Excel 2019 - Practice Test 1",
+      "application": "Excel 2019",
+      "category": "Practice Test",
+      "description": "Bài thi thử tổng hợp Excel 2019 số 1.",
+      "totalProjects": 7,
+      "timeLimitMinutes": 50,
+      "passingScore": 700
+    }
+  ]
+}

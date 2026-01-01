@@ -1,0 +1,181 @@
+{
+  "courses": [
+    {
+      "id": 1,
+      "subjectId": 1,
+      "code": "CRS101",
+      "name": "Word 2019 Cơ bản",
+      "shortName": "Word Cơ bản",
+      "title": "Làm chủ Word 2019 từ con số 0",
+      "description": "Khóa học dành cho người mới bắt đầu, hướng dẫn từng bước các tính năng cơ bản của Microsoft Word 2019.",
+      "icon": "ti-file-text",
+      "colorClass": "primary",
+      "level": "Cơ bản",
+      "duration": "4 tuần",
+      "totalLessons": 12,
+      "totalProjects": 7,
+      "totalTasks": 35,
+      "price": 0,
+      "isFree": true,
+      "instructor": "Nguyễn Văn A",
+      "rating": 4.8,
+      "enrolledStudents": 1250,
+      "badge": {
+        "text": "Phổ biến",
+        "icon": "ti-trending-up",
+        "colorClass": "bg-label-primary"
+      },
+      "syllabus": [
+        "Giới thiệu giao diện Word 2019",
+        "Soạn thảo văn bản cơ bản",
+        "Định dạng văn bản",
+        "Làm việc với bảng biểu",
+        "Chèn hình ảnh và đồ họa",
+        "In ấn tài liệu"
+      ]
+    },
+    {
+      "id": 2,
+      "subjectId": 1,
+      "code": "CRS102",
+      "name": "Word 2019 Nâng cao",
+      "shortName": "Word Nâng cao",
+      "title": "Kỹ thuật chuyên sâu Word 2019",
+      "description": "Khóa học nâng cao dành cho người đã có kiến thức cơ bản, tập trung vào các tính năng chuyên sâu và tự động hóa.",
+      "icon": "ti-file-text",
+      "colorClass": "success",
+      "level": "Nâng cao",
+      "duration": "6 tuần",
+      "totalLessons": 18,
+      "totalProjects": 10,
+      "totalTasks": 50,
+      "price": 499000,
+      "isFree": false,
+      "instructor": "Trần Thị B",
+      "rating": 4.9,
+      "enrolledStudents": 850,
+      "badge": {
+        "text": "Chuyên sâu",
+        "icon": "ti-award",
+        "colorClass": "bg-label-success"
+      },
+      "syllabus": [
+        "Styles và Templates",
+        "Mail Merge",
+        "Table of Contents",
+        "Headers và Footers",
+        "Macros cơ bản",
+        "Collaboration tools"
+      ]
+    },
+    {
+      "id": 3,
+      "subjectId": 2,
+      "code": "CRS201",
+      "name": "Excel 2019 Cơ bản",
+      "shortName": "Excel Cơ bản",
+      "title": "Nhập môn Excel 2019",
+      "description": "Khóa học giúp bạn làm quen với giao diện và các hàm cơ bản của Microsoft Excel 2019.",
+      "icon": "ti-table",
+      "colorClass": "info",
+      "level": "Cơ bản",
+      "duration": "5 tuần",
+      "totalLessons": 15,
+      "totalProjects": 8,
+      "totalTasks": 40,
+      "price": 0,
+      "isFree": true,
+      "instructor": "Lê Văn C",
+      "rating": 4.7,
+      "enrolledStudents": 2100,
+      "badge": {
+        "text": "Miễn phí",
+        "icon": "ti-gift",
+        "colorClass": "bg-label-info"
+      },
+      "syllabus": [
+        "Giao diện Excel 2019",
+        "Nhập và định dạng dữ liệu",
+        "Các hàm cơ bản",
+        "Làm việc với bảng tính",
+        "Biểu đồ cơ bản",
+        "In ấn trong Excel"
+      ]
+    },
+    {
+      "id": 4,
+      "subjectId": 2,
+      "code": "CRS202",
+      "name": "Excel 2019 Phân tích dữ liệu",
+      "shortName": "Excel Phân tích",
+      "title": "Phân tích dữ liệu với Excel 2019",
+      "description": "Khóa học chuyên sâu về phân tích dữ liệu, PivotTables, và các công cụ nâng cao của Excel.",
+      "icon": "ti-table",
+      "colorClass": "warning",
+      "level": "Trung cấp",
+      "duration": "8 tuần",
+      "totalLessons": 24,
+      "totalProjects": 12,
+      "totalTasks": 60,
+      "price": 699000,
+      "isFree": false,
+      "instructor": "Phạm Thị D",
+      "rating": 4.9,
+      "enrolledStudents": 950,
+      "badge": {
+        "text": "Bán chạy",
+        "icon": "ti-shopping-cart",
+        "colorClass": "bg-label-warning"
+      },
+      "syllabus": [
+        "PivotTables và PivotCharts",
+        "Data Analysis ToolPak",
+        "What-If Analysis",
+        "Power Query cơ bản",
+        "Dashboard creation",
+        "Advanced formulas"
+      ]
+    },
+    {
+      "id": 5,
+      "subjectId": 3,
+      "code": "CRS301",
+      "name": "PowerPoint 2019 Thiết kế bài thuyết trình",
+      "shortName": "PowerPoint Thiết kế",
+      "title": "Thiết kế bài thuyết trình chuyên nghiệp",
+      "description": "Khóa học hướng dẫn tạo bài thuyết trình ấn tượng với PowerPoint 2019, từ cơ bản đến nâng cao.",
+      "icon": "ti-presentation",
+      "colorClass": "danger",
+      "level": "Cơ bản",
+      "duration": "4 tuần",
+      "totalLessons": 12,
+      "totalProjects": 6,
+      "totalTasks": 30,
+      "price": 0,
+      "isFree": true,
+      "instructor": "Hoàng Văn E",
+      "rating": 4.6,
+      "enrolledStudents": 1800,
+      "badge": {
+        "text": "Mới",
+        "icon": "ti-star",
+        "colorClass": "bg-label-danger"
+      },
+      "syllabus": [
+        "Giao diện PowerPoint",
+        "Tạo slide cơ bản",
+        "Chèn multimedia",
+        "Animations và Transitions",
+        "Master Slides",
+        "Presentation tips"
+      ]
+    }
+  ],
+  "metadata": {
+    "version": "1.0.0",
+    "lastUpdated": "2024-12-23",
+    "totalCourses": 5,
+    "freeCourses": 3,
+    "paidCourses": 2
+  }
+}

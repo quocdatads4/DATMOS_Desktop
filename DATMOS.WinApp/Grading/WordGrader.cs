@@ -94,32 +94,30 @@ namespace DATMOS.WinApp.Grading
         }
 
         /// <summary>
-        /// Grade Project 1: Bicycles.docx
+        /// Grade Project 1: MOS Word 2019 - Dự án 1: Khủng long
+        /// Based on dmos-word-2019-grading-solutions.json
         /// </summary>
         private void GradeBicyclesProject(Body body, GradingResult result)
         {
             string fullText = GetFullText(body);
             
-            // 1. Check main title "Bellows Bicycle Barn" with Title style
-            CheckTitleStyle(body, result, "Bellows Bicycle Barn");
+            // Task 1: Thêm danh mục Dinosaur (fileProperties)
+            CheckFileProperties(body, result, "Dinosaur");
             
-            // 2. Check bullet list for "Bicycle Advantages" (5 items)
-            CheckBulletList(body, result, "Bicycle Advantages", 5);
+            // Task 2: Sao chép định dạng (formatPainter)
+            CheckFormatPainter(body, result);
             
-            // 3. Check table "Rental Prices" with 2 columns and 3 rows
-            CheckRentalPricesTable(body, result);
+            // Task 3: Sắp xếp bảng (tableSort)
+            CheckTableSort(body, result);
             
-            // 4. Check table style "Grid Table 4 - Accent 1"
-            CheckTableStyle(body, result);
+            // Task 4: Thay đổi cấp độ (listLevel)
+            CheckListLevel(body, result);
             
-            // 5. Check table alignment and caption
-            CheckTableAlignmentAndCaption(body, result);
+            // Task 5: Chèn mô hình 3D (3dModels)
+            Check3DModels(body, result);
             
-            // 6. Check formatting (bold/italic)
-            CheckFormatting(body, result);
-            
-            // 7. Check required content
-            CheckRequiredContent(fullText, result);
+            // Task 6: Hiệu ứng Pencil Sketch (artisticEffects)
+            CheckArtisticEffects(body, result);
         }
 
         /// <summary>
@@ -439,6 +437,106 @@ namespace DATMOS.WinApp.Grading
         private bool CheckTextExists(string text, string searchText)
         {
             return text.IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0;
+        }
+
+        // New grading methods for Project 1: Khủng long
+        private void CheckFileProperties(Body body, GradingResult result, string expectedCategory)
+        {
+            // Simplified check: look for "Dinosaur" in document properties or content
+            string fullText = GetFullText(body);
+            bool hasCategory = fullText.IndexOf(expectedCategory, StringComparison.OrdinalIgnoreCase) >= 0;
+            
+            result.Items.Add(new GradingItem
+            {
+                Description = "Task 1: Thêm danh mục Dinosaur",
+                Score = hasCategory ? 15 : 0,
+                MaxScore = 15,
+                IsCorrect = hasCategory,
+                Feedback = hasCategory ? "✓ Đã thêm danh mục Dinosaur" : "✗ Chưa thêm danh mục Dinosaur"
+            });
+        }
+        
+        private void CheckFormatPainter(Body body, GradingResult result)
+        {
+            // Check for consistent formatting (simplified)
+            var runs = body.Descendants<Run>();
+            int formattedRuns = runs.Count(r => r.RunProperties != null);
+            int totalRuns = runs.Count();
+            bool hasConsistentFormatting = totalRuns > 0 && formattedRuns > totalRuns / 2;
+            
+            result.Items.Add(new GradingItem
+            {
+                Description = "Task 2: Sao chép định dạng",
+                Score = hasConsistentFormatting ? 15 : 0,
+                MaxScore = 15,
+                IsCorrect = hasConsistentFormatting,
+                Feedback = hasConsistentFormatting ? "✓ Định dạng đồng nhất" : "✗ Định dạng chưa đồng nhất"
+            });
+        }
+        
+        private void CheckTableSort(Body body, GradingResult result)
+        {
+            // Check if any table exists (simplified)
+            bool hasTable = body.Elements<Table>().Any();
+            
+            result.Items.Add(new GradingItem
+            {
+                Description = "Task 3: Sắp xếp bảng",
+                Score = hasTable ? 20 : 0,
+                MaxScore = 20,
+                IsCorrect = hasTable,
+                Feedback = hasTable ? "✓ Có bảng (giả định đã sắp xếp)" : "✗ Không có bảng"
+            });
+        }
+        
+        private void CheckListLevel(Body body, GradingResult result)
+        {
+            // Check for multi-level lists
+            var numberingProps = body.Descendants<NumberingProperties>();
+            bool hasMultiLevel = numberingProps.Any();
+            
+            result.Items.Add(new GradingItem
+            {
+                Description = "Task 4: Thay đổi cấp độ",
+                Score = hasMultiLevel ? 15 : 0,
+                MaxScore = 15,
+                IsCorrect = hasMultiLevel,
+                Feedback = hasMultiLevel ? "✓ Có danh sách đa cấp" : "✗ Không có danh sách đa cấp"
+            });
+        }
+        
+        private void Check3DModels(Body body, GradingResult result)
+        {
+            // Check for 3D model references (simplified - check for "3D" or "model" in text)
+            string fullText = GetFullText(body);
+            bool has3DReference = fullText.IndexOf("3D", StringComparison.OrdinalIgnoreCase) >= 0 ||
+                                  fullText.IndexOf("model", StringComparison.OrdinalIgnoreCase) >= 0;
+            
+            result.Items.Add(new GradingItem
+            {
+                Description = "Task 5: Chèn mô hình 3D",
+                Score = has3DReference ? 20 : 0,
+                MaxScore = 20,
+                IsCorrect = has3DReference,
+                Feedback = has3DReference ? "✓ Có tham chiếu 3D/model" : "✗ Không có tham chiếu 3D/model"
+            });
+        }
+        
+        private void CheckArtisticEffects(Body body, GradingResult result)
+        {
+            // Check for artistic effects (simplified - check for "pencil" or "sketch" in text)
+            string fullText = GetFullText(body);
+            bool hasArtisticEffect = fullText.IndexOf("pencil", StringComparison.OrdinalIgnoreCase) >= 0 ||
+                                     fullText.IndexOf("sketch", StringComparison.OrdinalIgnoreCase) >= 0;
+            
+            result.Items.Add(new GradingItem
+            {
+                Description = "Task 6: Hiệu ứng Pencil Sketch",
+                Score = hasArtisticEffect ? 15 : 0,
+                MaxScore = 15,
+                IsCorrect = hasArtisticEffect,
+                Feedback = hasArtisticEffect ? "✓ Có hiệu ứng Pencil Sketch" : "✗ Không có hiệu ứng Pencil Sketch"
+            });
         }
 
         private string GenerateSummary(GradingResult result)

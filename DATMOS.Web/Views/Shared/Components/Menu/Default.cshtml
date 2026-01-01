@@ -1,0 +1,26 @@
+@model DATMOS.Web.Models.ViewModels.Navigation.MenuDataViewModel
+@{
+    // Check if we're in a navbar context (called from Navbar component)
+    var isInNavbar = ViewContext.ViewData.ContainsKey("IsInNavbar") && Convert.ToBoolean(ViewContext.ViewData["IsInNavbar"]);
+}
+@if (Model?.MenuItems != null && Model.MenuItems.Any())
+{
+    if (isInNavbar)
+    {
+        // When in navbar, just render the menu items without wrapper
+        <ul class="menu-inner">
+            @await Html.PartialAsync("Components/Menu/RenderMenu", Model.MenuItems)
+        </ul>
+    }
+    else
+    {
+        // When called directly (e.g., from layout), render full horizontal menu structure
+        <aside id="layout-menu" class="layout-menu-horizontal menu-horizontal menu flex-grow-0">
+            <div class="container-xxl d-flex h-100">
+                <ul class="menu-inner">
+                    @await Html.PartialAsync("Components/Menu/RenderMenu", Model.MenuItems)
+                </ul>
+            </div>
+        </aside>
+    }
+}

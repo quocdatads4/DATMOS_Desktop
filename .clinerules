@@ -1,0 +1,81 @@
+# Quy tắc Workspace Cline cho DATMOS_Desktop
+
+## Tham khảo nhanh
+
+### Cấu trúc dự án
+- Giải pháp .NET 8 kết hợp: WinForms + ASP.NET Core MVC
+- 4 dự án chính: Core, Data, Web, WinApp
+- Các khu vực: Admin, Customer, Teacher, User
+
+### Tiêu chuẩn mã hóa
+- **C#**: PascalCase cho lớp, camelCase cho biến, `_privateFields` cho trường riêng tư
+- **Namespaces**: `DATMOS.{Dự án}.{Tên phụ}`
+- **Thụt lề**: 4 khoảng trắng, không dùng tab
+- **Dấu ngoặc nhọn**: Phong cách Allman (dòng mới)
+
+### ASP.NET Core MVC
+- **Bộ điều khiển**: Hậu tố {Tài nguyên}Controller
+- **Giao diện**: `Views/{Bộ điều khiển}/{Hành động}.cshtml`
+- **Giao diện từng phần**: Tiền tố `_`
+- **Khu vực**: Tổ chức theo vai trò người dùng
+
+### Entity Framework
+- **Thực thể**: Khóa chính Id, dấu thời gian CreatedAt/UpdatedAt
+- **DbContext**: Cấu hình bằng Fluent API
+- **Di chuyển**: Tên mô tả
+
+### ASP.NET Core Identity
+- **Lớp Người dùng**: `ApplicationUser` (kế thừa `IdentityUser`)
+- **Lớp Vai trò**: `ApplicationRole` (kế thừa `IdentityRole`)
+- **DbContext**: `AppDbContext` (kế thừa `IdentityDbContext<ApplicationUser, ApplicationRole, string>`)
+- **Bảng**: Giữ nguyên tên bảng mặc định `AspNet*`
+- **Thuộc tính mở rộng**: Thêm vào `ApplicationUser`, không sửa trực tiếp `IdentityUser`
+- **Dịch vụ**: Sử dụng `UserManager<T>`, `RoleManager<T>`, `SignInManager<T>` có sẵn
+
+### Quy trình Git
+- **Nhánh**: main, develop, feature/*, bugfix/*, hotfix/*
+- **Cam kết**: Cam kết thông thường (`loại(phạm vi): mô tả`)
+- **PR**: Tối thiểu 1 người xem xét, tất cả kiểm tra phải pass
+
+### Kiểm thử
+- **Kiểm thử đơn vị**: Quy ước đặt tên `{Lớp}Tests`
+- **Tích hợp**: Cơ sở dữ liệu trong bộ nhớ cho kiểm thử
+
+### Bảo mật
+- **Xác thực đầu vào**: Luôn xác thực đầu vào người dùng
+- **Xác thực**: ASP.NET Core Identity
+- **Ủy quyền**: Kiểm soát truy cập dựa trên vai trò
+
+### Hiệu suất
+- **Cơ sở dữ liệu**: Sử dụng `.AsNoTracking()` cho chỉ đọc
+- **Web**: Async/await cho hoạt động I/O
+- **Bộ nhớ đệm**: Triển khai khi phù hợp
+
+## Quy ước đặt tên file
+- **File C#**: `TênLớp.cs`
+- **Giao diện**: `TênHànhĐộng.cshtml`
+- **Giao diện từng phần**: `_TênTừngPhần.cshtml`
+- **Thành phần giao diện**: `Components/{TênThànhPhần}/Default.cshtml`
+
+## Thiết lập phát triển
+1. `dotnet restore`
+2. Cấu hình chuỗi kết nối PostgreSQL
+3. `dotnet ef database update`
+
+## Danh sách kiểm tra đánh giá mã
+- [ ] Tuân thủ quy ước mã hóa
+- [ ] Không trùng lặp mã
+- [ ] Xử lý lỗi phù hợp
+- [ ] Đã xem xét các vấn đề bảo mật
+- [ ] Đã bao gồm/cập nhật kiểm thử
+- [ ] Đã cập nhật tài liệu
+
+## Ghi chú quan trọng
+- Luôn sử dụng bình luận tiếng Việt cho logic nghiệp vụ
+- Tiếng Anh cho tài liệu kỹ thuật
+- Giữ memory-bank cập nhật với các quyết định kiến trúc
+- Tuân theo quy ước đặt tên trong `memory-bank/naming-conventions-views.md`
+
+---
+*Để xem quy tắc chi tiết, xem `workspace-rules.md`*
+*Cập nhật lần cuối: 27/12/2025*

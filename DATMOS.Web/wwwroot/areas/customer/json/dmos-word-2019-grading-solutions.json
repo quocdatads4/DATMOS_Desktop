@@ -1,0 +1,415 @@
+{
+  "version": "1.0.0",
+  "createdDate": "2024-12-22",
+  "description": "Bài giải và tiêu chí chấm điểm cho MOS Word 2019 Projects - Dùng cho cơ chế chấm điểm tự động",
+  "author": "DATMOS System",
+  "lastUpdated": "2024-12-22T12:28:00",
+  "projects": [
+    {
+      "projectId": 1,
+      "projectName": "MOS Word 2019 - Dự án 1: Khủng long",
+      "courseCode": "CRS001",
+      "courseName": "MOS Word 2019",
+      "totalTasks": 6,
+      "maxScore": 100,
+      "passingScore": 70,
+      "gradingTasks": [
+        {
+          "taskId": 1,
+          "taskType": "fileProperties",
+          "taskName": "Task 1: Thêm danh mục Dinosaur",
+          "shortName": "Thuộc tính file",
+          "maxScore": 15,
+          "gradingCriteria": {
+            "propertyType": "custom",
+            "propertyName": "Category",
+            "expectedValue": "Dinosaur",
+            "checkMethod": "documentProperty",
+            "validationRules": [
+              {
+                "ruleType": "exactMatch",
+                "propertyPath": "CustomDocumentProperties.Item(\"Category\").Value",
+                "expectedValue": "Dinosaur",
+                "caseSensitive": false,
+                "points": 15
+              }
+            ],
+            "verificationSteps": [
+              "Mở hộp thoại File Properties",
+              "Chọn tab Custom",
+              "Kiểm tra property 'Category' có giá trị 'Dinosaur'"
+            ],
+            "keywords": ["File Properties", "Category", "Custom Properties"],
+            "hints": [
+              "Thuộc tính file nằm trong tab File > Info",
+              "Chọn tab Custom để thêm danh mục tùy chỉnh"
+            ]
+          }
+        },
+        {
+          "taskId": 2,
+          "taskType": "formatPainter",
+          "taskName": "Task 2: Sao chép định dạng",
+          "shortName": "Sao chép định dạng",
+          "maxScore": 15,
+          "gradingCriteria": {
+            "sourceParagraph": "When and Where Dinosaurs Lived - paragraph 1",
+            "targetParagraph": "When and Where Dinosaurs Lived - paragraph 2",
+            "checkMethod": "paragraphFormatting",
+            "formatPropertiesToCheck": [
+              "Font.Name",
+              "Font.Size",
+              "Font.Bold",
+              "Font.Italic",
+              "Font.Color",
+              "Paragraph.Alignment",
+              "Paragraph.LeftIndent",
+              "Paragraph.RightIndent",
+              "Paragraph.FirstLineIndent",
+              "Paragraph.LineSpacing",
+              "Paragraph.SpaceBefore",
+              "Paragraph.SpaceAfter"
+            ],
+            "validationRules": [
+              {
+                "ruleType": "formatMatch",
+                "tolerance": 0.95,
+                "points": 15,
+                "description": "Định dạng đoạn văn thứ hai phải khớp 95% với đoạn văn đầu tiên"
+              }
+            ],
+            "verificationSteps": [
+              "Chọn đoạn văn đầu tiên trong phần 'When and Where Dinosaurs Lived'",
+              "Sử dụng Format Painter",
+              "Áp dụng cho đoạn văn thứ hai",
+              "So sánh định dạng hai đoạn văn"
+            ],
+            "keywords": ["Format Painter", "Copy Formatting", "Paragraph Formatting"],
+            "hints": [
+              "Có thể nhấp đúp vào Format Painter để áp dụng cho nhiều đoạn văn",
+              "Đảm bảo chọn toàn bộ đoạn văn"
+            ]
+          }
+        },
+        {
+          "taskId": 3,
+          "taskType": "tableSort",
+          "taskName": "Task 3: Sắp xếp bảng",
+          "shortName": "Sắp xếp bảng",
+          "maxScore": 20,
+          "gradingCriteria": {
+            "tableLocation": "Geologic eras table",
+            "sortColumns": [
+              {
+                "columnName": "Geologic period",
+                "sortOrder": "ascending",
+                "isPrimary": true
+              },
+              {
+                "columnName": "Dinosaur",
+                "sortOrder": "ascending",
+                "isPrimary": false
+              }
+            ],
+            "checkMethod": "tableSortOrder",
+            "validationRules": [
+              {
+                "ruleType": "sortOrder",
+                "columnIndex": 0,
+                "expectedOrder": "ascending",
+                "points": 10,
+                "description": "Cột 'Geologic period' được sắp xếp tăng dần"
+              },
+              {
+                "ruleType": "sortOrder",
+                "columnIndex": 1,
+                "expectedOrder": "ascending",
+                "points": 10,
+                "description": "Cột 'Dinosaur' được sắp xếp tăng dần (sau khi sắp xếp theo Geologic period)"
+              }
+            ],
+            "verificationSteps": [
+              "Chọn toàn bộ bảng trong phần 'Geologic eras'",
+              "Mở hộp thoại Sort",
+              "Thiết lập Sort by: 'Geologic period' - Ascending",
+              "Thiết lập Then by: 'Dinosaur' - Ascending",
+              "Kiểm tra thứ tự các dòng trong bảng"
+            ],
+            "keywords": ["Sort Table", "Ascending", "Multiple Sort"],
+            "hints": [
+              "Đảm bảo chọn toàn bộ bảng trước khi sắp xếp",
+              "Có thể sắp xếp theo nhiều cột"
+            ]
+          }
+        },
+        {
+          "taskId": 4,
+          "taskType": "listLevel",
+          "taskName": "Task 4: Thay đổi cấp độ",
+          "shortName": "Cấp độ danh sách",
+          "maxScore": 15,
+          "gradingCriteria": {
+            "listLocation": "Ornithischian Dinosaurs list",
+            "targetItem": "Developed a narrow eyebrow",
+            "expectedLevel": 3,
+            "checkMethod": "listLevel",
+            "validationRules": [
+              {
+                "ruleType": "exactLevel",
+                "listItemText": "Developed a narrow eyebrow",
+                "expectedLevel": 3,
+                "points": 15,
+                "description": "Dòng 'Developed a narrow eyebrow' phải ở cấp độ 3"
+              }
+            ],
+            "verificationSteps": [
+              "Tìm dòng 'Developed a narrow eyebrow' trong danh sách",
+              "Kiểm tra level của list item",
+              "Xác nhận level = 3"
+            ],
+            "keywords": ["List Level", "Increase Indent", "Multilevel List"],
+            "hints": [
+              "Có thể sử dụng phím Tab để tăng thụt lề",
+              "Sử dụng Multilevel List để chọn cấp độ chính xác"
+            ]
+          }
+        },
+        {
+          "taskId": 5,
+          "taskType": "3dModels",
+          "taskName": "Task 5: Chèn mô hình 3D",
+          "shortName": "Mô hình 3D",
+          "maxScore": 20,
+          "gradingCriteria": {
+            "location": "Kids love dinosaurs section - empty paragraph at end",
+            "modelType": "3D Model",
+            "modelName": "T-Rex",
+            "wrapText": "In Line with Text",
+            "checkMethod": "shapeProperties",
+            "validationRules": [
+              {
+                "ruleType": "shapeExists",
+                "shapeType": "3D Model",
+                "points": 10,
+                "description": "Có ít nhất một 3D Model được chèn"
+              },
+              {
+                "ruleType": "wrapText",
+                "expectedWrap": "In Line with Text",
+                "points": 10,
+                "description": "3D Model được định vị 'In Line with Text'"
+              }
+            ],
+            "verificationSteps": [
+              "Kiểm tra trong phần 'Kids love dinosaurs' có 3D Model",
+              "Chọn 3D Model",
+              "Kiểm tra Wrap Text setting",
+              "Xác nhận là 'In Line with Text'"
+            ],
+            "keywords": ["3D Models", "Insert 3D", "Wrap Text", "In Line with Text"],
+            "hints": [
+              "Tính năng 3D Models có trong tab Insert > Illustrations",
+              "Đảm bảo chọn đúng định vị In Line with Text"
+            ]
+          }
+        },
+        {
+          "taskId": 6,
+          "taskType": "artisticEffects",
+          "taskName": "Task 6: Hiệu ứng Pencil Sketch",
+          "shortName": "Hiệu ứng hình ảnh",
+          "maxScore": 15,
+          "gradingCriteria": {
+            "imageLocation": "Theropod section - dinosaur fossil image",
+            "expectedEffect": "Pencil Sketch",
+            "checkMethod": "pictureEffects",
+            "validationRules": [
+              {
+                "ruleType": "artisticEffect",
+                "expectedEffect": "Pencil Sketch",
+                "points": 15,
+                "description": "Hình ảnh hóa thạch khủng long có hiệu ứng Pencil Sketch"
+              }
+            ],
+            "verificationSteps": [
+              "Chọn hình ảnh hóa thạch khủng long trong phần 'Theropod'",
+              "Mở Picture Format tab",
+              "Kiểm tra Artistic Effects",
+              "Xác nhận hiệu ứng Pencil Sketch được áp dụng"
+            ],
+            "keywords": ["Artistic Effects", "Pencil Sketch", "Picture Format"],
+            "hints": [
+              "Hiệu ứng Artistic Effects nằm trong tab Picture Format",
+              "Hover chuột để xem trước các hiệu ứng trước khi áp dụng"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "projectId": 2,
+      "projectName": "MOS Word 2019 - Dự án 2: Muffin Shop",
+      "courseCode": "CRS001",
+      "courseName": "MOS Word 2019",
+      "totalTasks": 5,
+      "maxScore": 90,
+      "passingScore": 63,
+      "gradingTasks": [
+        {
+          "taskId": 6,
+          "taskType": "headersFooters",
+          "taskName": "Task 1: Hiển thị Integral header",
+          "shortName": "Header tích hợp",
+          "maxScore": 20,
+          "gradingCriteria": {
+            "headerType": "Integral",
+            "applyTo": "All pages except first",
+            "checkMethod": "headerFooter",
+            "validationRules": [
+              {
+                "ruleType": "headerExists",
+                "headerType": "Integral",
+                "points": 10,
+                "description": "Header Integral được áp dụng"
+              },
+              {
+                "ruleType": "differentFirstPage",
+                "enabled": true,
+                "points": 10,
+                "description": "Different First Page được bật (header không xuất hiện trang 1)"
+              }
+            ],
+            "keywords": ["Header", "Different First Page", "Integral Header", "Page Layout"],
+            "hints": [
+              "Tùy chọn Different First Page nằm trong tab Design của Header & Footer Tools",
+              "Integral header là một mẫu header có sẵn trong thư viện"
+            ]
+          }
+        },
+        {
+          "taskId": 7,
+          "taskType": "specialCharacters",
+          "taskName": "Task 2: Chèn biểu tượng thermometer",
+          "shortName": "Ký tự đặc biệt",
+          "maxScore": 15,
+          "gradingCriteria": {
+            "symbolLocation": "Before 'The muffin tray will still be hot!' in Depanning section",
+            "fontName": "Webdings",
+            "characterCode": 225,
+            "expectedSymbol": "Thermometer",
+            "checkMethod": "specialCharacter",
+            "validationRules": [
+              {
+                "ruleType": "symbolExists",
+                "fontName": "Webdings",
+                "characterCode": 225,
+                "points": 15,
+                "description": "Biểu tượng thermometer (mã 225) từ font Webdings được chèn"
+              }
+            ],
+            "keywords": ["Symbol", "Webdings", "Character Code", "Thermometer", "Special Characters"],
+            "hints": [
+              "Font Webdings chứa nhiều biểu tượng đồ họa",
+              "Mã ký tự 225 tương ứng với biểu tượng thermometer trong font Webdings"
+            ]
+          }
+        },
+        {
+          "taskId": 8,
+          "taskType": "paragraphFormatting",
+          "taskName": "Task 3: Đặt khoảng cách giãn dòng",
+          "shortName": "Giãn dòng",
+          "maxScore": 15,
+          "gradingCriteria": {
+            "applyTo": "Entire document",
+            "lineSpacing": 1.3,
+            "lineSpacingType": "Multiple",
+            "checkMethod": "paragraphSpacing",
+            "validationRules": [
+              {
+                "ruleType": "lineSpacing",
+                "expectedValue": 1.3,
+                "tolerance": 0.05,
+                "points": 15,
+                "description": "Khoảng cách giãn dòng = 1.3 lines cho toàn bộ tài liệu"
+              }
+            ],
+            "keywords": ["Line Spacing", "Paragraph Formatting", "Multiple", "1.3 lines"],
+            "hints": [
+              "Có thể sử dụng Line Spacing Options để nhập giá trị tùy chỉnh",
+              "Giá trị 1.3 lines tương đương với khoảng cách 1.3 lần kích thước font"
+            ]
+          }
+        },
+        {
+          "taskId": 9,
+          "taskType": "numbering",
+          "taskName": "Task 4: Tiếp tục đánh số danh sách",
+          "shortName": "Đánh số danh sách",
+          "maxScore": 20,
+          "gradingCriteria": {
+            "listLocation": "Top Sellers section - second column",
+            "continueFrom": "First column list",
+            "expectedSequence": [4, 5, 6],
+            "checkMethod": "listNumbering",
+            "validationRules": [
+              {
+                "ruleType": "numberingSequence",
+                "expectedNumbers": [4, 5, 6],
+                "points": 20,
+                "description": "Danh sách trong cột thứ hai tiếp tục đánh số từ 4 đến 6"
+              }
+            ],
+            "keywords": ["Numbering", "Continue Numbering", "Lists", "Top Sellers"],
+            "hints": [
+              "Tùy chọn Continue Numbering cho phép tiếp tục đánh số từ danh sách trước",
+              "Đảm bảo chọn đúng danh sách trong cột thứ hai"
+            ]
+          }
+        },
+        {
+          "taskId": 10,
+          "taskType": "smartArtEffects",
+          "taskName": "Task 5: Áp dụng hiệu ứng Soft Round bevel",
+          "shortName": "Hiệu ứng SmartArt",
+          "maxScore": 20,
+          "gradingCriteria": {
+            "smartArtLocation": "Overview section",
+            "effectType": "Bevel",
+            "effectName": "Soft Round",
+            "applyTo": "Entire SmartArt graphic",
+            "checkMethod": "smartArtEffects",
+            "validationRules": [
+              {
+                "ruleType": "bevelEffect",
+                "expectedEffect": "Soft Round",
+                "points": 20,
+                "description": "Hiệu ứng Soft Round bevel được áp dụng cho toàn bộ SmartArt"
+              }
+            ],
+            "keywords": ["SmartArt", "Bevel Effects", "Soft Round", "Shape Effects", "SmartArt Styles"],
+            "hints": [
+              "Đảm bảo chọn toàn bộ SmartArt, không chỉ một phần tử",
+              "Hiệu ứng Bevel nằm trong nhóm Shape Effects"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "totalProjects": 2,
+    "totalTasks": 11,
+    "scoringSystem": {
+      "pointsPerTask": "Variable based on task complexity",
+      "passingPercentage": 70,
+      "gradingMethod": "Automated based on document properties and formatting",
+      "toleranceLevel": "Strict for exact values, lenient for formatting matches"
+    },
+    "compatibility": {
+      "wordVersion": "2019",
+      "fileFormat": ".docx",
+      "requiredAddins": "None"
+    }
+  }
+}

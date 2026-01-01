@@ -1,0 +1,332 @@
+@model List<DATMOS.Web.Areas.Customer.ViewModels.LessonViewModel>
+@{
+    ViewData["Title"] = ViewData["Title"] ?? "Bài học";
+    Layout = "~/Areas/Customer/Views/Shared/_CustomerLayout.cshtml";
+}
+
+<div class="container-xxl flex-grow-1 container-p-y">
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <h4 class="mb-0">@ViewData["Title"]</h4>
+                            <p class="text-muted mb-0">Khám phá các bài học phù hợp với nhu cầu của bạn</p>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <a href="@Url.Action("Free", "Lesson", new { area = "Customer" })" 
+                               class="btn btn-outline-success">
+                                <i class="ti ti-gift me-1"></i> Miễn phí
+                            </a>
+                            <a href="@Url.Action("Paid", "Lesson", new { area = "Customer" })" 
+                               class="btn btn-outline-primary">
+                                <i class="ti ti-shopping-cart me-1"></i> Trả phí
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search and Filter -->
+    <div class="row mb-4">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <form method="get" action="@Url.Action("Search", "Lesson", new { area = "Customer" })" 
+                          class="row g-3">
+                        <div class="col-md-8">
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="ti ti-search"></i>
+                                </span>
+                                <input type="text" class="form-control" name="keyword" 
+                                       placeholder="Tìm kiếm bài học..." 
+                                       value="@ViewData["SearchKeyword"]">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <select class="form-select" name="difficulty">
+                                <option value="">Tất cả độ khó</option>
+                                <option value="Dễ">Dễ</option>
+                                <option value="Trung bình">Trung bình</option>
+                                <option value="Khó">Khó</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-primary w-100">
+                                <i class="ti ti-search me-1"></i> Tìm kiếm
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lesson List -->
+    <div class="row">
+        @if (Model != null && Model.Any())
+        {
+            foreach (var lesson in Model)
+            {
+                <div class="col-xl-4 col-lg-6 col-md-6 mb-4">
+                    <div class="card card-hover border h-100">
+                        <div class="card-header">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex align-items-center">
+                                    <div class="avatar me-2">
+                                        <span class="avatar-initial rounded bg-label-@lesson.ColorClass">
+                                            <i class="ti @lesson.Icon"></i>
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <h6 class="card-title mb-0">@lesson.Code</h6>
+                                        <small class="text-muted">@lesson.CourseCode</small>
+                                    </div>
+                                </div>
+                                <span class="badge bg-label-@(lesson.IsFree ? "success" : "primary")">
+                                    <i class="ti @(lesson.IsFree ? "ti-gift" : "ti-shopping-cart") me-1"></i>
+                                    @(lesson.IsFree ? "Miễn phí" : "Trả phí")
+                                </span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">@lesson.Name</h5>
+                            <p class="card-text text-muted">@lesson.Description</p>
+                            
+                            <div class="row mb-3">
+                                <div class="col-6">
+                                    <small class="text-muted d-block">Độ khó</small>
+                                    <span class="fw-semibold">@lesson.Difficulty</span>
+                                </div>
+                                <div class="col-6">
+                                    <small class="text-muted d-block">Thời lượng</small>
+                                    <span class="fw-semibold">@lesson.Duration</span>
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <div class="col-6">
+                                    <small class="text-muted d-block">Thứ tự</small>
+                                    <span class="fw-semibold">Bài @lesson.Order</span>
+                                </div>
+                                <div class="col-6">
+                                    <small class="text-muted d-block">Loại nội dung</small>
+                                    <span class="fw-semibold">
+                                        @switch(lesson.ContentType)
+                                        {
+                                            case "video":
+                                                @:<i class="ti ti-video me-1"></i>Video
+                                                break;
+                                            case "text":
+                                                @:<i class="ti ti-file-text me-1"></i>Văn bản
+                                                break;
+                                            case "quiz":
+                                                @:<i class="ti ti-checklist me-1"></i>Quiz
+                                                break;
+                                            default:
+                                                @lesson.ContentType
+                                                break;
+                                        }
+                                    </span>
+                                </div>
+                            </div>
+                            
+                            @if (lesson.Objectives != null && lesson.Objectives.Any())
+                            {
+                                <div class="mb-3">
+                                    <small class="text-muted d-block mb-1">Mục tiêu học tập</small>
+                                    <ul class="list-unstyled mb-0">
+                                        @foreach (var objective in lesson.Objectives.Take(2))
+                                        {
+                                            <li class="mb-1">
+                                                <i class="ti ti-check text-success me-1"></i>
+                                                <small>@objective</small>
+                                            </li>
+                                        }
+                                        @if (lesson.Objectives.Count > 2)
+                                        {
+                                            <li>
+                                                <small class="text-muted">+ @(lesson.Objectives.Count - 2) mục tiêu khác</small>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                            }
+                            
+                            <div class="progress mb-3" style="height: 6px;">
+                                <div class="progress-bar" role="progressbar" 
+                                     style="width: @lesson.Progress%;" 
+                                     aria-valuenow="@lesson.Progress" 
+                                     aria-valuemin="0" 
+                                     aria-valuemax="100"></div>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <small class="text-muted">Tiến độ</small>
+                                <small class="fw-semibold">@lesson.Progress%</small>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    @if (lesson.Completed)
+                                    {
+                                        <span class="badge bg-label-success">
+                                            <i class="ti ti-check me-1"></i>Đã hoàn thành
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-label-warning">
+                                            <i class="ti ti-clock me-1"></i>Chưa hoàn thành
+                                        </span>
+                                    }
+                                </div>
+                                <div class="d-flex gap-2">
+                                    <a href="@Url.Action("Details", "Lesson", new { area = "Customer", id = lesson.Id })" 
+                                       class="btn btn-outline-primary btn-sm">
+                                        <i class="ti ti-info-circle me-1"></i> Chi tiết
+                                    </a>
+                                    @if (lesson.IsFree || lesson.Completed)
+                                    {
+                                        <a href="@Url.Action("Study", "Lesson", new { area = "Customer", id = lesson.Id })" 
+                                           class="btn btn-success btn-sm">
+                                            <i class="ti ti-play-circle me-1"></i> Học ngay
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a href="@Url.Action("Study", "Lesson", new { area = "Customer", id = lesson.Id })" 
+                                           class="btn btn-primary btn-sm">
+                                            <i class="ti ti-lock-open me-1"></i> Mở khóa
+                                        </a>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body text-center py-5">
+                        <div class="avatar avatar-lg mb-3">
+                            <span class="avatar-initial rounded bg-label-secondary">
+                                <i class="ti ti-book-off"></i>
+                            </span>
+                        </div>
+                        <h5 class="card-title">Không tìm thấy bài học</h5>
+                        <p class="card-text text-muted">Không có bài học nào phù hợp với tiêu chí tìm kiếm.</p>
+                        <a href="@Url.Action("Index", "Lesson", new { area = "Customer" })" 
+                           class="btn btn-primary">
+                            <i class="ti ti-arrow-left me-1"></i> Xem tất cả bài học
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <!-- Statistics -->
+    <div class="row mt-4">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Thống kê bài học</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3 col-6 mb-3">
+                            <div class="d-flex align-items-center">
+                                <div class="avatar avatar-lg me-3">
+                                    <span class="avatar-initial rounded bg-label-primary">
+                                        <i class="ti ti-book"></i>
+                                    </span>
+                                </div>
+                                <div>
+                                    <small class="text-muted d-block">Tổng bài học</small>
+                                    <h5 class="mb-0">@(Model?.Count ?? 0)</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-6 mb-3">
+                            <div class="d-flex align-items-center">
+                                <div class="avatar avatar-lg me-3">
+                                    <span class="avatar-initial rounded bg-label-success">
+                                        <i class="ti ti-gift"></i>
+                                    </span>
+                                </div>
+                                <div>
+                                    <small class="text-muted d-block">Bài học miễn phí</small>
+                                    <h5 class="mb-0">@(Model?.Count(l => l.IsFree) ?? 0)</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-6 mb-3">
+                            <div class="d-flex align-items-center">
+                                <div class="avatar avatar-lg me-3">
+                                    <span class="avatar-initial rounded bg-label-warning">
+                                        <i class="ti ti-shopping-cart"></i>
+                                    </span>
+                                </div>
+                                <div>
+                                    <small class="text-muted d-block">Bài học trả phí</small>
+                                    <h5 class="mb-0">@(Model?.Count(l => !l.IsFree) ?? 0)</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-6 mb-3">
+                            <div class="d-flex align-items-center">
+                                <div class="avatar avatar-lg me-3">
+                                    <span class="avatar-initial rounded bg-label-info">
+                                        <i class="ti ti-check"></i>
+                                    </span>
+                                </div>
+                                <div>
+                                    <small class="text-muted d-block">Đã hoàn thành</small>
+                                    <h5 class="mb-0">@(Model?.Count(l => l.Completed) ?? 0)</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            console.log('Lessons page loaded');
+            
+            // Add hover effect to cards
+            $('.card-hover').hover(
+                function() {
+                    $(this).addClass('shadow-sm');
+                },
+                function() {
+                    $(this).removeClass('shadow-sm');
+                }
+            );
+
+            // Search form submit
+            $('form').on('submit', function(e) {
+                var keyword = $('input[name="keyword"]').val();
+                var difficulty = $('select[name="difficulty"]').val();
+                
+                if (!keyword && !difficulty) {
+                    e.preventDefault();
+                    window.location.href = '@Url.Action("Index", "Lesson", new { area = "Customer" })';
+                }
+            });
+        });
+    </script>
+}

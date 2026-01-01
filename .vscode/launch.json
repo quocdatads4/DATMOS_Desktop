@@ -16,7 +16,7 @@
             "serverReadyAction": {
                 "action": "openExternally",
                 "pattern": "\\bNow listening on:\\s+(https?://\\S+)",
-                "uriFormat": "http://localhost:5243"
+                "uriFormat": "http://localhost:5243/Customer/Word2019Results/AllResults"
             },
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Development"

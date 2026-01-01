@@ -1,0 +1,29 @@
+@model List<DATMOS.Web.Models.ViewModels.Navigation.FooterItemViewModel>
+@if (Model.Any())
+{
+    var brandItem = Model.FirstOrDefault();
+    if (brandItem != null)
+    {
+        <div class="footer-brand-section">
+            <h5 class="footer-brand-title">@brandItem.Title</h5>
+            @if (!string.IsNullOrEmpty(brandItem.Content))
+            {
+                <p class="footer-brand-description">@brandItem.Content</p>
+            }
+            
+            @if (brandItem.Children.Any())
+            {
+                <div class="footer-social-links mt-3">
+                    @foreach (var socialItem in brandItem.Children.OrderBy(c => c.Order))
+                    {
+                        @if (!socialItem.IsVisible) continue;
+                        
+                        <a href="@socialItem.Url" target="@socialItem.Target" class="footer-social-link" title="@socialItem.Title">
+                            <i class="@socialItem.Icon"></i>
+                        </a>
+                    }
+                </div>
+            }
+        </div>
+    }
+}

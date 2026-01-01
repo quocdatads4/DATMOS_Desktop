@@ -1,0 +1,25 @@
+@model DATMOS.Web.Models.ViewModels.Navigation.FooterDataViewModel
+@if (Model?.FooterBySections != null && Model.FooterBySections.Any())
+{
+    <footer class="content-footer footer bg-footer-theme @(Model.FooterType)-footer" id="footer">
+        <div class="container-xxl">
+            <div class="row py-5">
+                @foreach (var section in Model.FooterBySections)
+                {
+                    @if (section.Key == "Copyright") { continue; }
+                    
+                    <div class="col-lg-3 col-md-6 mb-4">
+                        @await Html.PartialAsync($"~/Views/Shared/Components/Footer/Sections/_{section.Key}Section.cshtml", section.Value)
+                    </div>
+                }
+            </div>
+            
+            @if (Model.FooterBySections.ContainsKey("Copyright"))
+            {
+                <div class="border-top py-4">
+                    @await Html.PartialAsync("~/Views/Shared/Components/Footer/Sections/_CopyrightSection.cshtml", Model.FooterBySections["Copyright"])
+                </div>
+            }
+        </div>
+    </footer>
+}

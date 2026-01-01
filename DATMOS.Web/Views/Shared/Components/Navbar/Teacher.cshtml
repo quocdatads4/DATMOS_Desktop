@@ -1,0 +1,56 @@
+@*
+    Đây là view cho NavbarViewComponent (Teacher type).
+    Nó định nghĩa cấu trúc HTML của thanh điều hướng cho Teacher area.
+*@
+@{
+  // Set NavbarArea for _Brand.cshtml to identify area correctly
+  ViewData["NavbarArea"] = "Teacher";
+  
+  // Set default TempData values if not already set
+  if (TempData["appName"] == null)
+  {
+      TempData["appName"] = "DATMOS Teacher Portal";
+  }
+  if (TempData["menuHorizontal"] == null)
+  {
+      TempData["menuHorizontal"] = false;
+  }
+}
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+    <div class="container">
+        @* Brand/Logo using shared partial *@
+        @await Html.PartialAsync("~/Views/Shared/Components/Navbar/Partials/_Brand.cshtml")
+        
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTeacher" aria-controls="navbarTeacher" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarTeacher">
+            @* Gọi MenuViewComponent đã có để hiển thị menu động *@
+            @await Component.InvokeAsync("Menu", new { menuType = "Teacher", area = "Teacher" })
+
+            @* Các thành phần navbar cho Teacher *@
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="Teacher" asp-controller="Dashboard" asp-action="Index">
+                        <i class="fas fa-chalkboard-teacher"></i> Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="Teacher" asp-controller="Courses" asp-action="Index">
+                        <i class="fas fa-book"></i> Courses
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="Teacher" asp-controller="Students" asp-action="Index">
+                        <i class="fas fa-users"></i> Students
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="Teacher" asp-controller="Profile" asp-action="Index">
+                        <i class="fas fa-user"></i> Profile
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

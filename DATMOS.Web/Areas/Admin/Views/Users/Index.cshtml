@@ -1,121 +1,13 @@
+@model IEnumerable<DATMOS.Web.Areas.Admin.ViewModels.AdminUserViewModel>
 @{
     ViewData["Title"] = "Quản lý người dùng";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 
-    // Tạo dữ liệu mẫu vì chưa kết nối database
-    var sampleUsers = new List<dynamic>
-    {
-        new {
-            Id = "USR001",
-            UserName = "admin",
-            FullName = "Nguyễn Văn Admin",
-            Email = "admin@datmos.com",
-            EmailConfirmed = true,
-            PhoneNumber = "0901234567",
-            Role = "Quản trị viên",
-            Status = "Active",
-            IsActive = true,
-            AvatarUrl = "",
-            JoinDate = new DateTime(2024, 1, 15, 9, 30, 0)
-        },
-        new {
-            Id = "USR002",
-            UserName = "manager",
-            FullName = "Trần Thị Quản lý",
-            Email = "manager@datmos.com",
-            EmailConfirmed = true,
-            PhoneNumber = "0912345678",
-            Role = "Quản lý",
-            Status = "Active",
-            IsActive = true,
-            AvatarUrl = "",
-            JoinDate = new DateTime(2024, 2, 20, 14, 15, 0)
-        },
-        new {
-            Id = "USR003",
-            UserName = "staff1",
-            FullName = "Lê Văn Nhân viên",
-            Email = "staff1@datmos.com",
-            EmailConfirmed = true,
-            PhoneNumber = "0923456789",
-            Role = "Nhân viên",
-            Status = "Active",
-            IsActive = true,
-            AvatarUrl = "",
-            JoinDate = new DateTime(2024, 3, 10, 10, 45, 0)
-        },
-        new {
-            Id = "USR004",
-            UserName = "user1",
-            FullName = "Phạm Thị Người dùng",
-            Email = "user1@datmos.com",
-            EmailConfirmed = false,
-            PhoneNumber = "",
-            Role = "Người dùng",
-            Status = "Pending",
-            IsActive = false,
-            AvatarUrl = "",
-            JoinDate = new DateTime(2024, 4, 5, 16, 20, 0)
-        },
-        new {
-            Id = "USR005",
-            UserName = "inactive_user",
-            FullName = "Hoàng Văn Vô hiệu",
-            Email = "inactive@datmos.com",
-            EmailConfirmed = true,
-            PhoneNumber = "0934567890",
-            Role = "Nhân viên",
-            Status = "Inactive",
-            IsActive = false,
-            AvatarUrl = "",
-            JoinDate = new DateTime(2024, 1, 30, 11, 10, 0)
-        },
-        new {
-            Id = "USR006",
-            UserName = "moderator",
-            FullName = "Đặng Thị Điều hành",
-            Email = "moderator@datmos.com",
-            EmailConfirmed = true,
-            PhoneNumber = "0945678901",
-            Role = "Điều hành",
-            Status = "Active",
-            IsActive = true,
-            AvatarUrl = "",
-            JoinDate = new DateTime(2024, 5, 12, 13, 25, 0)
-        },
-        new {
-            Id = "USR007",
-            UserName = "viewer",
-            FullName = "Vũ Văn Xem",
-            Email = "viewer@datmos.com",
-            EmailConfirmed = false,
-            PhoneNumber = "",
-            Role = "Người xem",
-            Status = "Pending",
-            IsActive = false,
-            AvatarUrl = "",
-            JoinDate = new DateTime(2024, 6, 8, 15, 40, 0)
-        },
-        new {
-            Id = "USR008",
-            UserName = "analyst",
-            FullName = "Bùi Thị Phân tích",
-            Email = "analyst@datmos.com",
-            EmailConfirmed = true,
-            PhoneNumber = "0956789012",
-            Role = "Phân tích",
-            Status = "Active",
-            IsActive = true,
-            AvatarUrl = "",
-            JoinDate = new DateTime(2024, 7, 18, 9, 15, 0)
-        }
-    };
-
-    // Tính toán thống kê từ dữ liệu mẫu
-    var totalUsers = sampleUsers.Count;
-    var activeUsers = sampleUsers.Count(u => u.Status == "Active");
-    var inactiveUsers = sampleUsers.Count(u => u.Status == "Inactive");
-    var pendingUsers = sampleUsers.Count(u => u.Status == "Pending");
+    // Tính toán thống kê từ dữ liệu thực
+    var totalUsers = Model?.Count() ?? 0;
+    var activeUsers = Model?.Count(u => u.Status == "Active") ?? 0;
+    var inactiveUsers = Model?.Count(u => u.Status == "Inactive") ?? 0;
+    var pendingUsers = Model?.Count(u => u.Status == "Pending") ?? 0;
 }
 
 @section VendorStyles {
@@ -269,147 +161,160 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var user in sampleUsers)
+                @if (Model != null)
                 {
-                    <tr>
-                        <td>
-                            <div class="form-check">
-                                <input class="form-check-input user-checkbox" type="checkbox" value="@user.Id" />
-                            </div>
-                        </td>
-                        <td>
-                            <div class="d-flex align-items-center">
-                                <div class="user-avatar @(user.IsActive ? "user-avatar-online" : "user-avatar-offline") user-avatar-initials me-3">
-                                    @if (!string.IsNullOrEmpty(user.AvatarUrl))
-                                    {
-                                        <img src="@user.AvatarUrl" alt="@user.FullName" />
-                                    }
-                                    else
-                                    {
-                                        <span>@(!string.IsNullOrEmpty(user.FullName) ? user.FullName.Substring(0, 1).ToUpper() : "?")</span>
-                                    }
+                    @foreach (var user in Model)
+                    {
+                        <tr>
+                            <td>
+                                <div class="form-check">
+                                    <input class="form-check-input user-checkbox" type="checkbox" value="@user.Id" />
                                 </div>
+                            </td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="user-avatar @(user.IsActive ? "user-avatar-online" : "user-avatar-offline") user-avatar-initials me-3">
+                                        @if (!string.IsNullOrEmpty(user.AvatarUrl))
+                                        {
+                                            <img src="@user.AvatarUrl" alt="@user.DisplayName" />
+                                        }
+                                        else
+                                        {
+                                            <span>@user.Initials</span>
+                                        }
+                                    </div>
+                                    <div class="d-flex flex-column">
+                                        <span class="fw-semibold">@user.DisplayName</span>
+                                        <small class="text-muted">@@@user.UserName</small>
+                                        <small class="text-muted">ID: @user.Id.Substring(0, Math.Min(8, user.Id.Length))...</small>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
                                 <div class="d-flex flex-column">
-                                    <span class="fw-semibold">@user.FullName</span>
-                                    <small class="text-muted">@@@user.UserName</small>
-                                    <small class="text-muted">ID: @user.Id</small>
+                                    <span>@user.Email</span>
+                                    <small class="text-muted">
+                                        @if (user.EmailConfirmed)
+                                        {
+                                            <span class="status-badge status-badge-active">
+                                                <i class="icon-base ti ti-check"></i>
+                                                Đã xác thực
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="status-badge status-badge-pending">
+                                                <i class="icon-base ti ti-clock"></i>
+                                                Chưa xác thực
+                                            </span>
+                                        }
+                                    </small>
                                 </div>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="d-flex flex-column">
-                                <span>@user.Email</span>
-                                <small class="text-muted">
-                                    @if (user.EmailConfirmed)
-                                    {
-                                        <span class="status-badge status-badge-active">
-                                            <i class="icon-base ti ti-check"></i>
-                                            Đã xác thực
-                                        </span>
-                                    }
-                                    else
-                                    {
-                                        <span class="status-badge status-badge-pending">
-                                            <i class="icon-base ti ti-clock"></i>
-                                            Chưa xác thực
-                                        </span>
-                                    }
-                                </small>
-                            </div>
-                        </td>
-                        <td>
-                            @if (!string.IsNullOrEmpty(user.PhoneNumber))
-                            {
-                                <span>@user.PhoneNumber</span>
-                            }
-                            else
-                            {
-                                <span class="text-muted">-</span>
-                            }
-                        </td>
-                        <td>
-                            @if (!string.IsNullOrEmpty(user.Role))
-                            {
-                                <span class="badge bg-label-primary">@user.Role</span>
-                            }
-                            else
-                            {
-                                <span class="badge bg-label-secondary">Chưa có</span>
-                            }
-                        </td>
-                        <td>
-                            @if (user.IsActive && user.Status == "Active")
-                            {
-                                <span class="status-badge status-badge-active">
-                                    <i class="icon-base ti ti-circle-check"></i>
-                                    Hoạt động
-                                </span>
-                            }
-                            else if (user.Status == "Inactive")
-                            {
-                                <span class="status-badge status-badge-inactive">
-                                    <i class="icon-base ti ti-circle-x"></i>
-                                    Vô hiệu hóa
-                                </span>
-                            }
-                            else
-                            {
-                                <span class="status-badge status-badge-pending">
-                                    <i class="icon-base ti ti-clock"></i>
-                                    @user.Status
-                                </span>
-                            }
-                        </td>
-                        <td>
-                            <span>@user.JoinDate.ToString("dd/MM/yyyy")</span>
-                            <small class="text-muted d-block">@user.JoinDate.ToString("HH:mm")</small>
-                        </td>
-                        <td class="no-sort">
-                            <div class="action-buttons">
-                                <!-- Nút Bật/Tắt -->
-                                <form method="post" class="d-inline toggle-user-form"
-                                      data-user-id="@user.Id"
-                                      data-user-name="@user.FullName"
-                                      data-user-active="@user.IsActive">
-                                    <input type="hidden" name="id" value="@user.Id" />
-                                    <button type="button" 
-                                            class="btn btn-icon btn-text-@(user.IsActive ? "success" : "secondary") waves-effect waves-light rounded-pill toggle-record" 
-                                            title="@(user.IsActive ? "Tắt người dùng" : "Bật người dùng")"
-                                            aria-label="@(user.IsActive ? "Tắt người dùng" : "Bật người dùng") @user.FullName"
-                                            data-bs-toggle="tooltip"
-                                            data-bs-original-title="@(user.IsActive ? "Tắt người dùng" : "Bật người dùng")">
-                                        <i class="icon-base ti @(user.IsActive ? "ti-toggle-right" : "ti-toggle-left")"></i>
-                                    </button>
-                                </form>
-                                
-                                <!-- Nút Chỉnh sửa -->
-                                <a href="#" 
-                                   class="btn btn-icon btn-text-warning waves-effect waves-light rounded-pill edit-record"
-                                   title="Chỉnh sửa"
-                                   aria-label="Chỉnh sửa người dùng @user.FullName"
-                                   data-bs-toggle="tooltip"
-                                   data-bs-original-title="Chỉnh sửa">
-                                    <i class="icon-base ti ti-edit"></i>
-                                </a>
-                                
-                                <!-- Nút Xóa -->
-                                <form method="post" class="d-inline delete-user-form"
-                                      data-user-id="@user.Id"
-                                      data-user-name="@user.FullName">
-                                    <input type="hidden" name="id" value="@user.Id" />
-                                    <button type="button" 
-                                            class="btn btn-icon btn-text-secondary waves-effect waves-light rounded-pill delete-record" 
-                                            title="Vô hiệu hóa"
-                                            aria-label="Vô hiệu hóa người dùng @user.FullName"
-                                            data-bs-toggle="tooltip"
-                                            data-bs-original-title="Vô hiệu hóa"
-                                            @(!user.IsActive ? "disabled" : "")>
-                                        <i class="icon-base ti ti-trash"></i>
-                                    </button>
-                                </form>
-                            </div>
-                        </td>
-                    </tr>
+                            </td>
+                            <td>
+                                @if (!string.IsNullOrEmpty(user.PhoneNumber))
+                                {
+                                    <span>@user.PhoneNumber</span>
+                                }
+                                else
+                                {
+                                    <span class="text-muted">-</span>
+                                }
+                            </td>
+                            <td>
+                                @if (!string.IsNullOrEmpty(user.Role))
+                                {
+                                    <span class="badge bg-label-primary">@user.Role</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-label-secondary">Chưa có</span>
+                                }
+                            </td>
+                            <td>
+                                @if (user.IsActive && user.Status == "Active")
+                                {
+                                    <span class="status-badge status-badge-active">
+                                        <i class="icon-base ti ti-circle-check"></i>
+                                        Hoạt động
+                                    </span>
+                                }
+                                else if (user.Status == "Inactive")
+                                {
+                                    <span class="status-badge status-badge-inactive">
+                                        <i class="icon-base ti ti-circle-x"></i>
+                                        Vô hiệu hóa
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="status-badge status-badge-pending">
+                                        <i class="icon-base ti ti-clock"></i>
+                                        @user.Status
+                                    </span>
+                                }
+                            </td>
+                            <td>
+                                @if (user.JoinDate.HasValue)
+                                {
+                                    <span>@user.JoinDate.Value.ToString("dd/MM/yyyy")</span>
+                                    <small class="text-muted d-block">@user.JoinDate.Value.ToString("HH:mm")</small>
+                                }
+                                else
+                                {
+                                    <span class="text-muted">-</span>
+                                }
+                            </td>
+                            <td class="no-sort">
+                                <div class="action-buttons">
+                                    <!-- Nút Bật/Tắt -->
+                                    <form method="post" class="d-inline toggle-user-form"
+                                          data-user-id="@user.Id"
+                                          data-user-name="@user.DisplayName"
+                                          data-user-active="@user.IsActive"
+                                          action="@Url.Action("ToggleStatus", "Users", new { area = "Admin" })">
+                                        <input type="hidden" name="id" value="@user.Id" />
+                                        <button type="button" 
+                                                class="btn btn-icon btn-text-@(user.IsActive ? "success" : "secondary") waves-effect waves-light rounded-pill toggle-record" 
+                                                title="@(user.IsActive ? "Tắt người dùng" : "Bật người dùng")"
+                                                aria-label="@(user.IsActive ? "Tắt người dùng" : "Bật người dùng") @user.DisplayName"
+                                                data-bs-toggle="tooltip"
+                                                data-bs-original-title="@(user.IsActive ? "Tắt người dùng" : "Bật người dùng")">
+                                            <i class="icon-base ti @(user.IsActive ? "ti-toggle-right" : "ti-toggle-left")"></i>
+                                        </button>
+                                    </form>
+                                    
+                                    <!-- Nút Chỉnh sửa -->
+                                    <a href="#" 
+                                       class="btn btn-icon btn-text-warning waves-effect waves-light rounded-pill edit-record"
+                                       title="Chỉnh sửa"
+                                       aria-label="Chỉnh sửa người dùng @user.DisplayName"
+                                       data-bs-toggle="tooltip"
+                                       data-bs-original-title="Chỉnh sửa"
+                                       data-user-id="@user.Id">
+                                        <i class="icon-base ti ti-edit"></i>
+                                    </a>
+                                    
+                                    <!-- Nút Xóa -->
+                                    <form method="post" class="d-inline delete-user-form"
+                                          data-user-id="@user.Id"
+                                          data-user-name="@user.DisplayName"
+                                          action="@Url.Action("Delete", "Users", new { area = "Admin" })">
+                                        <input type="hidden" name="id" value="@user.Id" />
+                                        <button type="button" 
+                                                class="btn btn-icon btn-text-secondary waves-effect waves-light rounded-pill delete-record" 
+                                                title="Vô hiệu hóa"
+                                                aria-label="Vô hiệu hóa người dùng @user.DisplayName"
+                                                data-bs-toggle="tooltip"
+                                                data-bs-original-title="Vô hiệu hóa"
+                                                @(!user.IsActive ? "disabled" : "")>
+                                            <i class="icon-base ti ti-trash"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    }
                 }
             </tbody>
         </table>
@@ -417,110 +322,125 @@
 
     <!-- Mobile Grid View -->
     <div class="mobile-users-grid p-4">
-        @foreach (var user in sampleUsers)
+        @if (Model != null)
         {
-            <div class="user-card">
-                <div class="user-card-header">
-                    <div class="user-avatar @(user.IsActive ? "user-avatar-online" : "user-avatar-offline") user-avatar-initials">
-                        @if (!string.IsNullOrEmpty(user.AvatarUrl))
-                        {
-                            <img src="@user.AvatarUrl" alt="@user.FullName" />
-                        }
-                        else
-                        {
-                            <span>@(!string.IsNullOrEmpty(user.FullName) ? user.FullName.Substring(0, 1).ToUpper() : "?")</span>
-                        }
-                    </div>
-                    <div class="user-card-info">
-                        <h6 class="mb-1">@user.FullName</h6>
-                        <small class="text-muted">@@@user.UserName</small>
-                    </div>
-                <div class="user-card-actions">
-                    <!-- Nút Bật/Tắt cho mobile -->
-                    <form method="post" class="d-inline toggle-user-form"
-                          data-user-id="@user.Id"
-                          data-user-name="@user.FullName"
-                          data-user-active="@user.IsActive">
-                        <input type="hidden" name="id" value="@user.Id" />
-                        <button type="button" 
-                                class="btn btn-icon btn-text-@(user.IsActive ? "success" : "secondary") waves-effect waves-light rounded-pill toggle-record" 
-                                title="@(user.IsActive ? "Tắt người dùng" : "Bật người dùng")"
-                                aria-label="@(user.IsActive ? "Tắt người dùng" : "Bật người dùng") @user.FullName"
-                                data-bs-toggle="tooltip"
-                                data-bs-original-title="@(user.IsActive ? "Tắt người dùng" : "Bật người dùng")">
-                            <i class="icon-base ti @(user.IsActive ? "ti-toggle-right" : "ti-toggle-left")"></i>
-                        </button>
-                    </form>
-                    
-                    <!-- Nút Chỉnh sửa cho mobile -->
-                    <a href="#" 
-                       class="btn btn-icon btn-text-warning waves-effect waves-light rounded-pill edit-record"
-                       title="Chỉnh sửa"
-                       aria-label="Chỉnh sửa người dùng @user.FullName"
-                       data-bs-toggle="tooltip"
-                       data-bs-original-title="Chỉnh sửa">
-                        <i class="icon-base ti ti-edit"></i>
-                    </a>
-                </div>
-                </div>
-                <div class="user-card-details">
-                    <div class="user-card-detail">
-                        <span class="user-card-label">Email</span>
-                        <span class="user-card-value text-truncate">@user.Email</span>
-                    </div>
-                    <div class="user-card-detail">
-                        <span class="user-card-label">Vai trò</span>
-                        <span class="user-card-value">
-                            @if (!string.IsNullOrEmpty(user.Role))
+            @foreach (var user in Model)
+            {
+                <div class="user-card">
+                    <div class="user-card-header">
+                        <div class="user-avatar @(user.IsActive ? "user-avatar-online" : "user-avatar-offline") user-avatar-initials">
+                            @if (!string.IsNullOrEmpty(user.AvatarUrl))
                             {
-                                <span class="badge bg-label-primary">@user.Role</span>
+                                <img src="@user.AvatarUrl" alt="@user.DisplayName" />
                             }
                             else
                             {
-                                <span class="badge bg-label-secondary">Chưa có</span>
+                                <span>@user.Initials</span>
                             }
-                        </span>
+                        </div>
+                        <div class="user-card-info">
+                            <h6 class="mb-1">@user.DisplayName</h6>
+                            <small class="text-muted">@@@user.UserName</small>
+                        </div>
+                        <div class="user-card-actions">
+                            <!-- Nút Bật/Tắt cho mobile -->
+                            <form method="post" class="d-inline toggle-user-form"
+                                  data-user-id="@user.Id"
+                                  data-user-name="@user.DisplayName"
+                                  data-user-active="@user.IsActive"
+                                  action="@Url.Action("ToggleStatus", "Users", new { area = "Admin" })">
+                                <input type="hidden" name="id" value="@user.Id" />
+                                <button type="button" 
+                                        class="btn btn-icon btn-text-@(user.IsActive ? "success" : "secondary") waves-effect waves-light rounded-pill toggle-record" 
+                                        title="@(user.IsActive ? "Tắt người dùng" : "Bật người dùng")"
+                                        aria-label="@(user.IsActive ? "Tắt người dùng" : "Bật người dùng") @user.DisplayName"
+                                        data-bs-toggle="tooltip"
+                                        data-bs-original-title="@(user.IsActive ? "Tắt người dùng" : "Bật người dùng")">
+                                    <i class="icon-base ti @(user.IsActive ? "ti-toggle-right" : "ti-toggle-left")"></i>
+                                </button>
+                            </form>
+                            
+                            <!-- Nút Chỉnh sửa cho mobile -->
+                            <a href="#" 
+                               class="btn btn-icon btn-text-warning waves-effect waves-light rounded-pill edit-record"
+                               title="Chỉnh sửa"
+                               aria-label="Chỉnh sửa người dùng @user.DisplayName"
+                               data-bs-toggle="tooltip"
+                               data-bs-original-title="Chỉnh sửa"
+                               data-user-id="@user.Id">
+                                <i class="icon-base ti ti-edit"></i>
+                            </a>
+                        </div>
                     </div>
-                    <div class="user-card-detail">
-                        <span class="user-card-label">Trạng thái</span>
-                        <span class="user-card-value">
-                            @if (user.IsActive && user.Status == "Active")
-                            {
-                                <span class="status-badge status-badge-active">Hoạt động</span>
-                            }
-                            else if (user.Status == "Inactive")
-                            {
-                                <span class="status-badge status-badge-inactive">Vô hiệu hóa</span>
-                            }
-                            else
-                            {
-                                <span class="status-badge status-badge-pending">@user.Status</span>
-                            }
-                        </span>
+                    <div class="user-card-details">
+                        <div class="user-card-detail">
+                            <span class="user-card-label">Email</span>
+                            <span class="user-card-value text-truncate">@user.Email</span>
+                        </div>
+                        <div class="user-card-detail">
+                            <span class="user-card-label">Vai trò</span>
+                            <span class="user-card-value">
+                                @if (!string.IsNullOrEmpty(user.Role))
+                                {
+                                    <span class="badge bg-label-primary">@user.Role</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-label-secondary">Chưa có</span>
+                                }
+                            </span>
+                        </div>
+                        <div class="user-card-detail">
+                            <span class="user-card-label">Trạng thái</span>
+                            <span class="user-card-value">
+                                @if (user.IsActive && user.Status == "Active")
+                                {
+                                    <span class="status-badge status-badge-active">Hoạt động</span>
+                                }
+                                else if (user.Status == "Inactive")
+                                {
+                                    <span class="status-badge status-badge-inactive">Vô hiệu hóa</span>
+                                }
+                                else
+                                {
+                                    <span class="status-badge status-badge-pending">@user.Status</span>
+                                }
+                            </span>
+                        </div>
+                        <div class="user-card-detail">
+                            <span class="user-card-label">Ngày tham gia</span>
+                            <span class="user-card-value">
+                                @if (user.JoinDate.HasValue)
+                                {
+                                    @user.JoinDate.Value.ToString("dd/MM/yyyy")
+                                }
+                                else
+                                {
+                                    <span class="text-muted">-</span>
+                                }
+                            </span>
+                        </div>
                     </div>
-                    <div class="user-card-detail">
-                        <span class="user-card-label">Ngày tham gia</span>
-                        <span class="user-card-value">@user.JoinDate.ToString("dd/MM/yyyy")</span>
+                    <div class="mt-3">
+                        <form method="post" class="d-inline delete-user-form"
+                              data-user-id="@user.Id"
+                              data-user-name="@user.DisplayName"
+                              action="@Url.Action("Delete", "Users", new { area = "Admin" })">
+                            <input type="hidden" name="id" value="@user.Id" />
+                            <button type="button" 
+                                    class="btn btn-icon btn-text-secondary waves-effect waves-light rounded-pill delete-record w-100"
+                                    title="Vô hiệu hóa"
+                                    aria-label="Vô hiệu hóa người dùng @user.DisplayName"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-original-title="Vô hiệu hóa"
+                                    @(!user.IsActive ? "disabled" : "")>
+                                <i class="icon-base ti ti-trash me-1"></i>
+                                Vô hiệu hóa
+                            </button>
+                        </form>
                     </div>
                 </div>
-                <div class="mt-3">
-                    <form method="post" class="d-inline delete-user-form"
-                          data-user-id="@user.Id"
-                          data-user-name="@user.FullName">
-                        <input type="hidden" name="id" value="@user.Id" />
-                        <button type="button" 
-                                class="btn btn-icon btn-text-secondary waves-effect waves-light rounded-pill delete-record w-100"
-                                title="Vô hiệu hóa"
-                                aria-label="Vô hiệu hóa người dùng @user.FullName"
-                                data-bs-toggle="tooltip"
-                                data-bs-original-title="Vô hiệu hóa"
-                                @(!user.IsActive ? "disabled" : "")>
-                            <i class="icon-base ti ti-trash me-1"></i>
-                            Vô hiệu hóa
-                        </button>
-                    </form>
-                </div>
-            </div>
+            }
         }
     </div>
 </div>
@@ -548,349 +468,4 @@
 }
 
 @section Scripts {
-    <script>
-        // Initialize tooltips
-        $(function () {
-            $('[data-bs-toggle="tooltip"]').tooltip();
-        });
-        
-        // Handle toggle user with SweetAlert2
-        $(document).ready(function() {
-            $('.toggle-record').on('click', function(e) {
-                e.preventDefault();
-                
-                const form = $(this).closest('.toggle-user-form');
-                const userId = form.data('user-id');
-                const userName = form.data('user-name') || 'người dùng này';
-                const isActive = form.data('user-active') === 'True' || form.data('user-active') === true;
-                
-                const action = isActive ? 'tắt' : 'bật';
-                const actionText = isActive ? 'Tắt người dùng' : 'Bật người dùng';
-                const icon = isActive ? 'warning' : 'info';
-                const confirmButtonColor = isActive ? '#ffab00' : '#71dd37';
-                
-                Swal.fire({
-                    title: `Xác nhận ${action} người dùng`,
-                    html: `Bạn có chắc chắn muốn ${action} <strong>${userName}</strong>?<br><br>
-                           <small class="text-muted">${isActive ? 'Người dùng sẽ không thể đăng nhập vào hệ thống Admin.' : 'Người dùng sẽ có thể đăng nhập vào hệ thống Admin.'}</small>`,
-                    icon: icon,
-                    showCancelButton: true,
-                    confirmButtonText: actionText,
-                    cancelButtonText: 'Hủy',
-                    confirmButtonColor: confirmButtonColor,
-                    cancelButtonColor: '#3085d6',
-                    reverseButtons: true,
-                    customClass: {
-                        confirmButton: `btn ${isActive ? 'btn-warning' : 'btn-success'}`,
-                        cancelButton: 'btn btn-secondary'
-                    }
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        // Show loading state
-                        const toggleBtn = form.find('.toggle-record');
-                        const originalHtml = toggleBtn.html();
-                        toggleBtn.prop('disabled', true).html('<i class="ti ti-loader-2 spinner"></i>');
-                        
-                        // Submit the form
-                        form.submit();
-                    }
-                });
-            });
-            
-            // Handle delete user with SweetAlert2
-            $('.delete-record').on('click', function(e) {
-                e.preventDefault();
-                
-                const form = $(this).closest('.delete-user-form');
-                const userId = form.data('user-id');
-                const userName = form.data('user-name') || 'người dùng này';
-                const isDisabled = $(this).prop('disabled');
-                
-                if (isDisabled) {
-                    return;
-                }
-                
-                Swal.fire({
-                    title: 'Xác nhận vô hiệu hóa',
-                    html: `Bạn có chắc chắn muốn vô hiệu hóa <strong>${userName}</strong>?<br><br>
-                           <small class="text-muted">Người dùng sẽ không thể đăng nhập vào hệ thống Admin.</small>`,
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonText: 'Vô hiệu hóa',
-                    cancelButtonText: 'Hủy',
-                    confirmButtonColor: '#d33',
-                    cancelButtonColor: '#3085d6',
-                    reverseButtons: true,
-                    customClass: {
-                        confirmButton: 'btn btn-danger',
-                        cancelButton: 'btn btn-secondary'
-                    }
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        // Show loading state
-                        const deleteBtn = form.find('.delete-record');
-                        const originalHtml = deleteBtn.html();
-                        deleteBtn.prop('disabled', true).html('<i class="ti ti-loader-2 spinner"></i>');
-                        
-                        // Submit the form
-                        form.submit();
-                    }
-                });
-            });
-            
-        // Handle form submission to prevent double submission
-        $('.toggle-user-form').on('submit', function(e) {
-            const submitBtn = $(this).find('.toggle-record');
-            if (submitBtn.prop('disabled')) {
-                e.preventDefault();
-                return false;
-            }
-            submitBtn.prop('disabled', true).html('<i class="ti ti-loader-2 spinner"></i>');
-            return true;
-        });
-        
-        $('.delete-user-form').on('submit', function(e) {
-            const submitBtn = $(this).find('.delete-record');
-            if (submitBtn.prop('disabled')) {
-                e.preventDefault();
-                return false;
-            }
-            submitBtn.prop('disabled', true).html('<i class="ti ti-loader-2 spinner"></i>');
-            return true;
-        });
-
-        // Handle quick filters
-        $('.quick-filter').on('click', function(e) {
-            e.preventDefault();
-            
-            // Remove active class from all filters
-            $('.quick-filter').removeClass('active');
-            // Add active class to clicked filter
-            $(this).addClass('active');
-            
-            const filter = $(this).data('filter');
-            
-            // Show/hide rows based on filter
-            $('tbody tr').each(function() {
-                const $row = $(this);
-                const status = $row.find('.status-badge').text().trim().toLowerCase();
-                
-                let showRow = false;
-                
-                switch(filter) {
-                    case 'all':
-                        showRow = true;
-                        break;
-                    case 'active':
-                        showRow = status.includes('hoạt động');
-                        break;
-                    case 'inactive':
-                        showRow = status.includes('vô hiệu hóa');
-                        break;
-                    case 'pending':
-                        showRow = status.includes('chờ') || status.includes('pending');
-                        break;
-                }
-                
-                if (showRow) {
-                    $row.show();
-                } else {
-                    $row.hide();
-                }
-            });
-
-            // Also filter mobile grid view
-            $('.user-card').each(function() {
-                const $card = $(this);
-                const status = $card.find('.status-badge').text().trim().toLowerCase();
-                
-                let showCard = false;
-                
-                switch(filter) {
-                    case 'all':
-                        showCard = true;
-                        break;
-                    case 'active':
-                        showCard = status.includes('hoạt động');
-                        break;
-                    case 'inactive':
-                        showCard = status.includes('vô hiệu hóa');
-                        break;
-                    case 'pending':
-                        showCard = status.includes('chờ') || status.includes('pending');
-                        break;
-                }
-                
-                if (showCard) {
-                    $card.show();
-                } else {
-                    $card.hide();
-                }
-            });
-        });
-
-        // Handle view toggle (list/grid) - only on mobile
-        $('[data-view]').on('click', function(e) {
-            e.preventDefault();
-            
-            // Only toggle on mobile screens
-            if (window.innerWidth > 768) {
-                toastr.info('Chế độ xem grid chỉ khả dụng trên thiết bị di động');
-                return;
-            }
-            
-            const view = $(this).data('view');
-            
-            // Update active button
-            $('[data-view]').removeClass('active');
-            $(this).addClass('active');
-            
-            if (view === 'list') {
-                // Show table view, hide grid view
-                $('.admin-users-table').show();
-                $('.mobile-users-grid').hide();
-            } else {
-                // Show grid view, hide table view
-                $('.admin-users-table').hide();
-                $('.mobile-users-grid').show();
-            }
-        });
-
-        // Handle window resize to update view
-        $(window).on('resize', function() {
-            if (window.innerWidth > 768) {
-                // On desktop, always show table view
-                $('.admin-users-table').show();
-                $('.mobile-users-grid').hide();
-                $('[data-view="list"]').addClass('active');
-                $('[data-view="grid"]').removeClass('active');
-            }
-        });
-
-        // Handle select all checkbox
-        $('.select-all-users').on('change', function() {
-            const isChecked = $(this).prop('checked');
-            $('.user-checkbox').prop('checked', isChecked);
-            updateBulkSelectionCount();
-        });
-
-        // Handle individual checkbox changes
-        $('.user-checkbox').on('change', function() {
-            updateBulkSelectionCount();
-            
-            // Update select all checkbox state
-            const totalCheckboxes = $('.user-checkbox').length;
-            const checkedCheckboxes = $('.user-checkbox:checked').length;
-            $('.select-all-users').prop('checked', totalCheckboxes === checkedCheckboxes);
-        });
-
-        // Update bulk selection count
-        function updateBulkSelectionCount() {
-            const selectedCount = $('.user-checkbox:checked').length;
-            $('.bulk-selection-count').text(`${selectedCount} người dùng được chọn`);
-            
-            // Enable/disable bulk action buttons
-            if (selectedCount > 0) {
-                $('.bulk-activate, .bulk-deactivate, .bulk-delete, .bulk-export').prop('disabled', false);
-            } else {
-                $('.bulk-activate, .bulk-deactivate, .bulk-delete, .bulk-export').prop('disabled', true);
-            }
-        }
-
-        // Handle bulk actions
-        $('.bulk-activate').on('click', function() {
-            const selectedIds = getSelectedUserIds();
-            if (selectedIds.length === 0) return;
-            
-            Swal.fire({
-                title: 'Kích hoạt hàng loạt',
-                html: `Bạn có chắc chắn muốn kích hoạt <strong>${selectedIds.length} người dùng</strong>?`,
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonText: 'Kích hoạt',
-                cancelButtonText: 'Hủy'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Implement bulk activation logic here
-                    toastr.success(`Đã kích hoạt ${selectedIds.length} người dùng`);
-                }
-            });
-        });
-
-        $('.bulk-deactivate').on('click', function() {
-            const selectedIds = getSelectedUserIds();
-            if (selectedIds.length === 0) return;
-            
-            Swal.fire({
-                title: 'Vô hiệu hóa hàng loạt',
-                html: `Bạn có chắc chắn muốn vô hiệu hóa <strong>${selectedIds.length} người dùng</strong>?`,
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Vô hiệu hóa',
-                cancelButtonText: 'Hủy'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Implement bulk deactivation logic here
-                    toastr.success(`Đã vô hiệu hóa ${selectedIds.length} người dùng`);
-                }
-            });
-        });
-
-        $('.bulk-delete').on('click', function() {
-            const selectedIds = getSelectedUserIds();
-            if (selectedIds.length === 0) return;
-            
-            Swal.fire({
-                title: 'Xóa hàng loạt',
-                html: `Bạn có chắc chắn muốn xóa <strong>${selectedIds.length} người dùng</strong>?<br><br>
-                       <small class="text-muted">Hành động này không thể hoàn tác.</small>`,
-                icon: 'error',
-                showCancelButton: true,
-                confirmButtonText: 'Xóa',
-                cancelButtonText: 'Hủy',
-                confirmButtonColor: '#d33'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Implement bulk delete logic here
-                    toastr.success(`Đã xóa ${selectedIds.length} người dùng`);
-                }
-            });
-        });
-
-        $('.bulk-export').on('click', function() {
-            const selectedIds = getSelectedUserIds();
-            if (selectedIds.length === 0) return;
-            
-            toastr.info(`Đang xuất ${selectedIds.length} người dùng sang CSV...`);
-            // Implement export logic here
-        });
-
-        // Get selected user IDs
-        function getSelectedUserIds() {
-            const selectedIds = [];
-            $('.user-checkbox:checked').each(function() {
-                selectedIds.push($(this).val());
-            });
-            return selectedIds;
-        }
-
-        // Initialize DataTable if available
-        if ($.fn.DataTable) {
-            $('.datatables-users').DataTable({
-                responsive: true,
-                ordering: true,
-                pageLength: 10,
-                language: {
-                    url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/vi.json'
-                },
-                columnDefs: [
-                    { orderable: false, targets: [0, 7] } // Disable sorting for checkbox and action columns
-                ]
-            });
-        }
-
-        // Initialize bulk actions state
-        updateBulkSelectionCount();
-    });
-    </script>
 }

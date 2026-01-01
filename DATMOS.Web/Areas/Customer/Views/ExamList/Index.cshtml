@@ -1,0 +1,274 @@
+@model List<DATMOS.Web.Areas.Customer.ViewModels.ExamListViewModel>
+@{
+    ViewData["Title"] = "Danh sách bài thi";
+    Layout = "~/Areas/Customer/Views/Shared/_CustomerLayout.cshtml";
+}
+
+@section VendorStyles {
+    <!-- Add vendor styles if needed -->
+}
+
+@section PageStyles {
+    <style>
+        .exam-card {
+            transition: all 0.3s ease;
+        }
+        .exam-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+        }
+    </style>
+}
+
+<div class="container-xxl flex-grow-1 container-p-y">
+    <div class="row">
+        <div class="col-lg-12 mb-4 order-0">
+            <div class="card">
+                <div class="d-flex align-items-end row">
+                    <div class="col-sm-12">
+                        <div class="card-body">
+                            <h5 class="card-title text-primary">
+                                @if (ViewBag.PageTitle != null)
+                                {
+                                    <text>@ViewBag.PageTitle</text>
+                                }
+                                else if (ViewBag.SubjectName != null)
+                                {
+                                    <text>Danh sách bài thi - @ViewBag.SubjectName</text>
+                                }
+                                else
+                                {
+                                    <text>@ViewData["Title"]</text>
+                                }
+                            </h5>
+                            <p class="mb-4">
+                                @if (ViewBag.IsWord2019Page != null && ViewBag.IsWord2019Page == true)
+                                {
+                                    <text>Danh sách bài thi Word 2019 có sẵn trong hệ thống.</text>
+                                }
+                                else if (ViewBag.SubjectName != null)
+                                {
+                                    <text>Danh sách bài thi môn <strong>@ViewBag.SubjectName</strong> có sẵn trong hệ thống.</text>
+                                }
+                                else
+                                {
+                                    <text>Danh sách tất cả các bài thi có sẵn trong hệ thống. Bạn có thể lọc theo môn học hoặc loại bài thi.</text>
+                                }
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @if (ViewBag.IsWord2019Page == null || ViewBag.IsWord2019Page == false)
+    {
+        <!-- Statistics Dashboard - Only show for non-Word2019 pages -->
+        <div class="row mb-4">
+            <div class="col-md-6 col-lg-3 mb-4 mb-lg-0">
+                <div class="card h-100 border-0">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center">
+                            <div class="avatar avatar-lg bg-label-primary rounded-3 p-3 me-3">
+                                <i class="ti ti-clipboard text-primary"></i>
+                            </div>
+                            <div>
+                                <h6 class="card-subtitle text-muted mb-1">Tổng Exam</h6>
+                                <h3 class="card-title mb-0">@Model?.Count</h3>
+                                <small class="text-muted">Số bài thi</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6 col-lg-3 mb-4 mb-lg-0">
+                <div class="card h-100 border-0">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center">
+                            <div class="avatar avatar-lg bg-label-success rounded-3 p-3 me-3">
+                                <i class="ti ti-refresh text-success"></i>
+                            </div>
+                            <div>
+                                <h6 class="card-subtitle text-muted mb-1">Ôn luyện</h6>
+                                <h3 class="card-title mb-0">@Model?.Count(e => e.Mode.Contains("Training"))</h3>
+                                <small class="text-muted">Có đáp án</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6 col-lg-3 mb-4 mb-md-0">
+                <div class="card h-100 border-0">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center">
+                            <div class="avatar avatar-lg bg-label-warning rounded-3 p-3 me-3">
+                                <i class="ti ti-clipboard-check text-warning"></i>
+                            </div>
+                            <div>
+                                <h6 class="card-subtitle text-muted mb-1">Thi thử</h6>
+                                <h3 class="card-title mb-0">@Model?.Count(e => e.Mode.Contains("Testing"))</h3>
+                                <small class="text-muted">Không đáp án</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6 col-lg-3">
+                <div class="card h-100 border-0">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center">
+                            <div class="avatar avatar-lg bg-label-info rounded-3 p-3 me-3">
+                                <i class="ti ti-folders text-info"></i>
+                            </div>
+                            <div>
+                                <h6 class="card-subtitle text-muted mb-1">Tổng Project</h6>
+                                <h3 class="card-title mb-0">@Model?.Sum(e => e.TotalProjects)</h3>
+                                <small class="text-muted">Bài tập thực hành</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Word 2019 Special Card - Full width on mobile, half width on medium, quarter on large -->
+        <div class="row mb-4">
+            <div class="col-12 col-md-8 col-lg-6 mx-auto">
+                <div class="card h-100 border-0">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center">
+                            <div class="avatar avatar-lg bg-label-danger rounded-3 p-3 me-3">
+                                <i class="ti ti-file-word text-danger"></i>
+                            </div>
+                            <div class="flex-grow-1">
+                                <h6 class="card-subtitle text-muted mb-1">Word 2019 Exams</h6>
+                                <h3 class="card-title mb-2">@Model?.Count(e => e.SubjectCode == "WORD") bài thi</h3>
+                                <p class="text-muted mb-3">Danh sách đầy đủ các bài thi Word 2019 có sẵn trong hệ thống</p>
+                                <a href="/Customer/ExamList/Word2019" class="btn btn-danger">
+                                    <i class="ti ti-external-link me-2"></i>
+                                    Xem bài thi Word 2019
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    <!-- Exams List -->
+    <div class="card mb-6">
+        <div class="card-header d-flex align-items-center justify-content-between">
+            <h5 class="card-title m-0">Danh sách bài thi (Exam)</h5>
+            <small class="text-muted">Mỗi Exam gồm @Model?.FirstOrDefault()?.TotalProjects Project, mỗi Project có 5-6 task</small>
+        </div>
+        <div class="card-body p-0">
+            <div class="list-group list-group-flush">
+                @if (Model != null && Model.Any())
+                {
+                    foreach (var exam in Model)
+                    {
+                        <div class="list-group-item p-4 border-bottom">
+                            <div class="d-flex flex-column flex-md-row align-items-center justify-content-between gap-3">
+                                <!-- Left: Exam Info -->
+                                <div class="d-flex align-items-center flex-grow-1 min-width-0">
+                                    <div class="avatar avatar-md bg-label-primary rounded-2 p-2 me-3 flex-shrink-0">
+                                        <i class="icon-base ti ti-clipboard-check text-primary"></i>
+                                    </div>
+                                    <div class="min-width-0">
+                                        <div class="d-flex align-items-center flex-wrap gap-2 mb-1">
+                                            <h5 class="card-title mb-0 text-truncate">@exam.Title</h5>
+                                            <span class="badge bg-@exam.BadgeType">@exam.BadgeLabel</span>
+                                        </div>
+                                        <p class="text-muted mb-0 small text-truncate">@exam.Description</p>
+                                    </div>
+                                </div>
+                                
+                                <!-- Center: Stats - Compact Version -->
+                                <div class="d-flex align-items-center gap-3 flex-shrink-0">
+                                    <div class="d-flex align-items-center gap-1">
+                                        <span class="avatar avatar-xs bg-label-primary rounded p-1">
+                                            <i class="icon-base ti ti-folders text-primary"></i>
+                                        </span>
+                                        <div class="text-nowrap">
+                                            <span class="fw-semibold">@exam.TotalProjects</span>
+                                            <small class="text-muted ms-1">Project</small>
+                                        </div>
+                                    </div>
+                                    <div class="vr"></div>
+                                    <div class="d-flex align-items-center gap-1">
+                                        <span class="avatar avatar-xs bg-label-success rounded p-1">
+                                            <i class="icon-base ti ti-checklist text-success"></i>
+                                        </span>
+                                        <div class="text-nowrap">
+                                            <span class="fw-semibold">@exam.TotalTasks</span>
+                                            <small class="text-muted ms-1">Task</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Right: Action Buttons -->
+                                <div class="d-flex gap-2 flex-shrink-0">
+                                    @if (exam.Mode.Contains("Training"))
+                                    {
+                                        <a href="/Customer/Product/Practice?productId=1&examId=@exam.Id" class="btn btn-info waves-effect waves-light px-3" role="button" onclick="return confirmStartSession('practice', @exam.DurationMinutes)">
+                                            <i class="icon-base ti ti-refresh me-1"></i>
+                                            <span class="d-none d-md-inline">Ôn luyện</span>
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <button class="btn btn-outline-secondary px-3 waves-effect" disabled>
+                                            <i class="icon-base ti ti-refresh me-1"></i>
+                                            <span class="d-none d-md-inline">Ôn luyện</span>
+                                        </button>
+                                    }
+                                    
+                                    @if (exam.Mode.Contains("Testing"))
+                                    {
+                                        <a href="/Customer/Product/Test?productId=1&examId=@exam.Id" class="btn btn-warning waves-effect waves-light px-3" role="button" onclick="return confirmStartSession('test', @exam.DurationMinutes)">
+                                            <i class="icon-base ti ti-clipboard-check me-1"></i>
+                                            <span class="d-none d-md-inline">Thi thử</span>
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <button class="btn btn-outline-secondary px-3 waves-effect" disabled>
+                                            <i class="icon-base ti ti-clipboard-check me-1"></i>
+                                            <span class="d-none d-md-inline">Thi thử</span>
+                                        </button>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="list-group-item p-4 border-bottom">
+                        <div class="text-center py-5">
+                            <i class="ti ti-file text-muted mb-3" style="font-size: 3rem;"></i>
+                            <h5 class="text-muted">Không có bài thi nào</h5>
+                            <p class="text-muted">Hiện tại không có bài thi nào trong hệ thống.</p>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function confirmStartSession(type, duration) {
+            const typeText = type === 'practice' ? 'Ôn luyện' : 'Thi thử';
+            const message = `Bạn có chắc chắn muốn bắt đầu ${typeText}?\n\nThời gian: ${duration} phút\n\nSau khi bắt đầu, thời gian sẽ được tính và không thể dừng lại.`;
+            
+            return confirm(message);
+        }
+    </script>
+}

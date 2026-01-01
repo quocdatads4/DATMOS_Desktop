@@ -1,0 +1,38 @@
+@model List<DATMOS.Web.Models.ViewModels.Navigation.FooterItemViewModel>
+@foreach (var item in Model.OrderBy(m => m.Order))
+{
+    @if (!item.IsVisible) continue;
+    
+    <li class="@item.CssClass">
+        @if (!string.IsNullOrEmpty(item.Url))
+        {
+            <a href="@item.Url" target="@item.Target" class="footer-link">
+                @if (!string.IsNullOrEmpty(item.Icon))
+                {
+                    <i class="@item.Icon"></i>
+                }
+                @item.Title
+            </a>
+        }
+        else if (!string.IsNullOrEmpty(item.Controller) && !string.IsNullOrEmpty(item.Action))
+        {
+            <a asp-area="@item.Area" asp-controller="@item.Controller" asp-action="@item.Action" class="footer-link">
+                @if (!string.IsNullOrEmpty(item.Icon))
+                {
+                    <i class="@item.Icon"></i>
+                }
+                @item.Title
+            </a>
+        }
+        else
+        {
+            <span>
+                @if (!string.IsNullOrEmpty(item.Icon))
+                {
+                    <i class="@item.Icon"></i>
+                }
+                @item.Title
+            </span>
+        }
+    </li>
+}

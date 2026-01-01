@@ -1,2 +1,8 @@
 /DATMOS.WinApp/bin
 /.vs
+/.vs
+/DATMOS.Data/bin
+/DATMOS.Data/obj
+/DATMOS.Web/bin
+/DATMOS.Web/obj
+/obj

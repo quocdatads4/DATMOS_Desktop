@@ -9,12 +9,38 @@
                 "build",
                 "${workspaceFolder}/DATMOS.Web/DATMOS.Web.csproj",
                 "/property:GenerateFullPaths=true",
-                "/consoleloggerparameters:NoSummary"
+                "/consoleloggerparameters:NoSummary;Verbosity=minimal"
             ],
             "problemMatcher": "$msCompile",
             "group": {
                 "kind": "build",
                 "isDefault": true
+            }
+        },
+        {
+            "label": "run",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "run",
+                "--project",
+                "${workspaceFolder}/DATMOS.Web/DATMOS.Web.csproj",
+                "--no-build",
+                "--verbosity",
+                "quiet"
+            ],
+            "problemMatcher": "$msCompile",
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            }
+        },
+        {
+            "label": "build-and-run",
+            "dependsOn": ["build", "run"],
+            "group": {
+                "kind": "build",
+                "isDefault": false
             }
         }
     ]

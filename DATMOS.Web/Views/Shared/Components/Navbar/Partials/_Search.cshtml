@@ -1,0 +1,33 @@
+<!-- Search -->
+@if (Convert.ToBoolean(TempData.Peek("menuHorizontal")).ToString() != "True")
+{
+  <div class="navbar-nav align-items-center">
+    <div class="nav-item navbar-search-wrapper mb-0">
+      <a class="nav-item nav-link search-toggler d-flex align-items-center px-0" href="javascript:void(0);">
+        <i class="ti ti-search ti-md me-2 me-lg-4 ti-lg"></i>
+        <span class="d-none d-md-inline-block text-muted fw-normal">Search (Ctrl+/)</span>
+      </a>
+    </div>
+  </div>
+}
+<!-- /Search -->
+
+<!-- Search for horizontal menu -->
+@if (Convert.ToBoolean(TempData.Peek("menuHorizontal")).ToString() == "True")
+{
+  <li class="nav-item navbar-search-wrapper">
+    <a class="nav-link btn btn-text-secondary btn-icon rounded-pill search-toggler" href="javascript:void(0);">
+      <i class="ti ti-search ti-md"></i>
+    </a>
+  </li>
+}
+<!-- /Search for horizontal menu -->
+
+<!-- Search Small Screens -->
+<div
+  class='navbar-search-wrapper search-input-wrapper @((Convert.ToBoolean(@TempData.Peek("menuHorizontal")).ToString() == "True") ? @ViewData["containerNav"] : "") d-none'>
+  <input type="text"
+    class='form-control search-input @((Convert.ToBoolean(@TempData.Peek("menuHorizontal")).ToString() == "True") ? "" : @ViewData["containerNav"]) border-0'
+    placeholder="Search..." aria-label="Search...">
+  <i class="ti ti-x search-toggler cursor-pointer"></i>
+</div>

@@ -8,9 +8,8 @@
         "DebugTarget": "http"
       },
       {
-        "Path": "DATMOS.WinApp\\DATMOS.WinApp.csproj",
-        "Action": "Start",
-        "DebugTarget": "DATMOS.WinApp"
+        "Path": "DATMOS.Data\\DATMOS.Data.csproj",
+        "Action": "Start"
       }
     ]
   }

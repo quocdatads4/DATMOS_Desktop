@@ -1,0 +1,432 @@
+@model DATMOS.Web.Areas.Customer.Models.TrainingData
+@{
+    ViewData["Title"] = "Tất Cả Kết Quả Thi MOS Word 2019";
+    Layout = "_CustomerLayout";
+}
+
+<div class="container-xxl flex-grow-1 container-p-y">
+    <div class="row">
+        <div class="col-12">
+            <div class="card mb-4">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0">Tất Cả Kết Quả Thi MOS Word 2019</h4>
+                    <div>
+                        <a href="/Customer/Word2019Results" class="btn btn-outline-primary">
+                            <i class="iconify me-2" data-icon="mdi:arrow-left"></i>
+                            Quay lại tra cứu
+                        </a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <!-- Summary Stats -->
+                    <div class="row mb-5">
+                        <div class="col-md-3 col-sm-6 mb-4">
+                            <div class="card bg-primary text-white">
+                                <div class="card-body text-center">
+                                    <div class="stats-value">@Model?.Metadata?.TotalResults</div>
+                                    <div class="stats-label">Tổng số bài thi</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6 mb-4">
+                            <div class="card bg-success text-white">
+                                <div class="card-body text-center">
+                                    <div class="stats-value">@Model?.Metadata?.TotalPassed</div>
+                                    <div class="stats-label">Số bài đạt</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6 mb-4">
+                            <div class="card bg-danger text-white">
+                                <div class="card-body text-center">
+                                    <div class="stats-value">@Model?.Metadata?.TotalFailed</div>
+                                    <div class="stats-label">Số bài không đạt</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6 mb-4">
+                            <div class="card bg-info text-white">
+                                <div class="card-body text-center">
+                                    <div class="stats-value">@Model?.Metadata?.AverageScore.ToString("0.0")%</div>
+                                    <div class="stats-label">Điểm trung bình</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Results Table -->
+                    <div class="card">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>STT</th>
+                                        <th>Sinh viên</th>
+                                        <th>Mã SV</th>
+                                        <th>Bài thi</th>
+                                        <th>Điểm</th>
+                                        <th>Tỷ lệ</th>
+                                        <th>Trạng thái</th>
+                                        <th>Thời gian</th>
+                                        <th>Hành động</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model?.TrainingResults != null)
+                                    {
+                                        int index = 1;
+                                        foreach (var result in Model.TrainingResults)
+                                        {
+                                            <tr>
+                                                <td>@index</td>
+                                                <td>
+                                                    <div class="d-flex align-items-center">
+                                                        <div class="avatar avatar-sm me-3">
+                                                            <span class="avatar-initials bg-primary rounded-circle">@result.StudentName.Substring(0, 1)</span>
+                                                        </div>
+                                                        <div>
+                                                            <div class="fw-medium">@result.StudentName</div>
+                                                            <div class="text-muted small">ID: @result.Id</div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>@result.StudentCode</td>
+                                                <td>
+                                                    <div class="fw-medium">@result.ExamName</div>
+                                                    <div class="text-muted small">@result.ProjectName</div>
+                                                </td>
+                                                <td>
+                                                    <div class="fw-bold">@result.Score/@result.MaxScore</div>
+                                                    <div class="progress" style="height: 6px;">
+                                                        <div class="progress-bar @(result.Passed ? "bg-success" : "bg-danger")" 
+                                                             role="progressbar" style="width: @result.Percentage%" 
+                                                             aria-valuenow="@result.Percentage" aria-valuemin="0" aria-valuemax="100"></div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <span class="badge @(result.Passed ? "bg-success" : "bg-danger")">
+                                                        @result.Percentage.ToString("0.0")%
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    @if (result.Passed)
+                                                    {
+                                                        <span class="badge bg-success">
+                                                            <i class="iconify me-1" data-icon="mdi:check-circle"></i>
+                                                            Đạt
+                                                        </span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="badge bg-danger">
+                                                            <i class="iconify me-1" data-icon="mdi:close-circle"></i>
+                                                            Không đạt
+                                                        </span>
+                                                    }
+                                                </td>
+                                                <td>
+                                                    <div class="text-muted small">
+                                                        @result.StartTime.ToString("dd/MM/yyyy")<br>
+                                                        @result.DurationMinutes phút
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <a href="/Customer/Word2019Results/StudentResult?studentId=@result.StudentId" 
+                                                       class="btn btn-sm btn-outline-primary">
+                                                        <i class="iconify me-1" data-icon="mdi:eye"></i>
+                                                        Xem chi tiết
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            index++;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td colspan="9" class="text-center py-4">
+                                                <div class="text-muted">
+                                                    <i class="iconify me-2" data-icon="mdi:database-off" style="font-size: 48px;"></i>
+                                                    <p class="mt-2">Không có dữ liệu kết quả thi</p>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Performance Analysis -->
+                    <div class="row mt-5">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="card-title mb-0">
+                                        <i class="iconify me-2" data-icon="mdi:chart-bar"></i>
+                                        Phân tích hiệu suất
+                                    </h5>
+                                </div>
+                                <div class="card-body">
+                                    @if (Model?.TrainingResults != null)
+                                    {
+                                        var avgScore = Model.TrainingResults.Average(r => r.Percentage);
+                                        var maxScore = Model.TrainingResults.Max(r => r.Percentage);
+                                        var minScore = Model.TrainingResults.Min(r => r.Percentage);
+                                        var passRate = (double)Model.TrainingResults.Count(r => r.Passed) / Model.TrainingResults.Count * 100;
+                                        
+                                        <div class="mb-4">
+                                            <div class="d-flex justify-content-between mb-2">
+                                                <span>Tỷ lệ đạt:</span>
+                                                <span class="fw-bold">@passRate.ToString("0.0")%</span>
+                                            </div>
+                                            <div class="progress" style="height: 10px;">
+                                                <div class="progress-bar bg-success" role="progressbar" style="width: @passRate%" 
+                                                     aria-valuenow="@passRate" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="row">
+                                            <div class="col-4">
+                                                <div class="text-center">
+                                                    <div class="display-6 fw-bold text-primary">@maxScore.ToString("0.0")%</div>
+                                                    <div class="text-muted small">Điểm cao nhất</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-4">
+                                                <div class="text-center">
+                                                    <div class="display-6 fw-bold text-info">@avgScore.ToString("0.0")%</div>
+                                                    <div class="text-muted small">Điểm trung bình</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-4">
+                                                <div class="text-center">
+                                                    <div class="display-6 fw-bold text-warning">@minScore.ToString("0.0")%</div>
+                                                    <div class="text-muted small">Điểm thấp nhất</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="card-title mb-0">
+                                        <i class="iconify me-2" data-icon="mdi:calendar-clock"></i>
+                                        Thống kê thời gian
+                                    </h5>
+                                </div>
+                                <div class="card-body">
+                                    @if (Model?.TrainingResults != null)
+                                    {
+                                        var avgTime = Model.TrainingResults.Average(r => r.DurationMinutes);
+                                        var totalTime = Model.TrainingResults.Sum(r => r.DurationMinutes);
+                                        var avgTasks = Model.TrainingResults.Average(r => r.CompletedTasks);
+                                        
+                                        <div class="mb-4">
+                                            <div class="d-flex align-items-center mb-3">
+                                                <div class="avatar avatar-lg bg-primary rounded-circle me-3">
+                                                    <i class="iconify text-white" data-icon="mdi:clock"></i>
+                                                </div>
+                                                <div>
+                                                    <div class="fs-6 fw-bold">@totalTime phút</div>
+                                                    <div class="text-muted small">Tổng thời gian làm bài</div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <div class="mb-3">
+                                                        <div class="fw-bold">@avgTime.ToString("0.0") phút</div>
+                                                        <div class="text-muted small">Thời gian trung bình/bài</div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="mb-3">
+                                                        <div class="fw-bold">@avgTasks.ToString("0.0") task</div>
+                                                        <div class="text-muted small">Task hoàn thành trung bình</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Metadata Information -->
+                    <div class="card mt-4">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">
+                                <i class="iconify me-2" data-icon="mdi:database"></i>
+                                Thông tin dữ liệu
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            @if (Model?.Metadata != null)
+                            {
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <dl class="row">
+                                            <dt class="col-sm-4">Phiên bản:</dt>
+                                            <dd class="col-sm-8">@Model.Metadata.Version</dd>
+                                            
+                                            <dt class="col-sm-4">Mô tả:</dt>
+                                            <dd class="col-sm-8">@Model.Metadata.Description</dd>
+                                            
+                                            <dt class="col-sm-4">Nguồn dữ liệu:</dt>
+                                            <dd class="col-sm-8">@Model.Metadata.DataSource</dd>
+                                        </dl>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <dl class="row">
+                                            <dt class="col-sm-4">Ngày tạo:</dt>
+                                            <dd class="col-sm-8">@Model.Metadata.CreatedDate</dd>
+                                            
+                                            <dt class="col-sm-4">Cập nhật lần cuối:</dt>
+                                            <dd class="col-sm-8">@Model.Metadata.LastUpdated.ToString("dd/MM/yyyy HH:mm")</dd>
+                                            
+                                            <dt class="col-sm-4">Trạng thái:</dt>
+                                            <dd class="col-sm-8">
+                                                <span class="badge bg-success">Hoạt động</span>
+                                            </dd>
+                                        </dl>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <link rel="stylesheet" href="~/areas/customer/css/word2019-results.css" />
+    <style>
+        /* Page-specific styles */
+        .stats-value {
+            font-size: 32px;
+            font-weight: bold;
+            line-height: 1;
+        }
+        
+        .stats-label {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-top: 5px;
+        }
+        
+        .avatar-initials {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            font-weight: bold;
+        }
+        
+        .progress {
+            border-radius: 10px;
+        }
+        
+        .progress-bar {
+            border-radius: 10px;
+        }
+        
+        .table th {
+            font-weight: 600;
+            background-color: #f8f9fa;
+        }
+        
+        .table td {
+            vertical-align: middle;
+        }
+        
+        /* Custom styles for AllResults page */
+        .card.bg-primary, 
+        .card.bg-success, 
+        .card.bg-danger, 
+        .card.bg-info {
+            border: none;
+            box-shadow: 0 2px 6px 0 rgba(0,0,0,.1);
+        }
+        
+        .display-6 {
+            font-size: 2.5rem;
+        }
+        
+        .avatar-lg {
+            width: 60px;
+            height: 60px;
+        }
+    </style>
+}
+
+@section Scripts {
+    <script src="~/areas/customer/js/word2019-results.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize Word 2019 results functionality
+            if (window.Word2019Results) {
+                window.Word2019Results.initTooltips();
+                window.Word2019Results.initTableHoverEffects();
+                
+                // Initialize table filtering and sorting
+                const searchInput = document.getElementById('searchResults');
+                const resultsTable = document.getElementById('allResultsTable');
+                
+                if (searchInput && resultsTable) {
+                    window.Word2019Results.filterResultsTable('searchResults', 'allResultsTable');
+                }
+            }
+            
+            // Add custom functionality for this page
+            const table = document.querySelector('.table');
+            if (table) {
+                table.classList.add('table-results');
+                table.id = 'allResultsTable';
+            }
+            
+            // Add search input if not present
+            if (!document.getElementById('searchResults')) {
+                const cardHeader = document.querySelector('.card-header');
+                if (cardHeader) {
+                    const searchDiv = document.createElement('div');
+                    searchDiv.className = 'mt-3';
+                    searchDiv.innerHTML = `
+                        <div class="input-group input-group-merge">
+                            <span class="input-group-text" id="basic-addon-search31">
+                                <i class="icon-base ti ti-search"></i>
+                            </span>
+                            <input type="text" class="form-control" id="searchResults" 
+                                   placeholder="Tìm kiếm theo tên sinh viên, bài thi..." 
+                                   aria-label="Search..." aria-describedby="basic-addon-search31">
+                        </div>
+                    `;
+                    cardHeader.parentNode.insertBefore(searchDiv, cardHeader.nextSibling);
+                }
+            }
+            
+            // Add sort buttons to table headers
+            const tableHeaders = document.querySelectorAll('.table thead th');
+            tableHeaders.forEach((header, index) => {
+                if (index > 0 && index < tableHeaders.length - 1) { // Skip first and last columns
+                    header.style.cursor = 'pointer';
+                    header.title = 'Click để sắp xếp';
+                    header.addEventListener('click', function() {
+                        const isNumeric = index === 4 || index === 5; // Score and percentage columns
+                        if (window.Word2019Results && window.Word2019Results.sortTable) {
+                            window.Word2019Results.sortTable('allResultsTable', index, isNumeric);
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+}
