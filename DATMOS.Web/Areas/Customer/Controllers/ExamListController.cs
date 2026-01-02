@@ -1,6 +1,7 @@
 using DATMOS.Web.Services;
 using DATMOS.Web.Areas.Customer.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 
 namespace DATMOS.Web.Areas.Customer.Controllers
@@ -87,5 +88,27 @@ namespace DATMOS.Web.Areas.Customer.Controllers
         }
 
         
+        // GET: /Customer/ExamList/TakeExam/{id}
+        public async Task<IActionResult> TakeExam(int id)
+        {
+            // Note: Requires GetExamListWithHierarchyAsync to be added to IExamListService interface
+            var examList = await ((ExamListService)_examListService).GetExamListWithHierarchyAsync(id);
+            
+            if (examList == null) return NotFound();
+            
+            var viewModel = new ExamTakingViewModel
+            {
+                ExamListId = examList.Id,
+                ExamName = examList.Title,
+                SubjectName = examList.SubjectName,
+                TimeLimitMinutes = examList.DurationMinutes,
+                TimeRemainingSeconds = examList.DurationMinutes * 60,
+                StartTime = DateTime.UtcNow,
+                Projects = examList.ExamProjects,
+                TotalProjects = examList.ExamProjects?.Count ?? 0
+            };
+            
+            return View(viewModel);
+        }
     }
 }
