@@ -1,0 +1,278 @@
+@* 
+    Template View for DATMOS Module Template
+    This serves as a template for module views
+*@
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = ViewData["ModuleName"] + " Dashboard";
+}
+
+<div class="module-template-container">
+    <!-- Module Header -->
+    <div class="module-header">
+        <h1>
+            <i class="fas fa-cube module-icon"></i>
+            @ViewData["ModuleName"] Module
+        </h1>
+        <p class="module-version">Version: @ViewData["ModuleVersion"]</p>
+    </div>
+    
+    <!-- Module Status -->
+    <div class="module-status">
+        <div class="status-card status-active">
+            <i class="fas fa-check-circle"></i>
+            <h3>Active</h3>
+            <p>Module is running</p>
+        </div>
+        <div class="status-card status-healthy">
+            <i class="fas fa-heartbeat"></i>
+            <h3>Healthy</h3>
+            <p>All systems operational</p>
+        </div>
+        <div class="status-card status-connected">
+            <i class="fas fa-plug"></i>
+            <h3>Connected</h3>
+            <p>To main application</p>
+        </div>
+    </div>
+    
+    <!-- Module Content -->
+    <div class="module-content">
+        <div class="row">
+            <div class="col-md-8">
+                <!-- Welcome Section -->
+                <div class="card welcome-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-info-circle me-2"></i>Welcome to @ViewData["ModuleName"]</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>This is a template module for the DATMOS modular system. Replace this content with your module-specific functionality.</p>
+                        
+                        <h5>Features included in this template:</h5>
+                        <ul>
+                            <li>Dependency Injection configuration</li>
+                            <li>Controller with Area routing</li>
+                            <li>View with layout inheritance</li>
+                            <li>Model validation</li>
+                            <li>API endpoints</li>
+                            <li>Health check endpoint</li>
+                            <li>Error handling</li>
+                        </ul>
+                        
+                        <div class="alert alert-info">
+                            <i class="fas fa-lightbulb me-2"></i>
+                            <strong>Tip:</strong> Customize this template by replacing <code>[ModuleName]</code> and <code>[module-name]</code> with your actual module name.
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Quick Actions -->
+                <div class="card actions-card mt-4">
+                    <div class="card-header">
+                        <h3><i class="fas fa-bolt me-2"></i>Quick Actions</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <a href="@Url.Action("Details", new { id = 1 })" class="btn btn-primary btn-block">
+                                    <i class="fas fa-eye me-2"></i>View Details
+                                </a>
+                            </div>
+                            <div class="col-md-4">
+                                <a href="@Url.Action("GetData")" class="btn btn-info btn-block">
+                                    <i class="fas fa-code me-2"></i>API Data
+                                </a>
+                            </div>
+                            <div class="col-md-4">
+                                <a href="@Url.Action("Health")" class="btn btn-success btn-block">
+                                    <i class="fas fa-heartbeat me-2"></i>Health Check
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <!-- Module Info -->
+                <div class="card info-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-cog me-2"></i>Module Information</h3>
+                    </div>
+                    <div class="card-body">
+                        <dl class="module-info-list">
+                            <dt>Module Name:</dt>
+                            <dd>@ViewData["ModuleName"]</dd>
+                            
+                            <dt>Version:</dt>
+                            <dd>@ViewData["ModuleVersion"]</dd>
+                            
+                            <dt>Status:</dt>
+                            <dd><span class="badge bg-success">Active</span></dd>
+                            
+                            <dt>Last Updated:</dt>
+                            <dd>@DateTime.Now.ToString("yyyy-MM-dd HH:mm")</dd>
+                            
+                            <dt>Dependencies:</dt>
+                            <dd>
+                                <span class="badge bg-secondary">DATMOS.Core</span>
+                                <span class="badge bg-secondary">DATMOS.Themes.Default</span>
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+                
+                <!-- Example Form -->
+                <div class="card form-card mt-4">
+                    <div class="card-header">
+                        <h3><i class="fas fa-edit me-2"></i>Example Form</h3>
+                    </div>
+                    <div class="card-body">
+                        <form method="post" action="@Url.Action("Submit")">
+                            @Html.AntiForgeryToken()
+                            
+                            <div class="mb-3">
+                                <label for="Name" class="form-label">Name</label>
+                                <input type="text" class="form-control" id="Name" name="Name" 
+                                       placeholder="Enter your name" required>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="Email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="Email" name="Email" 
+                                       placeholder="Enter your email" required>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="Value" class="form-label">Value (1-100)</label>
+                                <input type="number" class="form-control" id="Value" name="Value" 
+                                       min="1" max="100" value="1">
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary w-100">
+                                <i class="fas fa-paper-plane me-2"></i>Submit
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Module-specific styles -->
+<style>
+    .module-template-container {
+        padding: 20px;
+    }
+    
+    .module-header {
+        text-align: center;
+        margin-bottom: 30px;
+        padding: 20px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-radius: 10px;
+    }
+    
+    .module-icon {
+        font-size: 2.5rem;
+        margin-right: 15px;
+    }
+    
+    .module-version {
+        font-size: 0.9rem;
+        opacity: 0.8;
+    }
+    
+    .module-status {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        margin-bottom: 30px;
+    }
+    
+    .status-card {
+        padding: 20px;
+        border-radius: 8px;
+        text-align: center;
+        color: white;
+    }
+    
+    .status-card i {
+        font-size: 2rem;
+        margin-bottom: 10px;
+    }
+    
+    .status-active {
+        background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+    }
+    
+    .status-healthy {
+        background: linear-gradient(135deg, #2196F3 0%, #0D47A1 100%);
+    }
+    
+    .status-connected {
+        background: linear-gradient(135deg, #FF9800 0%, #E65100 100%);
+    }
+    
+    .module-info-list dt {
+        font-weight: bold;
+        color: #666;
+        margin-top: 10px;
+    }
+    
+    .module-info-list dd {
+        margin-left: 0;
+        margin-bottom: 5px;
+    }
+    
+    .btn-block {
+        display: block;
+        width: 100%;
+    }
+    
+    @@media (max-width: 768px) {
+        .module-status {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<!-- Module-specific scripts -->
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('@ViewData["ModuleName"] module loaded successfully');
+            
+            // Form validation
+            const form = document.querySelector('form');
+            if (form) {
+                form.addEventListener('submit', function(e) {
+                    const name = document.getElementById('Name').value;
+                    const email = document.getElementById('Email').value;
+                    
+                    if (!name || !email) {
+                        e.preventDefault();
+                        alert('Please fill in all required fields');
+                        return false;
+                    }
+                    
+                    return true;
+                });
+            }
+            
+            // Update timestamp every minute
+            function updateTimestamp() {
+                const now = new Date();
+                const timestampElements = document.querySelectorAll('.timestamp');
+                timestampElements.forEach(el => {
+                    el.textContent = now.toLocaleTimeString();
+                });
+            }
+            
+            setInterval(updateTimestamp, 60000);
+        });
+    </script>
+}
