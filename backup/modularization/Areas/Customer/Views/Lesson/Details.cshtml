@@ -1,0 +1,420 @@
+@model DATMOS.Web.Areas.Customer.ViewModels.LessonDetailsViewModel
+@{
+    ViewData["Title"] = Model?.Lesson?.Name ?? "Chi tiết bài học";
+    Layout = "~/Areas/Customer/Views/Shared/_CustomerLayout.cshtml";
+}
+
+<div class="container-xxl flex-grow-1 container-p-y">
+    @if (Model?.Lesson != null)
+    {
+        <div class="row">
+            <!-- Lesson Header -->
+            <div class="col-lg-12 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div class="d-flex align-items-center">
+                                <a href="@Url.Action("Index", "Lesson", new { area = "Customer" })" 
+                                   class="btn btn-outline-secondary btn-sm me-3">
+                                    <i class="ti ti-arrow-left"></i>
+                                </a>
+                                <div>
+                                    <h4 class="mb-0">@Model.Lesson.Name</h4>
+                                    <p class="text-muted mb-0">@Model.Lesson.Title</p>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <div class="avatar me-2">
+                                    <span class="avatar-initial rounded bg-label-@Model.Lesson.ColorClass">
+                                        <i class="ti @Model.Lesson.Icon"></i>
+                                    </span>
+                                </div>
+                                <div>
+                                    <h6 class="mb-0">@Model.Lesson.Code</h6>
+                                    <small class="text-muted">@Model.Lesson.CourseCode</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-lg-8">
+                <!-- Lesson Description -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Giới thiệu bài học</h5>
+                    </div>
+                    <div class="card-body">
+                        <p>@Model.Lesson.Description</p>
+                        
+                        <div class="row mt-4">
+                            <div class="col-md-6 mb-3">
+                                <small class="text-muted d-block">Độ khó</small>
+                                <span class="fw-semibold">@Model.Lesson.Difficulty</span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <small class="text-muted d-block">Thời lượng</small>
+                                <span class="fw-semibold">@Model.Lesson.Duration</span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <small class="text-muted d-block">Thứ tự</small>
+                                <span class="fw-semibold">Bài @Model.Lesson.Order</span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <small class="text-muted d-block">Loại nội dung</small>
+                                <span class="fw-semibold">
+                                    @switch(Model.Lesson.ContentType)
+                                    {
+                                        case "video":
+                                            @:<i class="ti ti-video me-1"></i>Video
+                                            break;
+                                        case "text":
+                                            @:<i class="ti ti-file-text me-1"></i>Văn bản
+                                            break;
+                                        case "quiz":
+                                            @:<i class="ti ti-checklist me-1"></i>Quiz
+                                            break;
+                                        default:
+                                            @Model.Lesson.ContentType
+                                            break;
+                                    }
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Learning Objectives -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Mục tiêu học tập</h5>
+                    </div>
+                    <div class="card-body">
+                        @if (Model.Lesson.Objectives != null && Model.Lesson.Objectives.Any())
+                        {
+                            <div class="row">
+                                @foreach (var objective in Model.Lesson.Objectives)
+                                {
+                                    <div class="col-md-6 mb-3">
+                                        <div class="d-flex align-items-start">
+                                            <div class="avatar avatar-sm me-2">
+                                                <span class="avatar-initial rounded bg-label-success">
+                                                    <i class="ti ti-check"></i>
+                                                </span>
+                                            </div>
+                                            <div>
+                                                <p class="mb-0">@objective</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        }
+                        else
+                        {
+                            <p class="text-muted">Mục tiêu học tập đang được cập nhật...</p>
+                        }
+                    </div>
+                </div>
+
+                <!-- Resources -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Tài nguyên học tập</h5>
+                    </div>
+                    <div class="card-body">
+                        @if (Model.AllResources != null && Model.AllResources.Any())
+                        {
+                            <div class="row">
+                                @foreach (var resource in Model.AllResources)
+                                {
+                                    <div class="col-md-6 mb-3">
+                                        <div class="card border">
+                                            <div class="card-body">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="avatar me-3">
+                                                        <span class="avatar-initial rounded bg-label-primary">
+                                                            @switch(resource.Type)
+                                                            {
+                                                                case "pdf":
+                                                                    <i class="ti ti-file-text"></i>
+                                                                    break;
+                                                                case "video":
+                                                                    <i class="ti ti-video"></i>
+                                                                    break;
+                                                                case "exercise":
+                                                                    <i class="ti ti-checklist"></i>
+                                                                    break;
+                                                                case "template":
+                                                                    <i class="ti ti-template"></i>
+                                                                    break;
+                                                                default:
+                                                                    <i class="ti ti-file"></i>
+                                                                    break;
+                                                            }
+                                                        </span>
+                                                    </div>
+                                                    <div class="flex-grow-1">
+                                                        <h6 class="mb-1">@resource.Name</h6>
+                                                        <small class="text-muted">@resource.Type.ToUpper()</small>
+                                                    </div>
+                                                    <a href="@resource.Url" class="btn btn-outline-primary btn-sm" target="_blank">
+                                                        <i class="ti ti-download"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        }
+                        else
+                        {
+                            <p class="text-muted">Tài nguyên học tập đang được cập nhật...</p>
+                        }
+                    </div>
+                </div>
+
+                <!-- Course Information -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Thông tin khóa học</h5>
+                    </div>
+                    <div class="card-body">
+                        @if (Model.Course != null)
+                        {
+                            <div class="d-flex align-items-center">
+                                <div class="avatar avatar-lg me-3">
+                                    <span class="avatar-initial rounded bg-label-primary">
+                                        <i class="ti ti-book"></i>
+                                    </span>
+                                </div>
+                                <div>
+                                    <h6 class="mb-1">@Model.Course.Name</h6>
+                                    <p class="text-muted mb-2">@Model.Course.Description</p>
+                                    <a href="@Url.Action("Details", "Courses", new { area = "Customer", id = Model.Course.Id })" 
+                                       class="btn btn-outline-primary btn-sm">
+                                        <i class="ti ti-arrow-right me-1"></i> Xem khóa học
+                                    </a>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <p class="text-muted">Thông tin khóa học đang được cập nhật...</p>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="col-lg-4">
+                <!-- Lesson Info Card -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Thông tin bài học</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <small class="text-muted d-block">Mã bài học</small>
+                            <span class="fw-semibold">@Model.Lesson.Code</span>
+                        </div>
+                        <div class="mb-3">
+                            <small class="text-muted d-block">Trạng thái</small>
+                            <span class="badge bg-label-@(Model.Lesson.IsFree ? "success" : "primary")">
+                                @(Model.Lesson.IsFree ? "Miễn phí" : "Trả phí")
+                            </span>
+                        </div>
+                        <div class="mb-3">
+                            <small class="text-muted d-block">Tiến độ</small>
+                            <div class="progress mt-1">
+                                <div class="progress-bar bg-success" role="progressbar" 
+                                     style="width: @Model.Lesson.Progress%" 
+                                     aria-valuenow="@Model.Lesson.Progress" 
+                                     aria-valuemin="0" aria-valuemax="100">
+                                    @Model.Lesson.Progress%
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <small class="text-muted d-block">Trạng thái hoàn thành</small>
+                            @if (Model.Lesson.Completed)
+                            {
+                                <span class="badge bg-label-success">
+                                    <i class="ti ti-check me-1"></i>Đã hoàn thành
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-label-warning">
+                                    <i class="ti ti-clock me-1"></i>Chưa hoàn thành
+                                </span>
+                            }
+                        </div>
+                        <div class="mb-3">
+                            <small class="text-muted d-block">Video bài giảng</small>
+                            @if (!string.IsNullOrEmpty(Model.Lesson.VideoUrl))
+                            {
+                                <a href="@Model.Lesson.VideoUrl" class="btn btn-outline-primary btn-sm w-100" target="_blank">
+                                    <i class="ti ti-video me-1"></i> Xem video
+                                </a>
+                            }
+                            else
+                            {
+                                <span class="text-muted">Không có video</span>
+                            }
+                        </div>
+
+                        <div class="mt-4">
+                            @if (Model.Lesson.IsFree || Model.Lesson.Completed)
+                            {
+                                <a href="@Url.Action("Study", "Lesson", new { area = "Customer", id = Model.Lesson.Id })" 
+                                   class="btn btn-success w-100 mb-2">
+                                    <i class="ti ti-play-circle me-1"></i> Học ngay
+                                </a>
+                            }
+                            else
+                            {
+                                <div class="text-center mb-3">
+                                    <span class="h5 text-primary">Cần mở khóa</span>
+                                    <p class="text-muted small">Bài học này yêu cầu đăng ký khóa học</p>
+                                </div>
+                                <a href="@Url.Action("Details", "Courses", new { area = "Customer", id = Model.Lesson.CourseId })" 
+                                   class="btn btn-primary w-100 mb-2">
+                                    <i class="ti ti-shopping-cart me-1"></i> Đăng ký khóa học
+                                </a>
+                            }
+                            
+                            <div class="d-flex gap-2">
+                                @if (Model.Lesson.Order > 1)
+                                {
+                                    <a href="@Url.Action("Previous", "Lesson", new { area = "Customer", currentLessonId = Model.Lesson.Id })" 
+                                       class="btn btn-outline-secondary w-50">
+                                        <i class="ti ti-arrow-left me-1"></i> Bài trước
+                                    </a>
+                                }
+                                else
+                                {
+                                    <button class="btn btn-outline-secondary w-50" disabled>
+                                        <i class="ti ti-arrow-left me-1"></i> Bài trước
+                                    </button>
+                                }
+                                
+                                <a href="@Url.Action("Next", "Lesson", new { area = "Customer", currentLessonId = Model.Lesson.Id })" 
+                                   class="btn btn-outline-primary w-50">
+                                    Bài tiếp <i class="ti ti-arrow-right ms-1"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Statistics -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Thống kê</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <small class="text-muted d-block">Tổng bài học trong khóa</small>
+                            <span class="fw-semibold">@Model.Statistics.TotalLessons bài</span>
+                        </div>
+                        <div class="mb-3">
+                            <small class="text-muted d-block">Bài học miễn phí</small>
+                            <span class="fw-semibold">@Model.Statistics.FreeLessons bài</span>
+                        </div>
+                        <div class="mb-3">
+                            <small class="text-muted d-block">Bài học trả phí</small>
+                            <span class="fw-semibold">@Model.Statistics.PaidLessons bài</span>
+                        </div>
+                        <div class="mb-3">
+                            <small class="text-muted d-block">Tổng thời lượng</small>
+                            <span class="fw-semibold">@Model.Statistics.TotalDuration</span>
+                        </div>
+                        <div class="mb-3">
+                            <small class="text-muted d-block">Tỷ lệ hoàn thành</small>
+                            <div class="progress mt-1">
+                                <div class="progress-bar bg-primary" role="progressbar" 
+                                     style="width: @Model.Statistics.CompletionRate%" 
+                                     aria-valuenow="@Model.Statistics.CompletionRate" 
+                                     aria-valuemin="0" aria-valuemax="100">
+                                    @Model.Statistics.CompletionRate.ToString("0.0")%
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Related Lessons -->
+                @if (Model.RelatedLessons != null && Model.RelatedLessons.Any())
+                {
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">Bài học liên quan</h5>
+                        </div>
+                        <div class="card-body">
+                            @foreach (var lesson in Model.RelatedLessons)
+                            {
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="avatar me-3">
+                                        <span class="avatar-initial rounded bg-label-@lesson.ColorClass">
+                                            <i class="ti @lesson.Icon"></i>
+                                        </span>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h6 class="mb-1">Bài @lesson.Order: @lesson.Name</h6>
+                                        <small class="text-muted">@lesson.Difficulty</small>
+                                    </div>
+                                    <a href="@Url.Action("Details", "Lesson", new { area = "Customer", id = lesson.Id })" 
+                                       class="btn btn-outline-primary btn-sm">
+                                        <i class="ti ti-arrow-right"></i>
+                                    </a>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body text-center py-5">
+                        <div class="avatar avatar-lg mb-3">
+                            <span class="avatar-initial rounded bg-label-danger">
+                                <i class="ti ti-alert-circle"></i>
+                            </span>
+                        </div>
+                        <h5 class="card-title">Bài học không tồn tại</h5>
+                        <p class="card-text">Không thể tìm thấy thông tin bài học.</p>
+                        <a href="@Url.Action("Index", "Lesson", new { area = "Customer" })" 
+                           class="btn btn-primary">
+                            <i class="ti ti-arrow-left me-1"></i> Quay lại danh sách
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            console.log('Lesson details page loaded');
+            
+            // Progress bar animation
+            $('.progress-bar').each(function() {
+                var width = $(this).attr('style').match(/width: (\d+)%/)[1];
+                $(this).css('width', '0%').animate({
+                    width: width + '%'
+                }, 1000);
+            });
+        });
+    </script>
+}

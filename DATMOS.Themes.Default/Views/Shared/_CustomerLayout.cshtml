@@ -1,0 +1,173 @@
+@* 
+    Customer Layout - Extends base theme layout
+    Specific styling and components for Customer area
+*@
+
+@{
+    Layout = "_Layout";
+}
+
+@section Styles {
+    <!-- Customer-specific CSS -->
+    <link rel="stylesheet" href="~/_content/DATMOS.Modules.Customer/css/customer.css" />
+    
+    <!-- Additional customer styles -->
+    <style>
+        .customer-container {
+            background-color: #e9ecef;
+        }
+        
+        .customer-sidebar {
+            background-color: #007bff;
+            color: white;
+        }
+        
+        .customer-content {
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .customer-progress {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            border-left: 4px solid #007bff;
+        }
+    </style>
+}
+
+@section Scripts {
+    <!-- Customer-specific JavaScript -->
+    <script src="~/_content/DATMOS.Modules.Customer/js/customer.js"></script>
+}
+
+<!-- Override theme container for customer -->
+<div class="theme-container customer-container">
+    <!-- Customer-specific sidebar -->
+    <aside class="theme-sidebar customer-sidebar">
+        @await Component.InvokeAsync("ThemeMenu")
+        
+        <!-- Customer progress summary -->
+        <div class="customer-progress-summary">
+            <h3>My Progress</h3>
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" style="width: 65%;" 
+                     aria-valuenow="65" aria-valuemin="0" aria-valuemax="100">
+                    65% Complete
+                </div>
+            </div>
+            <p>Courses: <strong>3/5</strong></p>
+            <p>Exams: <strong>2/4</strong></p>
+        </div>
+    </aside>
+    
+    <!-- Main content area -->
+    <main class="theme-main">
+        <!-- Customer breadcrumb -->
+        <div class="theme-breadcrumb customer-breadcrumb">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/Customer">Dashboard</a></li>
+                    @RenderSection("Breadcrumb", required: false)
+                </ol>
+            </nav>
+        </div>
+        
+        <!-- Customer page header -->
+        <header class="theme-page-header customer-page-header">
+            <h1><i class="fas fa-user-graduate"></i> @ViewData["Title"]</h1>
+            <div class="customer-actions">
+                @RenderSection("CustomerActions", required: false)
+                <a href="/Customer/Profile" class="btn btn-outline-primary">
+                    <i class="fas fa-user"></i> My Profile
+                </a>
+            </div>
+        </header>
+        
+        <!-- Customer content -->
+        <div class="theme-content customer-content">
+            <!-- Customer notifications -->
+            @if (TempData["CustomerSuccess"] != null)
+            {
+                <div class="alert alert-success">
+                    <i class="fas fa-check-circle"></i> @TempData["CustomerSuccess"]
+                </div>
+            }
+            
+            @if (TempData["CustomerWarning"] != null)
+            {
+                <div class="alert alert-warning">
+                    <i class="fas fa-exclamation-triangle"></i> @TempData["CustomerWarning"]
+                </div>
+            }
+            
+            <!-- Progress indicator (optional) -->
+            @RenderSection("Progress", required: false)
+            
+            <!-- Main content -->
+            @RenderBody()
+        </div>
+        
+        <!-- Customer footer content -->
+        <footer class="customer-footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5>Need Help?</h5>
+                        <p>Contact support: <a href="mailto:support@datmos.com">support@datmos.com</a></p>
+                    </div>
+                    <div class="col-md-6">
+                        <h5>Quick Links</h5>
+                        <ul>
+                            <li><a href="/Customer/Courses">My Courses</a></li>
+                            <li><a href="/Customer/ExamList">Exams</a></li>
+                            <li><a href="/Customer/Progress">Progress Report</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </main>
+</div>
+
+<!-- Customer-specific scripts -->
+@section FooterScripts {
+    <script>
+        // Customer-specific initialization
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize customer components
+            if (typeof customerInit === 'function') {
+                customerInit();
+            }
+            
+            // Track user activity
+            let lastActivity = Date.now();
+            
+            document.addEventListener('mousemove', function() {
+                lastActivity = Date.now();
+            });
+            
+            document.addEventListener('keypress', function() {
+                lastActivity = Date.now();
+            });
+            
+            // Auto-save for forms
+            document.querySelectorAll('.customer-auto-save').forEach(function(form) {
+                let saveTimer;
+                
+                form.addEventListener('input', function() {
+                    clearTimeout(saveTimer);
+                    saveTimer = setTimeout(function() {
+                        console.log('Auto-saving form...');
+                        // Implement auto-save logic here
+                    }, 2000);
+                });
+            });
+        });
+    </script>
+    
+    @RenderSection("CustomerScripts", required: false)
+}

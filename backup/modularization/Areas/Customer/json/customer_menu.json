@@ -1,0 +1,126 @@
+{
+  "menuItems": [
+    {
+      "id": "home",
+      "text": "Trang chủ",
+      "icon": "ti ti-smart-home",
+      "area": "Customer",
+      "controller": "Home",
+      "action": "Index",
+      "url": null,
+      "children": null,
+      "order": 1,
+      "isVisible": true
+    },
+    {
+      "id": "courses",
+      "text": "Khóa học",
+      "icon": "ti ti-book",
+      "area": "Customer",
+      "controller": "Courses",
+      "action": null,
+      "url": null,
+      "children": [
+        {
+          "id": "all-courses",
+          "text": "Tất cả khóa học",
+          "icon": "ti ti-list",
+          "area": "Customer",
+          "controller": "Courses",
+          "action": "Index",
+          "url": null,
+          "order": 1,
+          "isVisible": true
+        },
+        {
+          "id": "my-courses",
+          "text": "Khóa học của tôi",
+          "icon": "ti ti-notebook",
+          "area": "Customer",
+          "controller": "Courses",
+          "action": "MyCourses",
+          "url": null,
+          "order": 2,
+          "isVisible": true
+        }
+      ],
+      "order": 2,
+      "isVisible": true
+    },
+    {
+      "id": "exams",
+      "text": "Thi thử MOS",
+      "icon": "ti ti-certificate",
+      "area": null,
+      "controller": null,
+      "action": null,
+      "url": "javascript:void(0)",
+      "children": [
+        {
+          "id": "word-2019",
+          "text": "Word 2019",
+          "icon": "ti ti-file-word",
+          "area": "Customer",
+          "controller": "Word2019Results",
+          "action": "AllResults",
+          "url": null,
+          "order": 1,
+          "isVisible": true
+        },
+        {
+          "id": "excel-2019",
+          "text": "Excel 2019",
+          "icon": "ti ti-file-spreadsheet",
+          "area": null,
+          "controller": null,
+          "action": null,
+          "url": "javascript:void(0)",
+          "order": 2,
+          "isVisible": true
+        },
+        {
+          "id": "powerpoint-2019",
+          "text": "PowerPoint 2019",
+          "icon": "ti ti-presentation",
+          "area": null,
+          "controller": null,
+          "action": null,
+          "url": "javascript:void(0)",
+          "order": 3,
+          "isVisible": true
+        }
+      ],
+      "order": 3,
+      "isVisible": true
+    },
+    {
+      "id": "progress",
+      "text": "Tiến độ",
+      "icon": "ti ti-chart-bar",
+      "area": "Customer",
+      "controller": "Home",
+      "action": "Progress",
+      "url": null,
+      "children": null,
+      "order": 4,
+      "isVisible": true
+    },
+    {
+      "id": "support",
+      "text": "Hỗ trợ",
+      "icon": "ti ti-headset",
+      "area": "Customer",
+      "controller": "Home",
+      "action": "Contact",
+      "url": null,
+      "children": null,
+      "order": 5,
+      "isVisible": true
+    }
+  ],
+  "metadata": {
+    "version": "1.0.0",
+    "lastUpdated": "2025-12-23",
+    "description": "Customer menu configuration for DATMOS application"
+  }
+}

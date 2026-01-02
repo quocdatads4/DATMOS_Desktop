@@ -1,0 +1,38 @@
+@{
+    var activeTab = ViewBag.ActiveTab as string ?? "account";
+}
+
+<div class="nav-align-top mb-4">
+    <ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link @(activeTab == "account" ? "active" : "")" 
+               asp-action="Account" asp-controller="Profile" asp-area="@ViewContext.RouteData.Values["area"]">
+                <i class="bx bx-user me-1"></i> Tài khoản
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link @(activeTab == "security" ? "active" : "")" 
+               asp-action="Security" asp-controller="Profile" asp-area="@ViewContext.RouteData.Values["area"]">
+                <i class="bx bx-lock-alt me-1"></i> Bảo mật
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link @(activeTab == "billing" ? "active" : "")" 
+               asp-action="Billing" asp-controller="Profile" asp-area="@ViewContext.RouteData.Values["area"]">
+                <i class="bx bx-credit-card me-1"></i> Thanh toán
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link @(activeTab == "notifications" ? "active" : "")" 
+               asp-action="Notifications" asp-controller="Profile" asp-area="@ViewContext.RouteData.Values["area"]">
+                <i class="bx bx-bell me-1"></i> Thông báo
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link @(activeTab == "connections" ? "active" : "")" 
+               asp-action="Connections" asp-controller="Profile" asp-area="@ViewContext.RouteData.Values["area"]">
+                <i class="bx bx-link-alt me-1"></i> Kết nối
+            </a>
+        </li>
+    </ul>
+</div>

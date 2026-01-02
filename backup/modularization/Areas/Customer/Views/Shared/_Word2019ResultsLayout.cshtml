@@ -1,0 +1,483 @@
+@model DATMOS.Web.Areas.Customer.Models.TrainingResult
+@{
+    var studentResult = Model;
+}
+
+@if (studentResult != null)
+{
+    <!doctype html>
+    <html lang="vi" class="layout-navbar-fixed layout-menu-fixed" dir="ltr" data-skin="default" data-assets-path="/vendor/" data-template="horizontal-menu-template-starter" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+        <title>Kết Quả Thi MOS Word 2019 - @studentResult.StudentName</title>
+        <meta name="description" content="Kết quả chi tiết bài thi MOS Word 2019 của sinh viên @studentResult.StudentName" />
+        
+        <!-- Favicon -->
+        <link rel="icon" type="image/x-icon" href="~/img/favicon/favicon.ico" asp-append-version="true" />
+        
+        <!-- Fonts -->
+        <link rel="stylesheet" href="~/vendor/fonts/iconify-icons.css" asp-append-version="true" />
+        
+        <!-- Core CSS -->
+        <link rel="stylesheet" href="~/vendor/libs/node-waves/node-waves.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/vendor/libs/pickr/pickr-themes.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/vendor/css/core.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/demo.css" asp-append-version="true" />
+        
+        <!-- Vendors CSS -->
+        <link rel="stylesheet" href="~/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" asp-append-version="true" />
+        
+        <!-- Helpers -->
+        <script src="~/vendor/js/helpers.js" asp-append-version="true"></script>
+        <script src="~/js/config.js" asp-append-version="true"></script>
+        
+        <!-- Custom styles for results page -->
+        <style>
+            .results-container {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                min-height: 100vh;
+                padding: 40px 0;
+            }
+            
+            .results-card {
+                background: white;
+                border-radius: 20px;
+                box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+                overflow: hidden;
+                margin-bottom: 30px;
+            }
+            
+            .results-header {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white;
+                padding: 40px;
+                text-align: center;
+            }
+            
+            .student-avatar {
+                width: 120px;
+                height: 120px;
+                border-radius: 50%;
+                border: 5px solid white;
+                margin: 0 auto 20px;
+                background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 48px;
+                color: white;
+            }
+            
+            .score-circle {
+                width: 180px;
+                height: 180px;
+                border-radius: 50%;
+                background: conic-gradient(#4CAF50 @(studentResult.Percentage*3.6)deg, #f0f0f0 0deg);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin: 30px auto;
+                position: relative;
+            }
+            
+            .score-inner {
+                width: 140px;
+                height: 140px;
+                border-radius: 50%;
+                background: white;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-direction: column;
+            }
+            
+            .score-value {
+                font-size: 42px;
+                font-weight: bold;
+                color: #333;
+                line-height: 1;
+            }
+            
+            .score-label {
+                font-size: 14px;
+                color: #666;
+                margin-top: 5px;
+            }
+            
+            .task-card {
+                border: 1px solid #e0e0e0;
+                border-radius: 12px;
+                padding: 20px;
+                margin-bottom: 15px;
+                transition: all 0.3s;
+            }
+            
+            .task-card.correct {
+                border-left: 5px solid #4CAF50;
+                background: linear-gradient(to right, #f8fff8, #ffffff);
+            }
+            
+            .task-card.incorrect {
+                border-left: 5px solid #f44336;
+                background: linear-gradient(to right, #fff8f8, #ffffff);
+            }
+            
+            .task-card:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            }
+            
+            .badge-status {
+                padding: 8px 16px;
+                border-radius: 20px;
+                font-weight: 600;
+                font-size: 14px;
+            }
+            
+            .badge-passed {
+                background: linear-gradient(135deg, #4CAF50, #8BC34A);
+                color: white;
+            }
+            
+            .badge-failed {
+                background: linear-gradient(135deg, #f44336, #ff9800);
+                color: white;
+            }
+            
+            .strength-item {
+                background: linear-gradient(135deg, #4CAF50, #8BC34A);
+                color: white;
+                padding: 10px 20px;
+                border-radius: 25px;
+                margin: 5px;
+                display: inline-block;
+            }
+            
+            .weakness-item {
+                background: linear-gradient(135deg, #f44336, #ff9800);
+                color: white;
+                padding: 10px 20px;
+                border-radius: 25px;
+                margin: 5px;
+                display: inline-block;
+            }
+            
+            .timeline-item {
+                position: relative;
+                padding-left: 30px;
+                margin-bottom: 20px;
+            }
+            
+            .timeline-item:before {
+                content: '';
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 12px;
+                height: 12px;
+                border-radius: 50%;
+                background: #667eea;
+            }
+            
+            .print-btn {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white;
+                border: none;
+                padding: 12px 30px;
+                border-radius: 25px;
+                font-weight: 600;
+                transition: all 0.3s;
+            }
+            
+            .print-btn:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+            }
+            
+            .stats-card {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white;
+                border-radius: 15px;
+                padding: 25px;
+                text-align: center;
+                height: 100%;
+            }
+            
+            .stats-value {
+                font-size: 36px;
+                font-weight: bold;
+                margin-bottom: 10px;
+            }
+            
+            .stats-label {
+                font-size: 14px;
+                opacity: 0.9;
+            }
+        </style>
+    </head>
+    
+    <body>
+        <div class="results-container">
+            <div class="container-xxl">
+                <div class="row justify-content-center">
+                    <div class="col-xxl-10">
+                        <!-- Main Results Card -->
+                        <div class="results-card">
+                            <!-- Header -->
+                            <div class="results-header">
+                                <div class="student-avatar">
+                                    <i class="iconify" data-icon="mdi:account-circle"></i>
+                                </div>
+                                <h1 class="mb-2">@studentResult.StudentName</h1>
+                                <p class="mb-0">Mã sinh viên: @studentResult.StudentCode | Khóa học: @studentResult.CourseName</p>
+                            </div>
+                            
+                            <!-- Body -->
+                            <div class="p-5">
+                                <div class="row">
+                                    <!-- Left Column - Score & Basic Info -->
+                                    <div class="col-lg-4">
+                                        <!-- Score Circle -->
+                                        <div class="score-circle">
+                                            <div class="score-inner">
+                                                <div class="score-value">@studentResult.Score/@studentResult.MaxScore</div>
+                                                <div class="score-label">@studentResult.Percentage.ToString("0.0")%</div>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- Status Badge -->
+                                        <div class="text-center mb-4">
+                                            @if (studentResult.Passed)
+                                            {
+                                                <span class="badge-status badge-passed">
+                                                    <i class="iconify me-2" data-icon="mdi:check-circle"></i>
+                                                    ĐẠT - @studentResult.Percentage.ToString("0.0")%
+                                                </span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge-status badge-failed">
+                                                    <i class="iconify me-2" data-icon="mdi:close-circle"></i>
+                                                    KHÔNG ĐẠT - @studentResult.Percentage.ToString("0.0")%
+                                                </span>
+                                            }
+                                        </div>
+                                        
+                                        <!-- Basic Info -->
+                                        <div class="card mb-4">
+                                            <div class="card-body">
+                                                <h5 class="card-title mb-4">
+                                                    <i class="iconify me-2" data-icon="mdi:information"></i>
+                                                    Thông tin bài thi
+                                                </h5>
+                                                <div class="timeline-item">
+                                                    <strong>Bài thi:</strong><br>
+                                                    @studentResult.ExamName
+                                                </div>
+                                                <div class="timeline-item">
+                                                    <strong>Dự án:</strong><br>
+                                                    @studentResult.ProjectName
+                                                </div>
+                                                <div class="timeline-item">
+                                                    <strong>Thời gian:</strong><br>
+                                                    @studentResult.StartTime.ToString("dd/MM/yyyy HH:mm") - @studentResult.EndTime.ToString("dd/MM/yyyy HH:mm")
+                                                </div>
+                                                <div class="timeline-item">
+                                                    <strong>Thời lượng:</strong><br>
+                                                    @studentResult.DurationMinutes phút
+                                                </div>
+                                                <div class="timeline-item">
+                                                    <strong>Trạng thái:</strong><br>
+                                                    <span class="text-success">@studentResult.Status</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Right Column - Details -->
+                                    <div class="col-lg-8">
+                                        <!-- Stats Cards -->
+                                        <div class="row mb-4">
+                                            <div class="col-md-3 mb-3">
+                                                <div class="stats-card">
+                                                    <div class="stats-value">@studentResult.CompletedTasks/@studentResult.TotalTasks</div>
+                                                    <div class="stats-label">Task hoàn thành</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 mb-3">
+                                                <div class="stats-card">
+                                                    <div class="stats-value">@studentResult.Summary.CorrectTasks</div>
+                                                    <div class="stats-label">Task đúng</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 mb-3">
+                                                <div class="stats-card">
+                                                    <div class="stats-value">@studentResult.Summary.IncorrectTasks</div>
+                                                    <div class="stats-label">Task sai</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 mb-3">
+                                                <div class="stats-card">
+                                                    <div class="stats-value">@studentResult.Summary.AverageTimePerTask</div>
+                                                    <div class="stats-label">Giây/task</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- Task Results -->
+                                        <h4 class="mb-4">
+                                            <i class="iconify me-2" data-icon="mdi:clipboard-list"></i>
+                                            Chi tiết từng task
+                                        </h4>
+                                        
+                                        @foreach (var task in studentResult.TaskResults)
+                                        {
+                                            <div class="task-card @(task.IsCorrect ? "correct" : "incorrect")">
+                                                <div class="row align-items-center">
+                                                    <div class="col-md-1 text-center">
+                                                        <div class="rounded-circle @(task.IsCorrect ? "bg-success" : "bg-danger") text-white d-inline-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                                            @if (task.IsCorrect)
+                                                            {
+                                                                <i class="iconify" data-icon="mdi:check"></i>
+                                                            }
+                                                            else
+                                                            {
+                                                                <i class="iconify" data-icon="mdi:close"></i>
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-7">
+                                                        <h6 class="mb-1">@task.TaskName</h6>
+                                                        <p class="text-muted mb-1 small">@task.Description</p>
+                                                        <div class="d-flex align-items-center">
+                                                            <span class="badge bg-light text-dark me-2">
+                                                                <i class="iconify me-1" data-icon="mdi:clock"></i>
+                                                                @task.TimeSpentSeconds giây
+                                                            </span>
+                                                            <span class="badge bg-light text-dark">
+                                                                <i class="iconify me-1" data-icon="mdi:scoreboard"></i>
+                                                                @task.Points/@task.MaxPoints điểm
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="text-end">
+                                                            <div class="mb-2">
+                                                                <small class="text-muted">Câu trả lời của bạn:</small>
+                                                                <div class="fw-medium">@task.UserAnswer</div>
+                                                            </div>
+                                                            @if (!task.IsCorrect)
+                                                            {
+                                                                <div>
+                                                                    <small class="text-muted">Đáp án đúng:</small>
+                                                                    <div class="fw-medium text-success">@task.CorrectAnswer</div>
+                                                                </div>
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                @if (!string.IsNullOrEmpty(task.Feedback))
+                                                {
+                                                    <div class="mt-3 p-3 bg-light rounded">
+                                                        <small class="text-muted">Nhận xét:</small>
+                                                        <div class="fw-medium">@task.Feedback</div>
+                                                    </div>
+                                                }
+                                            </div>
+                                        }
+                                        
+                                        <!-- Summary -->
+                                        <div class="row mt-5">
+                                            <div class="col-md-6">
+                                                <div class="card h-100">
+                                                    <div class="card-body">
+                                                        <h5 class="card-title mb-3">
+                                                            <i class="iconify me-2" data-icon="mdi:trending-up"></i>
+                                                            Điểm mạnh
+                                                        </h5>
+                                                        @foreach (var strength in studentResult.Summary.Strengths)
+                                                        {
+                                                            <span class="strength-item">@strength</span>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="card h-100">
+                                                    <div class="card-body">
+                                                        <h5 class="card-title mb-3">
+                                                            <i class="iconify me-2" data-icon="mdi:trending-down"></i>
+                                                            Điểm cần cải thiện
+                                                        </h5>
+                                                        @foreach (var weakness in studentResult.Summary.Weaknesses)
+                                                        {
+                                                            <span class="weakness-item">@weakness</span>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- Recommendations -->
+                                        <div class="card mt-4">
+                                            <div class="card-body">
+                                                <h5 class="card-title mb-3">
+                                                    <i class="iconify me-2" data-icon="mdi:lightbulb"></i>
+                                                    Đề xuất cải thiện
+                                                </h5>
+                                                <p class="mb-0">@studentResult.Summary.Recommendations</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Action Buttons -->
+                                <div class="row mt-5">
+                                    <div class="col-12 text-center">
+                                        <button class="print-btn me-3" onclick="window.print()">
+                                            <i class="iconify me-2" data-icon="mdi:printer"></i>
+                                            In kết quả
+                                        </button>
+                                        <a href="/Customer/Dashboard" class="btn btn-outline-primary btn-lg">
+                                            <i class="iconify me-2" data-icon="mdi:arrow-left"></i>
+                                            Quay lại Dashboard
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Footer Note -->
+                        <div class="text-center mt-4 text-muted small">
+                            <p>Kết quả được tạo tự động vào @DateTime.Now.ToString("dd/MM/yyyy HH:mm") | ID: @studentResult.Id</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Core JS -->
+        <script src="~/vendor/libs/jquery/jquery.js" asp-append-version="true"></script>
+        <script src="~/vendor/js/bootstrap.js" asp-append-version="true"></script>
+        <script src="~/vendor/libs/perfect-scrollbar/perfect-scrollbar.js" asp-append-version="true"></script>
+        <script src="~/js/main.js" asp-append-version="true"></script>
+        
+        <script>
+            // Print functionality
+            document.addEventListener('DOMContentLoaded', function() {
+                // Add print styles
+                const printStyle = document.createElement('style');
+                printStyle.textContent = '@@media print {' +
+                    '.results-container { background: white !important; padding: 0 !important; }' +
+                    '.results-card { box-shadow: none !important; margin: 0 !important; }' +
+                    '.print-btn, .btn-outline-primary { display: none !important; }' +
+                    '.task-card:hover { transform: none !important; box-shadow: none !important; }' +
+                '}';
+                document.head.appendChild(printStyle);
+            });
+        </script>
+        @RenderBody()
+    </body>
+</html>
+}

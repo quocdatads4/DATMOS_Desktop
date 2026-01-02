@@ -1,0 +1,199 @@
+@* 
+    Teacher Layout - Extends base theme layout
+    Specific styling and components for Teacher area
+*@
+
+@{
+    Layout = "_Layout";
+}
+
+@section Styles {
+    <!-- Teacher-specific CSS -->
+    <link rel="stylesheet" href="~/_content/DATMOS.Modules.Teacher/css/teacher.css" />
+    
+    <!-- Additional teacher styles -->
+    <style>
+        .teacher-container {
+            background-color: #f0f7ff;
+        }
+        
+        .teacher-sidebar {
+            background-color: #28a745;
+            color: white;
+        }
+        
+        .teacher-content {
+            padding: 25px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        
+        .teacher-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .teacher-stat-card {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            text-align: center;
+            border-top: 4px solid #28a745;
+        }
+    </style>
+}
+
+@section Scripts {
+    <!-- Teacher-specific JavaScript -->
+    <script src="~/_content/DATMOS.Modules.Teacher/js/teacher.js"></script>
+}
+
+<!-- Override theme container for teacher -->
+<div class="theme-container teacher-container">
+    <!-- Teacher-specific sidebar -->
+    <aside class="theme-sidebar teacher-sidebar">
+        @await Component.InvokeAsync("ThemeMenu")
+        
+        <!-- Teacher quick stats -->
+        <div class="teacher-quick-stats">
+            <h3>Teaching Stats</h3>
+            <div class="stat">
+                <div class="stat-value">12</div>
+                <div class="stat-label">Active Students</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">5</div>
+                <div class="stat-label">Courses</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">24</div>
+                <div class="stat-label">Assignments</div>
+            </div>
+        </div>
+    </aside>
+    
+    <!-- Main content area -->
+    <main class="theme-main">
+        <!-- Teacher breadcrumb -->
+        <div class="theme-breadcrumb teacher-breadcrumb">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/Teacher">Teacher Dashboard</a></li>
+                    @RenderSection("Breadcrumb", required: false)
+                </ol>
+            </nav>
+        </div>
+        
+        <!-- Teacher page header -->
+        <header class="theme-page-header teacher-page-header">
+            <h1><i class="fas fa-chalkboard-teacher"></i> @ViewData["Title"]</h1>
+            <div class="teacher-actions">
+                @RenderSection("TeacherActions", required: false)
+                <a href="/Teacher/Courses" class="btn btn-success">
+                    <i class="fas fa-book"></i> My Courses
+                </a>
+            </div>
+        </header>
+        
+        <!-- Teacher stats overview -->
+        @RenderSection("TeacherStats", required: false)
+        
+        @if (!IsSectionDefined("TeacherStats"))
+        {
+            <div class="teacher-stats">
+                <div class="teacher-stat-card">
+                    <h4>Students</h4>
+                    <p class="stat-number">12</p>
+                    <p class="stat-change">+2 this week</p>
+                </div>
+                <div class="teacher-stat-card">
+                    <h4>Courses</h4>
+                    <p class="stat-number">5</p>
+                    <p class="stat-change">All active</p>
+                </div>
+                <div class="teacher-stat-card">
+                    <h4>Assignments</h4>
+                    <p class="stat-number">24</p>
+                    <p class="stat-change">3 pending review</p>
+                </div>
+                <div class="teacher-stat-card">
+                    <h4>Avg. Score</h4>
+                    <p class="stat-number">85%</p>
+                    <p class="stat-change">+5% from last month</p>
+                </div>
+            </div>
+        }
+        
+        <!-- Teacher content -->
+        <div class="theme-content teacher-content">
+            <!-- Teacher notifications -->
+            @if (TempData["TeacherSuccess"] != null)
+            {
+                <div class="alert alert-success">
+                    <i class="fas fa-check-circle"></i> @TempData["TeacherSuccess"]
+                </div>
+            }
+            
+            @if (TempData["TeacherInfo"] != null)
+            {
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle"></i> @TempData["TeacherInfo"]
+                </div>
+            }
+            
+            <!-- Main content -->
+            @RenderBody()
+        </div>
+        
+        <!-- Teacher resources -->
+        <div class="teacher-resources">
+            <h4><i class="fas fa-toolbox"></i> Teaching Resources</h4>
+            <div class="resource-links">
+                <a href="#" class="resource-link">
+                    <i class="fas fa-file-pdf"></i> Course Templates
+                </a>
+                <a href="#" class="resource-link">
+                    <i class="fas fa-video"></i> Teaching Guides
+                </a>
+                <a href="#" class="resource-link">
+                    <i class="fas fa-chart-bar"></i> Analytics Tools
+                </a>
+                <a href="#" class="resource-link">
+                    <i class="fas fa-question-circle"></i> Support
+                </a>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- Teacher-specific scripts -->
+@section FooterScripts {
+    <script>
+        // Teacher-specific initialization
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize teacher components
+            if (typeof teacherInit === 'function') {
+                teacherInit();
+            }
+            
+            // Grade calculation helper
+            window.calculateGrade = function(scores) {
+                if (!scores || scores.length === 0) return 0;
+                const total = scores.reduce((sum, score) => sum + score, 0);
+                return Math.round(total / scores.length);
+            };
+            
+            // Student progress tracking
+            document.querySelectorAll('.student-progress').forEach(function(progressBar) {
+                const studentId = progressBar.getAttribute('data-student-id');
+                // Could fetch progress data from API here
+            });
+        });
+    </script>
+    
+    @RenderSection("TeacherScripts", required: false)
+}

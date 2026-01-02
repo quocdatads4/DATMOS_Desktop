@@ -1,0 +1,209 @@
+@model dynamic
+
+<div class="modal fade" id="lessonModal" tabindex="-1" aria-labelledby="lessonModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="lessonModalLabel">
+                    @if (Model?.Id != null)
+                    {
+                        <text>Chỉnh sửa bài học</text>
+                    }
+                    else
+                    {
+                        <text>Thêm bài học mới</text>
+                    }
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="lessonForm" method="post" action="@Url.Action("Save", "Lessons", new { area = "Admin" })">
+                    @if (Model?.Id != null)
+                    {
+                        <input type="hidden" name="Id" value="@Model.Id" />
+                    }
+                    
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="mb-3">
+                                <label for="Title" class="form-label">Tiêu đề bài học <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="Title" name="Title" 
+                                       value="@(Model?.Title ?? "")" 
+                                       placeholder="Nhập tiêu đề bài học" required>
+                                <div class="invalid-feedback">Vui lòng nhập tiêu đề bài học</div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="Description" class="form-label">Mô tả</label>
+                                <textarea class="form-control" id="Description" name="Description" 
+                                          rows="3" placeholder="Nhập mô tả bài học">@(Model?.Description ?? "")</textarea>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="CourseId" class="form-label">Khóa học <span class="text-danger">*</span></label>
+                                        <select class="form-select" id="CourseId" name="CourseId" required>
+                                            <option value="">Chọn khóa học</option>
+                                            @{
+                                                var courseOptions = new[]
+                                                {
+                                                    new { Value = "CRS001", Text = "MOS Word 2019" },
+                                                    new { Value = "CRS002", Text = "MOS Excel 2019" },
+                                                    new { Value = "CRS003", Text = "MOS PowerPoint 2019" },
+                                                    new { Value = "CRS004", Text = "MOS Word 2019 Expert" },
+                                                    new { Value = "CRS005", Text = "MOS Excel 2019 Expert" }
+                                                };
+                                            }
+                                            @foreach (var course in courseOptions)
+                                            {
+                                                if (Model?.CourseId == course.Value)
+                                                {
+                                                    <option value="@course.Value" selected="selected">@course.Text</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@course.Value">@course.Text</option>
+                                                }
+                                            }
+                                        </select>
+                                        <div class="invalid-feedback">Vui lòng chọn khóa học</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="Order" class="form-label">Thứ tự <span class="text-danger">*</span></label>
+                                        <input type="number" class="form-control" id="Order" name="Order" 
+                                               value="@(Model?.Order ?? 1)" min="1" required>
+                                        <div class="invalid-feedback">Vui lòng nhập thứ tự bài học</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="Type" class="form-label">Loại bài học <span class="text-danger">*</span></label>
+                                <select class="form-select" id="Type" name="Type" required>
+                                    <option value="">Chọn loại</option>
+                                    @{
+                                        var typeOptions = new[]
+                                        {
+                                            new { Value = "Video", Text = "Video" },
+                                            new { Value = "Bài đọc", Text = "Bài đọc" },
+                                            new { Value = "Quiz", Text = "Quiz" },
+                                            new { Value = "Bài tập", Text = "Bài tập" }
+                                        };
+                                    }
+                                    @foreach (var type in typeOptions)
+                                    {
+                                        if (Model?.Type == type.Value)
+                                        {
+                                            <option value="@type.Value" selected="selected">@type.Text</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@type.Value">@type.Text</option>
+                                        }
+                                    }
+                                </select>
+                                <div class="invalid-feedback">Vui lòng chọn loại bài học</div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="Duration" class="form-label">Thời lượng (phút) <span class="text-danger">*</span></label>
+                                <input type="number" class="form-control" id="Duration" name="Duration" 
+                                       value="@(Model?.Duration ?? 30)" min="1" required>
+                                <div class="invalid-feedback">Vui lòng nhập thời lượng</div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="Status" class="form-label">Trạng thái <span class="text-danger">*</span></label>
+                                <select class="form-select" id="Status" name="Status" required>
+                                    @{
+                                        var statusOptions = new[]
+                                        {
+                                            new { Value = "Active", Text = "Đang hiển thị" },
+                                            new { Value = "Hidden", Text = "Đã ẩn" },
+                                            new { Value = "Pending", Text = "Chờ duyệt" }
+                                        };
+                                    }
+                                    @foreach (var status in statusOptions)
+                                    {
+                                        if (Model?.Status == status.Value)
+                                        {
+                                            <option value="@status.Value" selected="selected">@status.Text</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@status.Value">@status.Text</option>
+                                        }
+                                    }
+                                </select>
+                                <div class="invalid-feedback">Vui lòng chọn trạng thái</div>
+                            </div>
+                            
+                            <div class="form-check mb-3">
+                                <input class="form-check-input" type="checkbox" id="IsFree" name="IsFree" 
+                                       value="true" @(Model?.IsFree == true ? "checked" : "")>
+                                <label class="form-check-label" for="IsFree">
+                                    Bài học miễn phí
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="VideoUrl" class="form-label">URL Video (nếu có)</label>
+                        <input type="url" class="form-control" id="VideoUrl" name="VideoUrl" 
+                               value="@(Model?.VideoUrl ?? "")" 
+                               placeholder="https://example.com/video.mp4">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="ThumbnailUrl" class="form-label">URL Hình ảnh đại diện</label>
+                        <input type="url" class="form-control" id="ThumbnailUrl" name="ThumbnailUrl" 
+                               value="@(Model?.ThumbnailUrl ?? "")" 
+                               placeholder="https://example.com/image.jpg">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                <button type="submit" form="lessonForm" class="btn btn-primary">
+                    @if (Model?.Id != null)
+                    {
+                        <text>Cập nhật</text>
+                    }
+                    else
+                    {
+                        <text>Tạo mới</text>
+                    }
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Form validation
+    (function() {
+        'use strict';
+        
+        const form = document.getElementById('lessonForm');
+        
+        form.addEventListener('submit', function(event) {
+            if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            
+            form.classList.add('was-validated');
+        }, false);
+        
+        // Initialize modal show event
+        $('#lessonModal').on('show.bs.modal', function() {
+            form.classList.remove('was-validated');
+        });
+    })();
+</script>

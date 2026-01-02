@@ -1,0 +1,551 @@
+@model DATMOS.Web.Areas.Customer.Models.TrainingResult
+@{
+    Layout = "~/Areas/Customer/Views/Shared/_CustomerLayout.cshtml";
+    ViewData["Title"] = "Chi tiết kết quả - " + Model.ExamName;
+    var result = Model;
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/areas/customer/css/word2019-results.css" />
+    <style>
+        /* Additional styles for enhanced design */
+        .results-card {
+            border: none;
+            border-radius: 1rem;
+            box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+        }
+        
+        .results-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .results-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+            opacity: 0.3;
+        }
+        
+        .student-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: bold;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            margin-right: 1.5rem;
+        }
+        
+        .score-chart-container {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 0 auto;
+        }
+        
+        .score-badge {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2.5rem;
+            font-weight: bold;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .stats-card {
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        
+        .stats-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+        }
+        
+        .stats-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .task-progress {
+            height: 6px;
+            border-radius: 3px;
+            overflow: hidden;
+            background-color: #e9ecef;
+        }
+        
+        .task-progress-bar {
+            height: 100%;
+            border-radius: 3px;
+            transition: width 0.6s ease;
+        }
+        
+        .task-card {
+            border: 1px solid #e9ecef;
+            border-radius: 0.75rem;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .task-card:hover {
+            border-color: #667eea;
+            box-shadow: 0 0.25rem 0.75rem rgba(102, 126, 234, 0.1);
+        }
+        
+        .task-card.correct {
+            border-left: 4px solid #28c76f;
+        }
+        
+        .task-card.incorrect {
+            border-left: 4px solid #ea5455;
+        }
+        
+        .task-header {
+            padding: 1.25rem;
+            cursor: pointer;
+            background-color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .task-content {
+            padding: 1.5rem;
+            background-color: #f8f9fa;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        .answer-comparison {
+            background: white;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            border: 1px solid #e9ecef;
+        }
+        
+        .action-buttons {
+            position: sticky;
+            bottom: 2rem;
+            z-index: 100;
+        }
+        
+        .floating-actions {
+            background: white;
+            border-radius: 2rem;
+            padding: 0.75rem 1.5rem;
+            box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.15);
+            display: inline-flex;
+            gap: 0.75rem;
+        }
+        
+        @@media (max-width: 768px) {
+            .results-header {
+                padding: 1.5rem;
+            }
+            
+            .student-avatar {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+                margin-right: 1rem;
+            }
+            
+            .score-chart-container {
+                width: 150px;
+                height: 150px;
+            }
+            
+            .score-badge {
+                font-size: 2rem;
+            }
+            
+            .floating-actions {
+                padding: 0.5rem 1rem;
+            }
+        }
+        
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+        
+        @@keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(102, 126, 234, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(102, 126, 234, 0); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @@keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+}
+
+@section VendorScripts {
+    <script src="~/vendor/libs/apex-charts/apexcharts.js"></script>
+}
+
+@section PageScripts {
+    <script src="~/areas/customer/js/word2019-results.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Initialize enhanced functionality
+            if (window.Word2019Results) {
+                window.Word2019Results.initScoreCharts();
+                window.Word2019Results.initTaskRows();
+                window.Word2019Results.initTooltips();
+            }
+            
+            // Add animation to score chart
+            const chartEl = document.querySelector('#scoreChart');
+            if (chartEl) {
+                chartEl.dataset.passed = '@result.Passed.ToString().ToLower()';
+                chartEl.dataset.score = '@result.Score';
+                chartEl.dataset.maxScore = '@result.MaxScore';
+                chartEl.dataset.percentage = '@result.Percentage';
+                chartEl.classList.add('score-chart');
+                
+                // Add pulse animation to passed/failed badge
+                const resultBadge = document.querySelector('.result-badge');
+                if (resultBadge && '@result.Passed' === 'True') {
+                    resultBadge.classList.add('pulse-animation');
+                }
+            }
+            
+            // Initialize task progress bars
+            document.querySelectorAll('.task-progress-bar').forEach(bar => {
+                const width = bar.style.width;
+                bar.style.width = '0';
+                setTimeout(() => {
+                    bar.style.width = width;
+                }, 300);
+            });
+            
+            // Add print button functionality
+            document.getElementById('printResults')?.addEventListener('click', function() {
+                window.print();
+            });
+            
+            // Add export button functionality
+            document.getElementById('exportResults')?.addEventListener('click', function() {
+                const data = {
+                    examName: '@result.ExamName',
+                    studentName: '@result.StudentName',
+                    score: @result.Score,
+                    maxScore: @result.MaxScore,
+                    percentage: @result.Percentage,
+                    passed: @result.Passed.ToString().ToLower(),
+                    date: '@result.SubmissionDate.ToString("yyyy-MM-dd")',
+                    tasks: @Html.Raw(Json.Serialize(result.TaskResults))
+                };
+                
+                if (window.Word2019Results && window.Word2019Results.exportResultsAsJson) {
+                    window.Word2019Results.exportResultsAsJson(data, 'word2019-result-@result.StudentName-@DateTime.Now.ToString("yyyyMMdd")');
+                }
+            });
+            
+            // Add smooth scrolling for task details
+            document.querySelectorAll('.task-header').forEach(header => {
+                header.addEventListener('click', function() {
+                    const content = this.nextElementSibling;
+                    content.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                });
+            });
+        });
+    </script>
+}
+
+@if (result != null)
+{
+<div class="container-xxl flex-grow-1 container-p-y">
+    <div class="results-card fade-in">
+        <!-- Enhanced Header -->
+        <div class="results-header">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
+                <div class="d-flex align-items-center mb-3 mb-md-0">
+                    <div class="student-avatar">
+                        @result.StudentName.Substring(0, 1).ToUpper()
+                    </div>
+                    <div>
+                        <h2 class="mb-1">@result.ExamName</h2>
+                        <div class="d-flex flex-wrap gap-2">
+                            <span class="badge bg-white text-dark bg-opacity-25">
+                                <i class="ti ti-user me-1"></i>@result.StudentName
+                            </span>
+                            <span class="badge bg-white text-dark bg-opacity-25">
+                                <i class="ti ti-calendar me-1"></i>@result.SubmissionDate.ToString("dd/MM/yyyy HH:mm")
+                            </span>
+                            <span class="badge bg-white text-dark bg-opacity-25">
+                                <i class="ti ti-file-text me-1"></i>@result.ProjectName
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-3 mt-md-0">
+                    <a href="@Url.Action("Index")" class="btn btn-light">
+                        <i class="ti ti-arrow-left me-2"></i>
+                        Quay lại
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="p-4 p-md-5">
+            <!-- Score Summary with Stats -->
+            <div class="row mb-5">
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <div class="score-chart-container">
+                        <div id="scoreChart"></div>
+                        <div class="score-badge @(result.Passed ? "text-success" : "text-danger")">
+                            @result.Percentage.ToString("0")%
+                        </div>
+                    </div>
+                    <div class="text-center mt-4">
+                        @if (result.Passed)
+                        {
+                            <div class="result-badge badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 py-2 px-4 fs-6">
+                                <i class="ti ti-check me-2"></i>
+                                <strong>BẠN ĐÃ ĐẠT</strong>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="result-badge badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25 py-2 px-4 fs-6">
+                                <i class="ti ti-x me-2"></i>
+                                <strong>BẠN CHƯA ĐẠT</strong>
+                            </div>
+                        }
+                        <p class="text-muted mt-2 mb-0">
+                            Điểm: <strong>@result.Score/@result.MaxScore</strong> | 
+                            Cần đạt: @result.PassingScore điểm
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="col-lg-8">
+                    <div class="row">
+                        <!-- Stats Cards -->
+                        <div class="col-md-6 mb-4">
+                            <div class="stats-card stats-card-compact bg-primary bg-opacity-10 border-primary border-opacity-25">
+                                <div class="stats-icon bg-primary bg-opacity-25 text-primary">
+                                    <i class="ti ti-check"></i>
+                                </div>
+                                <h3 class="mb-1">@result.Summary.CorrectTasks</h3>
+                                <p class="text-muted mb-0">Câu trả lời đúng</p>
+                                <div class="task-progress mt-2">
+                                    <div class="task-progress-bar bg-primary" 
+                                         style="width: @((result.Summary.CorrectTasks * 100) / (result.Summary.CorrectTasks + result.Summary.IncorrectTasks))%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6 mb-4">
+                            <div class="stats-card stats-card-compact bg-danger bg-opacity-10 border-danger border-opacity-25">
+                                <div class="stats-icon bg-danger bg-opacity-25 text-danger">
+                                    <i class="ti ti-x"></i>
+                                </div>
+                                <h3 class="mb-1">@result.Summary.IncorrectTasks</h3>
+                                <p class="text-muted mb-0">Câu trả lời sai</p>
+                                <div class="task-progress mt-2">
+                                    <div class="task-progress-bar bg-danger" 
+                                         style="width: @((result.Summary.IncorrectTasks * 100) / (result.Summary.CorrectTasks + result.Summary.IncorrectTasks))%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6 mb-4">
+                            <div class="stats-card stats-card-compact bg-success bg-opacity-10 border-success border-opacity-25">
+                                <div class="stats-icon bg-success bg-opacity-25 text-success">
+                                    <i class="ti ti-percentage"></i>
+                                </div>
+                                <h3 class="mb-1">@result.Percentage.ToString("0.0")%</h3>
+                                <p class="text-muted mb-0">Tỷ lệ hoàn thành</p>
+                                <div class="task-progress mt-2">
+                                    <div class="task-progress-bar bg-success" style="width: @result.Percentage%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6 mb-4">
+                            <div class="stats-card stats-card-compact bg-info bg-opacity-10 border-info border-opacity-25">
+                                <div class="stats-icon bg-info bg-opacity-25 text-info">
+                                    <i class="ti ti-clock"></i>
+                                </div>
+                                <h3 class="mb-1">@result.DurationMinutes phút</h3>
+                                <p class="text-muted mb-0">Thời gian làm bài</p>
+                                <div class="task-progress mt-2">
+                                    <div class="task-progress-bar bg-info" style="width: 100%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Task Review Section -->
+            <div class="mb-4">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div>
+                        <h4 class="mb-1">Đánh giá chi tiết từng câu hỏi</h4>
+                        <p class="text-muted mb-0">Nhấn vào từng câu để xem chi tiết đáp án và giải thích</p>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button id="expandAll" class="btn btn-outline-secondary btn-sm">
+                            <i class="ti ti-arrows-diagonal me-1"></i>Mở tất cả
+                        </button>
+                        <button id="collapseAll" class="btn btn-outline-secondary btn-sm">
+                            <i class="ti ti-arrows-diagonal-2 me-1"></i>Đóng tất cả
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Task Cards -->
+                <div class="task-list">
+                    @foreach (var task in result.TaskResults.Select((value, i) => new { Index = i + 1, Task = value }))
+                    {
+                        var isCorrect = task.Task.IsCorrect;
+                        var iconClass = isCorrect ? "ti-circle-check text-success" : "ti-circle-x text-danger";
+                        var statusClass = isCorrect ? "correct" : "incorrect";
+                        var statusText = isCorrect ? "Đúng" : "Sai";
+                        var statusColor = isCorrect ? "success" : "danger";
+                        
+                        <div class="task-card @statusClass" id="task-@task.Index">
+                            <div class="task-header" data-bs-toggle="collapse" data-bs-target="#task-details-@task.Index" aria-expanded="false">
+                                <div class="d-flex align-items-center">
+                                    <div class="me-3">
+                                        <i class="icon-base @iconClass fs-4"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-1">Câu @task.Index: @task.Task.TaskName</h6>
+                                        <div class="d-flex align-items-center gap-3">
+                                            <span class="badge bg-label-@statusColor">@statusText</span>
+                                            <span class="text-muted">@task.Task.Points/@task.Task.MaxPoints điểm</span>
+                                            <div class="task-progress" style="width: 100px;">
+                                                <div class="task-progress-bar bg-@statusColor" style="width: @((task.Task.Points * 100) / task.Task.MaxPoints)%"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <i class="ti ti-chevron-down"></i>
+                                </div>
+                            </div>
+                            
+                            <div id="task-details-@task.Index" class="collapse">
+                                <div class="task-content">
+                                    <div class="mb-3">
+                                        <h6 class="text-muted mb-2">Hướng dẫn:</h6>
+                                        <p class="mb-0">@task.Task.Description</p>
+                                    </div>
+                                    
+                                    <div class="answer-comparison mb-3">
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3 mb-md-0">
+                                                <h6 class="text-muted mb-2">Câu trả lời của bạn:</h6>
+                                                <div class="p-3 bg-light rounded">
+                                                    <p class="mb-0">@task.Task.UserAnswer</p>
+                                                </div>
+                                            </div>
+                                            @if (!isCorrect)
+                                            {
+                                                <div class="col-md-6">
+                                                    <h6 class="text-muted mb-2">Đáp án đúng:</h6>
+                                                    <div class="p-3 bg-success bg-opacity-10 border border-success border-opacity-25 rounded">
+                                                        <p class="mb-0 text-success">@task.Task.CorrectAnswer</p>
+                                                    </div>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                    
+                                    @if (!string.IsNullOrEmpty(task.Task.Feedback))
+                                    {
+                                        <div class="alert alert-@(isCorrect ? "info" : "warning") d-flex align-items-center" role="alert">
+                                            <span class="alert-icon text-@(isCorrect ? "info" : "warning") me-2">
+                                                <i class="ti ti-@(isCorrect ? "info-circle" : "alert-circle") ti-xs"></i>
+                                            </span>
+                                            <div>
+                                                <h6 class="alert-heading mb-1">Nhận xét:</h6>
+                                                @task.Task.Feedback
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        
+        <!-- Floating Action Buttons -->
+        <div class="action-buttons">
+            <div class="text-center">
+                <div class="floating-actions">
+                    <button id="printResults" class="btn btn-outline-primary">
+                        <i class="ti ti-printer me-2"></i>In kết quả
+                    </button>
+                    <button id="exportResults" class="btn btn-outline-success">
+                        <i class="ti ti-download me-2"></i>Xuất JSON
+                    </button>
+                    <a href="@Url.Action("Index")" class="btn btn-primary">
+                        <i class="ti ti-list me-2"></i>Xem tất cả kết quả
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+}
+else
+{
+    <div class="container-xxl flex-grow-1 container-p-y">
+        <div class="card">
+            <div class="card-body text-center py-5">
+                <div class="mb-4">
+                    <i class="ti ti-file-off text-muted" style="font-size: 4rem;"></i>
+                </div>
+                <h4 class="alert-heading mb-3">Không tìm thấy kết quả</h4>
+                <p class="text-muted mb-4">Không có dữ liệu chi tiết cho bài thi này. Vui lòng kiểm tra lại.</p>
+                <div class="d-flex justify-content-center gap-3">
+                    <a href="@Url.Action("Index")" class="btn btn-outline-danger">
+                        <i class="ti ti-arrow-left me-2"></i>Quay lại danh sách
+                    </a>
+                    <a href="@Url.Action("AllResults")" class="btn btn-primary">
+                        <i class="ti ti-list me-2"></i>Xem tất cả bài thi
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+}

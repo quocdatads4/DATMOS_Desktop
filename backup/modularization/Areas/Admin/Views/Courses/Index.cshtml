@@ -1,0 +1,773 @@
+@{
+    ViewData["Title"] = "Quản lý khóa học";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+
+    // Dữ liệu mẫu từ controller
+    var sampleCourses = ViewData.Model as IEnumerable<dynamic> ?? new List<dynamic>();
+
+    // Tính toán thống kê từ dữ liệu mẫu
+    var totalCourses = sampleCourses.Count();
+    var activeCourses = sampleCourses.Count(c => c.Status == "Active");
+    var inactiveCourses = sampleCourses.Count(c => c.Status == "Inactive");
+    var pendingCourses = sampleCourses.Count(c => c.Status == "Pending");
+}
+
+@section VendorStyles {
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.bootstrap5.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.bootstrap5.min.css" />
+    
+    <!-- Select2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
+    
+    <!-- Toastr CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+}
+
+@section PageStyles {
+    <link rel="stylesheet" href="~/areas/admin/css/admin-data-table.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/areas/admin/css/admin-courses.css" asp-append-version="true" />
+}
+
+<!-- Statistics Cards - Compact Design -->
+<div class="admin-courses-stats-compact">
+    <div class="stats-grid">
+        <div class="stat-item stat-total">
+            <div class="stat-icon">
+                <i class="icon-base ti ti-book"></i>
+            </div>
+            <div class="stat-content">
+                <h3 class="stat-value">@totalCourses</h3>
+                <p class="stat-label">Tổng khóa học</p>
+            </div>
+        </div>
+        <div class="stat-item stat-active">
+            <div class="stat-icon">
+                <i class="icon-base ti ti-book-upload"></i>
+            </div>
+            <div class="stat-content">
+                <h3 class="stat-value">@activeCourses</h3>
+                <p class="stat-label">Đang hoạt động</p>
+            </div>
+        </div>
+        <div class="stat-item stat-inactive">
+            <div class="stat-icon">
+                <i class="icon-base ti ti-book-off"></i>
+            </div>
+            <div class="stat-content">
+                <h3 class="stat-value">@inactiveCourses</h3>
+                <p class="stat-label">Ngừng bán</p>
+            </div>
+        </div>
+        <div class="stat-item stat-pending">
+            <div class="stat-icon">
+                <i class="icon-base ti ti-clock"></i>
+            </div>
+            <div class="stat-content">
+                <h3 class="stat-value">@pendingCourses</h3>
+                <p class="stat-label">Chờ duyệt</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Quick Filters -->
+<div class="d-flex gap-2 mb-3">
+    <a href="#" class="btn btn-outline-primary quick-filter active waves-effect" data-filter="all">
+        <i class="icon-base ti ti-book me-1"></i>
+        Tất cả
+    </a>
+    <a href="#" class="btn btn-outline-success quick-filter waves-effect" data-filter="active">
+        <i class="icon-base ti ti-book-upload me-1"></i>
+        Đang bán
+    </a>
+    <a href="#" class="btn btn-outline-danger quick-filter waves-effect" data-filter="inactive">
+        <i class="icon-base ti ti-book-off me-1"></i>
+        Ngừng bán
+    </a>
+    <a href="#" class="btn btn-outline-warning quick-filter waves-effect" data-filter="pending">
+        <i class="icon-base ti ti-clock me-1"></i>
+        Chờ duyệt
+    </a>
+    
+    <div class="ms-auto view-toggle">
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-outline-secondary active waves-effect" data-view="list">
+            <i class="icon-base ti ti-list"></i>
+            </button>
+            <button type="button" class="btn btn-outline-secondary waves-effect" data-view="grid">
+            <i class="icon-base ti ti-grid-dots"></i>
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Bulk Actions -->
+<div class="bulk-actions">
+    <div class="bulk-selection-count">0 khóa học được chọn</div>
+    <div class="bulk-actions-buttons">
+        <button class="btn btn-success btn-sm bulk-activate">
+        <i class="icon-base ti ti-book-upload me-1"></i>
+            Kích hoạt
+        </button>
+        <button class="btn btn-danger btn-sm bulk-deactivate">
+        <i class="icon-base ti ti-book-off me-1"></i>
+            Ngừng bán
+        </button>
+        <button class="btn btn-outline-danger btn-sm bulk-delete">
+        <i class="icon-base ti ti-trash me-1"></i>
+            Xóa
+        </button>
+        <button class="btn btn-outline-primary btn-sm bulk-export">
+        <i class="icon-base ti ti-download me-1"></i>
+            Xuất CSV
+        </button>
+    </div>
+</div>
+
+<!-- Main Card -->
+<div class="card">
+    <div class="card-header border-bottom">
+        <div class="d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center">
+                <div class="bg-primary bg-opacity-10 p-2 rounded me-3">
+                    <i class="icon-base ti ti-book text-primary" style="font-size: 1.5rem;"></i>
+                </div>
+                <div>
+                    <h5 class="card-title mb-0 d-flex align-items-center">
+                        <span class="me-2">DANH SÁCH KHÓA HỌC</span>
+                        <span class="badge bg-primary">MOS</span>
+                    </h5>
+                    <p class="text-muted mb-0">
+                        <i class="icon-base ti ti-database me-1"></i>
+                        Quản lý tất cả khóa học Microsoft Office Specialist trong hệ thống
+                    </p>
+                </div>
+            </div>
+            <div class="d-flex gap-2">
+                <button class="btn btn-primary btn-create-course">
+                    <i class="icon-base ti ti-book-plus me-2"></i>
+                    Thêm khóa học mới
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Desktop Table View -->
+    <div class="card-datatable admin-courses-table">
+        <table class="datatables-courses table border-top">
+            <thead>
+                <tr>
+                    <th width="40">
+                        <div class="form-check">
+                            <input class="form-check-input select-all-courses" type="checkbox" />
+                        </div>
+                    </th>
+                    <th>Thông tin khóa học</th>
+                    <th>Cấp độ</th>
+                    <th>Thời lượng</th>
+                    <th>Giá</th>
+                    <th>Trạng thái</th>
+                    <th>Học viên</th>
+                    <th width="120">Hành động</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var course in sampleCourses)
+                {
+                    <tr>
+                        <td>
+                            <div class="form-check">
+                                <input class="form-check-input course-checkbox" type="checkbox" value="@course.Id" />
+                            </div>
+                        </td>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <div class="course-avatar @(course.IsActive ? "course-avatar-active" : "course-avatar-inactive") course-avatar-initials me-3">
+                                    @if (!string.IsNullOrEmpty(course.ImageUrl))
+                                    {
+                                        <img src="@course.ImageUrl" alt="@course.Name" />
+                                    }
+                                    else
+                                    {
+                                        <span>@(!string.IsNullOrEmpty(course.Name) ? course.Name.Substring(0, 1).ToUpper() : "?")</span>
+                                    }
+                                </div>
+                                <div class="d-flex flex-column">
+                                    <span class="fw-semibold bg-primary bg-opacity-10 text-primary px-2 py-1 rounded mb-1 d-inline-block">@course.Name</span>
+                                    <div class="d-flex gap-1 mt-1">
+                                        <small class="text-muted bg-success bg-opacity-10 px-2 py-1 rounded d-inline-block">
+                                            <i class="icon-base ti ti-badge me-1"></i>Giáo viên
+                                        </small>
+                                        <small class="text-muted bg-warning bg-opacity-10 px-2 py-1 rounded d-inline-block">
+                                            <i class="icon-base ti ti-user me-1"></i>@course.Instructor
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <span class="badge bg-label-info">@course.Level</span>
+                        </td>
+                        <td>
+                            <span>@course.Duration</span>
+                        </td>
+                        <td>
+                            <div class="d-flex flex-column">
+                                <span class="fw-semibold text-success">@string.Format("{0:N0}", course.Price) đ</span>
+                                @if (course.OriginalPrice > course.Price)
+                                {
+                                    <small class="text-muted text-decoration-line-through">@string.Format("{0:N0}", course.OriginalPrice) đ</small>
+                                }
+                            </div>
+                        </td>
+                        <td>
+                            @if (course.IsActive && course.Status == "Active")
+                            {
+                                <span class="status-badge status-badge-active">
+                                    <i class="icon-base ti ti-circle-check"></i>
+                                    Đang bán
+                                </span>
+                            }
+                            else if (course.Status == "Inactive")
+                            {
+                                <span class="status-badge status-badge-inactive">
+                                    <i class="icon-base ti ti-circle-x"></i>
+                                    Ngừng bán
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="status-badge status-badge-pending">
+                                    <i class="icon-base ti ti-clock"></i>
+                                    @course.Status
+                                </span>
+                            }
+                        </td>
+                        <td>
+                            <div class="d-flex flex-column">
+                                <span>@course.StudentCount học viên</span>
+                                <small class="text-muted">
+                                    <i class="icon-base ti ti-star-filled text-warning"></i>
+                                    @course.Rating
+                                </small>
+                            </div>
+                        </td>
+                        <td class="no-sort">
+                            <div class="action-buttons">
+                                <!-- Nút Bật/Tắt -->
+                                <form method="post" class="d-inline toggle-course-form"
+                                      data-course-id="@course.Id"
+                                      data-course-name="@course.Name"
+                                      data-course-active="@course.IsActive">
+                                    <input type="hidden" name="id" value="@course.Id" />
+                                    <button type="button" 
+                                            class="btn btn-icon btn-text-@(course.IsActive ? "success" : "secondary") waves-effect waves-light rounded-pill toggle-record" 
+                                            title="@(course.IsActive ? "Ngừng bán" : "Kích hoạt")"
+                                            aria-label="@(course.IsActive ? "Ngừng bán" : "Kích hoạt") @course.Name"
+                                            data-bs-toggle="tooltip"
+                                            data-bs-original-title="@(course.IsActive ? "Ngừng bán" : "Kích hoạt")">
+                                        <i class="icon-base ti @(course.IsActive ? "ti-toggle-right" : "ti-toggle-left")"></i>
+                                    </button>
+                                </form>
+                                
+                                <!-- Nút Chỉnh sửa -->
+                                <a href="#" 
+                                   class="btn btn-icon btn-text-warning waves-effect waves-light rounded-pill edit-record"
+                                   title="Chỉnh sửa"
+                                   aria-label="Chỉnh sửa khóa học @course.Name"
+                                   data-bs-toggle="tooltip"
+                                   data-bs-original-title="Chỉnh sửa">
+                                    <i class="icon-base ti ti-edit"></i>
+                                </a>
+                                
+                                <!-- Nút Xóa -->
+                                <form method="post" class="d-inline delete-course-form"
+                                      data-course-id="@course.Id"
+                                      data-course-name="@course.Name">
+                                    <input type="hidden" name="id" value="@course.Id" />
+                                    <button type="button" 
+                                            class="btn btn-icon btn-text-secondary waves-effect waves-light rounded-pill delete-record" 
+                                            title="Xóa"
+                                            aria-label="Xóa khóa học @course.Name"
+                                            data-bs-toggle="tooltip"
+                                            data-bs-original-title="Xóa"
+                                            @(!course.IsActive ? "disabled" : "")>
+                                        <i class="icon-base ti ti-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Mobile Grid View -->
+    <div class="mobile-courses-grid p-4">
+        @foreach (var course in sampleCourses)
+        {
+            <div class="course-card">
+                <div class="course-card-header">
+                    <div class="course-avatar @(course.IsActive ? "course-avatar-active" : "course-avatar-inactive") course-avatar-initials">
+                        @if (!string.IsNullOrEmpty(course.ImageUrl))
+                        {
+                            <img src="@course.ImageUrl" alt="@course.Name" />
+                        }
+                        else
+                        {
+                            <span>@(!string.IsNullOrEmpty(course.Name) ? course.Name.Substring(0, 1).ToUpper() : "?")</span>
+                        }
+                    </div>
+                    <div class="course-card-info">
+                        <h6 class="mb-1">@course.Name</h6>
+                        <small class="text-muted">@course.Code</small>
+                    </div>
+                <div class="course-card-actions">
+                    <!-- Nút Bật/Tắt cho mobile -->
+                    <form method="post" class="d-inline toggle-course-form"
+                          data-course-id="@course.Id"
+                          data-course-name="@course.Name"
+                          data-course-active="@course.IsActive">
+                        <input type="hidden" name="id" value="@course.Id" />
+                        <button type="button" 
+                                class="btn btn-icon btn-text-@(course.IsActive ? "success" : "secondary") waves-effect waves-light rounded-pill toggle-record" 
+                                title="@(course.IsActive ? "Ngừng bán" : "Kích hoạt")"
+                                aria-label="@(course.IsActive ? "Ngừng bán" : "Kích hoạt") @course.Name"
+                                data-bs-toggle="tooltip"
+                                data-bs-original-title="@(course.IsActive ? "Ngừng bán" : "Kích hoạt")">
+                            <i class="icon-base ti @(course.IsActive ? "ti-toggle-right" : "ti-toggle-left")"></i>
+                        </button>
+                    </form>
+                    
+                    <!-- Nút Chỉnh sửa cho mobile -->
+                    <a href="#" 
+                       class="btn btn-icon btn-text-warning waves-effect waves-light rounded-pill edit-record"
+                       title="Chỉnh sửa"
+                       aria-label="Chỉnh sửa khóa học @course.Name"
+                       data-bs-toggle="tooltip"
+                       data-bs-original-title="Chỉnh sửa">
+                        <i class="icon-base ti ti-edit"></i>
+                    </a>
+                </div>
+                </div>
+                <div class="course-card-details">
+                    <div class="course-card-detail">
+                        <span class="course-card-label">Cấp độ</span>
+                        <span class="course-card-value">
+                            <span class="badge bg-label-info">@course.Level</span>
+                        </span>
+                    </div>
+                    <div class="course-card-detail">
+                        <span class="course-card-label">Giá</span>
+                        <span class="course-card-value text-success fw-semibold">@string.Format("{0:N0}", course.Price) đ</span>
+                    </div>
+                    <div class="course-card-detail">
+                        <span class="course-card-label">Trạng thái</span>
+                        <span class="course-card-value">
+                            @if (course.IsActive && course.Status == "Active")
+                            {
+                                <span class="status-badge status-badge-active">Đang bán</span>
+                            }
+                            else if (course.Status == "Inactive")
+                            {
+                                <span class="status-badge status-badge-inactive">Ngừng bán</span>
+                            }
+                            else
+                            {
+                                <span class="status-badge status-badge-pending">@course.Status</span>
+                            }
+                        </span>
+                    </div>
+                    <div class="course-card-detail">
+                        <span class="course-card-label">Học viên</span>
+                        <span class="course-card-value">@course.StudentCount học viên</span>
+                    </div>
+                    <div class="course-card-detail">
+                        <span class="course-card-label">Đánh giá</span>
+                        <span class="course-card-value">
+                            <i class="icon-base ti ti-star-filled text-warning"></i>
+                            @course.Rating
+                        </span>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <form method="post" class="d-inline delete-course-form"
+                          data-course-id="@course.Id"
+                          data-course-name="@course.Name">
+                        <input type="hidden" name="id" value="@course.Id" />
+                                <button type="button" 
+                                        class="btn btn-icon btn-text-secondary waves-effect waves-light rounded-pill delete-record w-100"
+                                        title="Xóa"
+                                        aria-label="Xóa khóa học @course.Name"
+                                        data-bs-toggle="tooltip"
+                                        data-bs-original-title="Xóa"
+                                        @(!course.IsActive ? "disabled" : "")>
+                                    <i class="icon-base ti ti-trash me-1"></i>
+                                    Xóa
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Include Create/Edit modal -->
+<div id="courseModalContainer"></div>
+
+@section VendorScripts {
+    <!-- DataTables -->
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+    
+    <!-- Select2 -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <!-- Toastr -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+}
+
+@section PageScripts {
+    <script src="~/areas/admin/js/admin-courses.js" asp-append-version="true"></script>
+}
+
+@section Scripts {
+    <script>
+        // Initialize tooltips
+        $(function () {
+            $('[data-bs-toggle="tooltip"]').tooltip();
+        });
+        
+        // Handle toggle course with SweetAlert2
+        $(document).ready(function() {
+            $('.toggle-record').on('click', function(e) {
+                e.preventDefault();
+                
+                const form = $(this).closest('.toggle-course-form');
+                const courseId = form.data('course-id');
+                const courseName = form.data('course-name') || 'khóa học này';
+                const isActive = form.data('course-active') === 'True' || form.data('course-active') === true;
+                
+                const action = isActive ? 'ngừng bán' : 'kích hoạt';
+                const actionText = isActive ? 'Ngừng bán' : 'Kích hoạt';
+                const icon = isActive ? 'warning' : 'info';
+                const confirmButtonColor = isActive ? '#ffab00' : '#71dd37';
+                
+                Swal.fire({
+                    title: `Xác nhận ${action} khóa học`,
+                    html: `Bạn có chắc chắn muốn ${action} <strong>${courseName}</strong>?<br><br>
+                           <small class="text-muted">${isActive ? 'Khóa học sẽ không còn hiển thị để đăng ký.' : 'Khóa học sẽ được kích hoạt và hiển thị để đăng ký.'}</small>`,
+                    icon: icon,
+                    showCancelButton: true,
+                    confirmButtonText: actionText,
+                    cancelButtonText: 'Hủy',
+                    confirmButtonColor: confirmButtonColor,
+                    cancelButtonColor: '#3085d6',
+                    reverseButtons: true,
+                    customClass: {
+                        confirmButton: `btn ${isActive ? 'btn-warning' : 'btn-success'}`,
+                        cancelButton: 'btn btn-secondary'
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Show loading state
+                        const toggleBtn = form.find('.toggle-record');
+                        const originalHtml = toggleBtn.html();
+                        toggleBtn.prop('disabled', true).html('<i class="ti ti-loader-2 spinner"></i>');
+                        
+                        // Submit the form
+                        form.submit();
+                    }
+                });
+            });
+            
+            // Handle delete course with SweetAlert2
+            $('.delete-record').on('click', function(e) {
+                e.preventDefault();
+                
+                const form = $(this).closest('.delete-course-form');
+                const courseId = form.data('course-id');
+                const courseName = form.data('course-name') || 'khóa học này';
+                const isDisabled = $(this).prop('disabled');
+                
+                if (isDisabled) {
+                    return;
+                }
+                
+                Swal.fire({
+                    title: 'Xác nhận xóa khóa học',
+                    html: `Bạn có chắc chắn muốn xóa <strong>${courseName}</strong>?<br><br>
+                           <small class="text-muted">Hành động này không thể hoàn tác. Tất cả dữ liệu liên quan sẽ bị xóa.</small>`,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Xóa',
+                    cancelButtonText: 'Hủy',
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    reverseButtons: true,
+                    customClass: {
+                        confirmButton: 'btn btn-danger',
+                        cancelButton: 'btn btn-secondary'
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Show loading state
+                        const deleteBtn = form.find('.delete-record');
+                        const originalHtml = deleteBtn.html();
+                        deleteBtn.prop('disabled', true).html('<i class="ti ti-loader-2 spinner"></i>');
+                        
+                        // Submit the form
+                        form.submit();
+                    }
+                });
+            });
+            
+        // Handle form submission to prevent double submission
+        $('.toggle-course-form').on('submit', function(e) {
+            const submitBtn = $(this).find('.toggle-record');
+            if (submitBtn.prop('disabled')) {
+                e.preventDefault();
+                return false;
+            }
+            submitBtn.prop('disabled', true).html('<i class="ti ti-loader-2 spinner"></i>');
+            return true;
+        });
+        
+        $('.delete-course-form').on('submit', function(e) {
+            const submitBtn = $(this).find('.delete-record');
+            if (submitBtn.prop('disabled')) {
+                e.preventDefault();
+                return false;
+            }
+            submitBtn.prop('disabled', true).html('<i class="ti ti-loader-2 spinner"></i>');
+            return true;
+        });
+
+        // Handle quick filters
+        $('.quick-filter').on('click', function(e) {
+            e.preventDefault();
+            
+            // Remove active class from all filters
+            $('.quick-filter').removeClass('active');
+            // Add active class to clicked filter
+            $(this).addClass('active');
+            
+            const filter = $(this).data('filter');
+            
+            // Show/hide rows based on filter
+            $('tbody tr').each(function() {
+                const $row = $(this);
+                const status = $row.find('.status-badge').text().trim().toLowerCase();
+                
+                let showRow = false;
+                
+                switch(filter) {
+                    case 'all':
+                        showRow = true;
+                        break;
+                    case 'active':
+                        showRow = status.includes('đang bán');
+                        break;
+                    case 'inactive':
+                        showRow = status.includes('ngừng bán');
+                        break;
+                    case 'pending':
+                        showRow = status.includes('chờ') || status.includes('pending');
+                        break;
+                }
+                
+                if (showRow) {
+                    $row.show();
+                } else {
+                    $row.hide();
+                }
+            });
+
+            // Also filter mobile grid view
+            $('.course-card').each(function() {
+                const $card = $(this);
+                const status = $card.find('.status-badge').text().trim().toLowerCase();
+                
+                let showCard = false;
+                
+                switch(filter) {
+                    case 'all':
+                        showCard = true;
+                        break;
+                    case 'active':
+                        showCard = status.includes('đang bán');
+                        break;
+                    case 'inactive':
+                        showCard = status.includes('ngừng bán');
+                        break;
+                    case 'pending':
+                        showCard = status.includes('chờ') || status.includes('pending');
+                        break;
+                }
+                
+                if (showCard) {
+                    $card.show();
+                } else {
+                    $card.hide();
+                }
+            });
+        });
+
+        // Handle view toggle (list/grid) - only on mobile
+        $('[data-view]').on('click', function(e) {
+            e.preventDefault();
+            
+            // Only toggle on mobile screens
+            if (window.innerWidth > 768) {
+                toastr.info('Chế độ xem grid chỉ khả dụng trên thiết bị di động');
+                return;
+            }
+            
+            const view = $(this).data('view');
+            
+            // Update active button
+            $('[data-view]').removeClass('active');
+            $(this).addClass('active');
+            
+            if (view === 'list') {
+                // Show table view, hide grid view
+                $('.admin-courses-table').show();
+                $('.mobile-courses-grid').hide();
+            } else {
+                // Show grid view, hide table view
+                $('.admin-courses-table').hide();
+                $('.mobile-courses-grid').show();
+            }
+        });
+
+        // Handle window resize to update view
+        $(window).on('resize', function() {
+            if (window.innerWidth > 768) {
+                // On desktop, always show table view
+                $('.admin-courses-table').show();
+                $('.mobile-courses-grid').hide();
+                $('[data-view="list"]').addClass('active');
+                $('[data-view="grid"]').removeClass('active');
+            }
+        });
+
+        // Handle select all checkbox
+        $('.select-all-courses').on('change', function() {
+            const isChecked = $(this).prop('checked');
+            $('.course-checkbox').prop('checked', isChecked);
+            updateBulkSelectionCount();
+        });
+
+        // Handle individual checkbox changes
+        $('.course-checkbox').on('change', function() {
+            updateBulkSelectionCount();
+            
+            // Update select all checkbox state
+            const totalCheckboxes = $('.course-checkbox').length;
+            const checkedCheckboxes = $('.course-checkbox:checked').length;
+            $('.select-all-courses').prop('checked', totalCheckboxes === checkedCheckboxes);
+        });
+
+        // Update bulk selection count
+        function updateBulkSelectionCount() {
+            const selectedCount = $('.course-checkbox:checked').length;
+            $('.bulk-selection-count').text(`${selectedCount} khóa học được chọn`);
+            
+            // Enable/disable bulk action buttons
+            if (selectedCount > 0) {
+                $('.bulk-activate, .bulk-deactivate, .bulk-delete, .bulk-export').prop('disabled', false);
+            } else {
+                $('.bulk-activate, .bulk-deactivate, .bulk-delete, .bulk-export').prop('disabled', true);
+            }
+        }
+
+        // Handle bulk actions
+        $('.bulk-activate').on('click', function() {
+            const selectedIds = getSelectedCourseIds();
+            if (selectedIds.length === 0) return;
+            
+            Swal.fire({
+                title: 'Kích hoạt hàng loạt',
+                html: `Bạn có chắc chắn muốn kích hoạt <strong>${selectedIds.length} khóa học</strong>?`,
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Kích hoạt',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Implement bulk activation logic here
+                    toastr.success(`Đã kích hoạt ${selectedIds.length} khóa học`);
+                }
+            });
+        });
+
+        $('.bulk-deactivate').on('click', function() {
+            const selectedIds = getSelectedCourseIds();
+            if (selectedIds.length === 0) return;
+            
+            Swal.fire({
+                title: 'Ngừng bán hàng loạt',
+                html: `Bạn có chắc chắn muốn ngừng bán <strong>${selectedIds.length} khóa học</strong>?`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Ngừng bán',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Implement bulk deactivation logic here
+                    toastr.success(`Đã ngừng bán ${selectedIds.length} khóa học`);
+                }
+            });
+        });
+
+        $('.bulk-delete').on('click', function() {
+            const selectedIds = getSelectedCourseIds();
+            if (selectedIds.length === 0) return;
+            
+            Swal.fire({
+                title: 'Xóa hàng loạt',
+                html: `Bạn có chắc chắn muốn xóa <strong>${selectedIds.length} khóa học</strong>?<br><br>
+                       <small class="text-muted">Hành động này không thể hoàn tác.</small>`,
+                icon: 'error',
+                showCancelButton: true,
+                confirmButtonText: 'Xóa',
+                cancelButtonText: 'Hủy',
+                confirmButtonColor: '#d33'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Implement bulk delete logic here
+                    toastr.success(`Đã xóa ${selectedIds.length} khóa học`);
+                }
+            });
+        });
+
+        $('.bulk-export').on('click', function() {
+            const selectedIds = getSelectedCourseIds();
+            if (selectedIds.length === 0) return;
+            
+            toastr.info(`Đang xuất ${selectedIds.length} khóa học sang CSV...`);
+            // Implement export logic here
+        });
+
+        // Get selected course IDs
+        function getSelectedCourseIds() {
+            const selectedIds = [];
+            $('.course-checkbox:checked').each(function() {
+                selectedIds.push($(this).val());
+            });
+            return selectedIds;
+        }
+
+        // Initialize bulk actions state
+        updateBulkSelectionCount();
+    });
+    </script>
+}

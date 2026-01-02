@@ -1,0 +1,424 @@
+@model DATMOS.Core.Entities.Product
+@{
+    ViewData["Title"] = Model.Name;
+    Layout = "~/Areas/Customer/Views/Shared/_CustomerLayout.cshtml";
+    
+    var exams = ViewBag.Exams as List<DATMOS.Web.Areas.Customer.Controllers.ExamViewModel> ?? new List<DATMOS.Web.Areas.Customer.Controllers.ExamViewModel>();
+    var remainingCredits = ViewBag.RemainingCredits ?? 0;
+    var product = ViewBag.Product as DATMOS.Core.Entities.Product ?? Model;
+}
+
+@section PageStyles {
+<link rel="stylesheet" href="~/areas/customer/css/product-details.css" asp-append-version="true" />
+}
+
+<!-- Header - Improved spacing and layout -->
+<div class="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between mb-6">
+  <div class="d-flex align-items-center mb-4 mb-md-0">
+    <div class="avatar avatar-xl bg-label-primary rounded-3 p-4 me-4">
+      @{
+        var iconClass = "ti-file-text";
+        var textClass = "text-primary";
+        
+        if (Model.Name.Contains("Excel"))
+        {
+          iconClass = "ti-table";
+          textClass = "text-success";
+        }
+        else if (Model.Name.Contains("PowerPoint"))
+        {
+          iconClass = "ti-presentation";
+          textClass = "text-warning";
+        }
+        else if (Model.Name.Contains("Access"))
+        {
+          iconClass = "ti-database";
+          textClass = "text-info";
+        }
+        else if (Model.Name.Contains("Outlook"))
+        {
+          iconClass = "ti-mail";
+          textClass = "text-secondary";
+        }
+      }
+      <i class="icon-base ti @iconClass ti-3x @textClass"></i>
+    </div>
+    <div>
+      <h3 class="mb-2">@Model.Name</h3>
+      <p class="text-muted mb-0">Chọn bài thi (Exam) để bắt đầu ôn luyện hoặc thi thử</p>
+    </div>
+  </div>
+  
+  <!-- Back button and Credits -->
+  <div class="d-flex flex-column flex-sm-row align-items-start align-items-sm-center gap-3">
+    <a href="@Url.Action("Index", "Product", new { area = "Customer" })" class="btn btn-outline-secondary">
+      <i class="icon-base ti ti-arrow-left me-2"></i>
+      Quay lại danh sách
+    </a>
+    <div class="card bg-label-info border-info" style="min-width: 200px;">
+      <div class="card-body p-3">
+        <div class="d-flex align-items-center justify-content-between">
+          <div>
+            <small class="text-info fw-semibold">Lượt thi còn lại</small>
+            <h4 class="mb-0 text-info">@remainingCredits</h4>
+          </div>
+          <div class="avatar avatar-md bg-info rounded-3 p-2">
+            <i class="icon-base ti ti-coin text-white ti-lg"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Exam Statistics - Improved for single column layout -->
+<div class="row mb-6 g-4">
+  <div class="col-md-6 col-lg-3 mb-4 mb-lg-0">
+    <div class="card h-100 border-0 shadow-sm">
+      <div class="card-body p-4">
+        <div class="d-flex align-items-center">
+          <div class="avatar avatar-lg bg-label-primary rounded-3 p-3 me-3">
+            <i class="icon-base ti ti-clipboard-check text-primary"></i>
+          </div>
+          <div>
+            <h6 class="card-subtitle text-muted mb-1">Tổng Exam</h6>
+            <h3 class="card-title mb-0">@exams.Count</h3>
+            <small class="text-muted">Số bài thi</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="col-md-6 col-lg-3 mb-4 mb-lg-0">
+    <div class="card h-100 border-0 shadow-sm">
+      <div class="card-body p-4">
+        <div class="d-flex align-items-center">
+          <div class="avatar avatar-lg bg-label-success rounded-3 p-3 me-3">
+            <i class="icon-base ti ti-refresh text-success"></i>
+          </div>
+          <div>
+            <h6 class="card-subtitle text-muted mb-1">Ôn luyện</h6>
+            <h3 class="card-title mb-0">@exams.Count(e => e.HasPractice)</h3>
+            <small class="text-muted">Có đáp án</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="col-md-6 col-lg-3 mb-4 mb-md-0">
+    <div class="card h-100 border-0 shadow-sm">
+      <div class="card-body p-4">
+        <div class="d-flex align-items-center">
+          <div class="avatar avatar-lg bg-label-warning rounded-3 p-3 me-3">
+            <i class="icon-base ti ti-clipboard-check text-warning"></i>
+          </div>
+          <div>
+            <h6 class="card-subtitle text-muted mb-1">Thi thử</h6>
+            <h3 class="card-title mb-0">@exams.Count(e => e.HasTest)</h3>
+            <small class="text-muted">Không đáp án</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="col-md-6 col-lg-3">
+    <div class="card h-100 border-0 shadow-sm">
+      <div class="card-body p-4">
+        <div class="d-flex align-items-center">
+          <div class="avatar avatar-lg bg-label-info rounded-3 p-3 me-3">
+            <i class="icon-base ti ti-folders text-info"></i>
+          </div>
+          <div>
+            <h6 class="card-subtitle text-muted mb-1">Tổng Project</h6>
+            <h3 class="card-title mb-0">@(exams.Count * 7)</h3>
+            <small class="text-muted">Bài tập thực hành</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Exams Grid - Compact Single Line Layout -->
+<div class="card mb-6">
+  <div class="card-header d-flex align-items-center justify-content-between">
+    <h5 class="card-title m-0">Danh sách bài thi (Exam)</h5>
+    <small class="text-muted">Mỗi Exam gồm 7 Project, mỗi Project có 5-6 task</small>
+  </div>
+  <div class="card-body p-0">
+    <div class="list-group list-group-flush">
+      @foreach (var exam in exams.OrderBy(e => e.Order))
+      {
+        <div class="list-group-item p-4 border-bottom">
+          <div class="d-flex flex-column flex-md-row align-items-center justify-content-between gap-3">
+            <!-- Left: Exam Info -->
+            <div class="d-flex align-items-center flex-grow-1 min-width-0">
+              <div class="avatar avatar-md bg-label-primary rounded-2 p-2 me-3 flex-shrink-0">
+                <i class="icon-base ti ti-clipboard-check text-primary"></i>
+              </div>
+              <div class="min-width-0">
+                <div class="d-flex align-items-center flex-wrap gap-2 mb-1">
+                  <h5 class="card-title mb-0 text-truncate">@exam.Name</h5>
+                  @if (exam.HasPractice && exam.HasTest)
+                  {
+                    <span class="badge bg-label-success">Đầy đủ chế độ</span>
+                  }
+                  else if (exam.HasPractice)
+                  {
+                    <span class="badge bg-label-info">Chỉ ôn luyện</span>
+                  }
+                  else if (exam.HasTest)
+                  {
+                    <span class="badge bg-label-warning">Chỉ thi thử</span>
+                  }
+                </div>
+                <p class="text-muted mb-0 small text-truncate">@exam.Description</p>
+              </div>
+            </div>
+            
+            <!-- Center: Stats - Compact Version -->
+            <div class="d-flex align-items-center gap-3 flex-shrink-0">
+              <div class="d-flex align-items-center gap-1">
+                <span class="avatar avatar-xs bg-label-primary rounded p-1">
+                  <i class="icon-base ti ti-folders text-primary"></i>
+                </span>
+                <div class="text-nowrap">
+                  <span class="fw-semibold">7</span>
+                  <small class="text-muted ms-1">Project</small>
+                </div>
+              </div>
+              <div class="vr"></div>
+              <div class="d-flex align-items-center gap-1">
+                <span class="avatar avatar-xs bg-label-success rounded p-1">
+                  <i class="icon-base ti ti-checklist text-success"></i>
+                </span>
+                <div class="text-nowrap">
+                  <span class="fw-semibold">35-42</span>
+                  <small class="text-muted ms-1">Task</small>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Right: Action Buttons -->
+            <div class="d-flex gap-2 flex-shrink-0">
+              @if (exam.HasPractice)
+              {
+                <a href="@Url.Action("Practice", "Product", new { area = "Customer", productId = product.Id, examId = exam.Id })" 
+                   class="btn btn-info waves-effect waves-light px-3" 
+                   role="button"
+                   onclick="return confirmStartSession('practice', @remainingCredits)">
+                  <i class="icon-base ti ti-refresh me-1"></i>
+                  <span class="d-none d-md-inline">Ôn luyện</span>
+                </a>
+              }
+              else
+              {
+                <button class="btn btn-outline-secondary px-3" disabled>
+                  <i class="icon-base ti ti-refresh me-1"></i>
+                  <span class="d-none d-md-inline">Ôn luyện</span>
+                </button>
+              }
+              
+              @if (exam.HasTest)
+              {
+                <a href="@Url.Action("Test", "Product", new { area = "Customer", productId = product.Id, examId = exam.Id })" 
+                   class="btn btn-warning waves-effect waves-light px-3" 
+                   role="button"
+                   onclick="return confirmStartSession('test', @remainingCredits)">
+                  <i class="icon-base ti ti-clipboard-check me-1"></i>
+                  <span class="d-none d-md-inline">Thi thử</span>
+                </a>
+              }
+              else
+              {
+                <button class="btn btn-outline-secondary px-3" disabled>
+                  <i class="icon-base ti ti-clipboard-check me-1"></i>
+                  <span class="d-none d-md-inline">Thi thử</span>
+                </button>
+              }
+            </div>
+          </div>
+          
+          @if (!exam.HasPractice && !exam.HasTest)
+          {
+            <div class="alert alert-warning mt-3 mb-0" role="alert">
+              <i class="icon-base ti ti-alert-circle me-1"></i>
+              Exam này đang được cập nhật. Vui lòng quay lại sau.
+            </div>
+          }
+        </div>
+      }
+    </div>
+  </div>
+</div>
+
+<!-- Exam Structure Info -->
+<div class="card">
+  <div class="card-header">
+    <h5 class="card-title m-0">Cấu trúc bài thi</h5>
+  </div>
+  <div class="card-body">
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="d-flex align-items-start gap-3">
+          <div class="avatar avatar-lg bg-label-primary rounded-3 p-3">
+            <i class="icon-base ti ti-clipboard-check ti-2x text-primary"></i>
+          </div>
+          <div>
+            <h6 class="mb-1">Exam (Bài thi)</h6>
+            <p class="small text-muted mb-0">Mỗi môn học có ít nhất 2 Exam. Mỗi Exam là một bài thi hoàn chỉnh.</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-4">
+        <div class="d-flex align-items-start gap-3">
+          <div class="avatar avatar-lg bg-label-success rounded-3 p-3">
+            <i class="icon-base ti ti-folders ti-2x text-success"></i>
+          </div>
+          <div>
+            <h6 class="mb-1">Project (Dự án)</h6>
+            <p class="small text-muted mb-0">Mỗi Exam có khoảng 7 Project. Mỗi Project là một tình huống thực tế.</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-4">
+        <div class="d-flex align-items-start gap-3">
+          <div class="avatar avatar-lg bg-label-warning rounded-3 p-3">
+            <i class="icon-base ti ti-checklist ti-2x text-warning"></i>
+          </div>
+          <div>
+            <h6 class="mb-1">Task (Nhiệm vụ)</h6>
+            <p class="small text-muted mb-0">Mỗi Project có 5-6 Task. Mỗi Task là một câu hỏi thực hành cụ thể.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="mt-4 pt-4 border-top">
+      <h6 class="mb-3">Hai chế độ học tập:</h6>
+      <div class="row g-3">
+        <div class="col-md-6">
+          <div class="card border-info">
+            <div class="card-body">
+              <div class="d-flex align-items-center mb-3">
+                <div class="avatar avatar-sm bg-info rounded-2 p-1 me-2">
+                  <i class="icon-base ti ti-refresh text-white"></i>
+                </div>
+                <h6 class="mb-0 text-info">Ôn luyện</h6>
+              </div>
+              <ul class="list-unstyled mb-0">
+                <li class="mb-1"><i class="icon-base ti ti-circle-check text-success me-1"></i> Có đáp án và gợi ý</li>
+                <li class="mb-1"><i class="icon-base ti ti-circle-check text-success me-1"></i> Không giới hạn thời gian</li>
+                <li class="mb-1"><i class="icon-base ti ti-circle-check text-success me-1"></i> Xem kết quả ngay lập tức</li>
+                <li><i class="icon-base ti ti-circle-check text-success me-1"></i> Tiêu tốn 1 lượt thi</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-6">
+          <div class="card border-warning">
+            <div class="card-body">
+              <div class="d-flex align-items-center mb-3">
+                <div class="avatar avatar-sm bg-warning rounded-2 p-1 me-2">
+                  <i class="icon-base ti ti-clipboard-check text-white"></i>
+                </div>
+                <h6 class="mb-0 text-warning">Thi thử</h6>
+              </div>
+              <ul class="list-unstyled mb-0">
+                <li class="mb-1"><i class="icon-base ti ti-circle-check text-success me-1"></i> Không có đáp án</li>
+                <li class="mb-1"><i class="icon-base ti ti-circle-check text-success me-1"></i> Giới hạn thời gian (45-50 phút)</li>
+                <li class="mb-1"><i class="icon-base ti ti-circle-check text-success me-1"></i> Tự động chấm điểm khi hết giờ</li>
+                <li><i class="icon-base ti ti-circle-check text-success me-1"></i> Tiêu tốn 1 lượt thi</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+@section PageScripts {
+<script>
+  function confirmStartSession(sessionType, remainingCredits) {
+    if (remainingCredits <= 0) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Hết lượt thi!',
+        text: 'Bạn đã hết lượt thi. Vui lòng mua thêm lượt để tiếp tục.',
+        confirmButtonText: 'Mua lượt thi',
+        showCancelButton: true,
+        cancelButtonText: 'Hủy'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // Redirect to purchase page
+          window.location.href = '/Customer/Purchase';
+        }
+      });
+      return false;
+    }
+    
+    Swal.fire({
+      icon: 'question',
+      title: 'Bắt đầu làm bài?',
+      html: `Bạn có chắc muốn bắt đầu <strong>${sessionType === 'practice' ? 'Ôn luyện' : 'Thi thử'}</strong>?<br>
+             <small class="text-muted">Sẽ tiêu tốn 1 lượt thi. Bạn còn ${remainingCredits} lượt.</small>`,
+      showCancelButton: true,
+      cancelButtonText: 'Hủy',
+      confirmButtonText: 'Bắt đầu'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Start session via AJAX
+        fetch('/Customer/Product/StartSession', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            productId: @Model.Id,
+            examId: getCurrentExamId(),
+            sessionType: sessionType
+          })
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            // Update remaining credits display
+            const creditsElement = document.querySelector('.text-info.mb-0');
+            if (creditsElement) {
+              creditsElement.textContent = data.remainingCredits;
+            }
+            
+            // Continue to the session page
+            if (sessionType === 'practice') {
+              window.location.href = `/Customer/Product/Practice/${@Model.Id}/${getCurrentExamId()}`;
+            } else {
+              window.location.href = `/Customer/Product/Test/${@Model.Id}/${getCurrentExamId()}`;
+            }
+          } else {
+            Swal.fire('Lỗi', 'Không thể bắt đầu phiên làm bài. Vui lòng thử lại.', 'error');
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          Swal.fire('Lỗi', 'Đã xảy ra lỗi. Vui lòng thử lại.', 'error');
+        });
+      }
+    });
+    
+    return false;
+  }
+  
+  function getCurrentExamId() {
+    // This would need to be implemented based on the clicked exam
+    // For now, return the first exam ID
+    return @(exams.FirstOrDefault()?.Id ?? 1);
+  }
+</script>
+}

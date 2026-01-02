@@ -1,0 +1,370 @@
+@model DATMOS.Web.Areas.Customer.ViewModels.ExamListDetailsViewModel
+@{
+    ViewData["Title"] = "Chi tiết bài thi";
+    Layout = "~/Areas/Customer/Views/Shared/_CustomerLayout.cshtml";
+}
+
+@section VendorStyles {
+    <!-- Add vendor styles if needed -->
+}
+
+@section PageStyles {
+    <style>
+        .exam-detail-card {
+            transition: all 0.3s ease;
+        }
+        .stat-card {
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .attempt-row:hover {
+            background-color: rgba(0,0,0,0.02);
+        }
+    </style>
+}
+
+<div class="container-xxl flex-grow-1 container-p-y">
+    <!-- Breadcrumb -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="/Customer/ExamList">Danh sách bài thi</a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">@Model.Exam.Title</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Exam Header -->
+    <div class="row mb-4">
+        <div class="col-lg-12">
+            <div class="card exam-detail-card">
+                <div class="card-body">
+                    <div class="d-flex flex-column flex-md-row align-items-start justify-content-between gap-4">
+                        <!-- Left: Exam Info -->
+                        <div class="flex-grow-1">
+                            <div class="d-flex align-items-center flex-wrap gap-3 mb-3">
+                                <div class="avatar avatar-lg bg-label-primary rounded-3 p-3">
+                                    <i class="ti ti-clipboard-check text-primary"></i>
+                                </div>
+                                <div>
+                                    <h2 class="card-title mb-1">@Model.Exam.Title</h2>
+                                    <div class="d-flex align-items-center flex-wrap gap-2">
+                                        <span class="badge bg-@Model.Exam.BadgeType">@Model.Exam.BadgeLabel</span>
+                                        <span class="badge bg-label-secondary">@Model.Exam.SubjectName</span>
+                                        <span class="badge bg-label-info">@Model.Exam.ExamType</span>
+                                        @if (Model.Exam.IsActive)
+                                        {
+                                            <span class="badge bg-label-success">Đang hoạt động</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-label-danger">Không hoạt động</span>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <p class="card-text mb-4">@Model.Exam.Description</p>
+                            
+                            <!-- Quick Stats -->
+                            <div class="row g-3">
+                                <div class="col-6 col-md-3">
+                                    <div class="d-flex align-items-center">
+                                        <div class="avatar avatar-sm bg-label-primary rounded-2 p-2 me-2">
+                                            <i class="ti ti-clock text-primary"></i>
+                                        </div>
+                                        <div>
+                                            <small class="text-muted d-block">Thời gian</small>
+                                            <span class="fw-semibold">@Model.Exam.DurationMinutes phút</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-3">
+                                    <div class="d-flex align-items-center">
+                                        <div class="avatar avatar-sm bg-label-success rounded-2 p-2 me-2">
+                                            <i class="ti ti-folders text-success"></i>
+                                        </div>
+                                        <div>
+                                            <small class="text-muted d-block">Project</small>
+                                            <span class="fw-semibold">@Model.Exam.TotalProjects</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-3">
+                                    <div class="d-flex align-items-center">
+                                        <div class="avatar avatar-sm bg-label-warning rounded-2 p-2 me-2">
+                                            <i class="ti ti-checklist text-warning"></i>
+                                        </div>
+                                        <div>
+                                            <small class="text-muted d-block">Task</small>
+                                            <span class="fw-semibold">@Model.Exam.TotalTasks</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-3">
+                                    <div class="d-flex align-items-center">
+                                        <div class="avatar avatar-sm bg-label-info rounded-2 p-2 me-2">
+                                            <i class="ti ti-target-arrow text-info"></i>
+                                        </div>
+                                        <div>
+                                            <small class="text-muted d-block">Điểm đạt</small>
+                                            <span class="fw-semibold">@Model.Exam.PassingScore/@Model.Exam.TotalQuestions</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Right: Action Buttons -->
+                        <div class="d-flex flex-column gap-2">
+                            @if (Model.Exam.Mode.Contains("Training"))
+                            {
+                                <a href="/Customer/Product/Practice?productId=1&examId=@Model.Exam.Id" 
+                                   class="btn btn-info waves-effect waves-light" 
+                                   onclick="return confirmStartSession('practice', @Model.Exam.DurationMinutes)">
+                                    <i class="ti ti-refresh me-2"></i>
+                                    Ôn luyện
+                                </a>
+                            }
+                            else
+                            {
+                                <button class="btn btn-outline-secondary waves-effect" disabled>
+                                    <i class="ti ti-refresh me-2"></i>
+                                    Ôn luyện
+                                </button>
+                            }
+                            
+                            @if (Model.Exam.Mode.Contains("Testing"))
+                            {
+                                <a href="/Customer/Product/Test?productId=1&examId=@Model.Exam.Id" 
+                                   class="btn btn-warning waves-effect waves-light" 
+                                   onclick="return confirmStartSession('test', @Model.Exam.DurationMinutes)">
+                                    <i class="ti ti-clipboard-check me-2"></i>
+                                    Thi thử
+                                </a>
+                            }
+                            else
+                            {
+                                <button class="btn btn-outline-secondary waves-effect" disabled>
+                                    <i class="ti ti-clipboard-check me-2"></i>
+                                    Thi thử
+                                </button>
+                            }
+                            
+                            <a href="/Customer/ExamList" class="btn btn-outline-secondary waves-effect">
+                                <i class="ti ti-arrow-left me-2"></i>
+                                Quay lại
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="row">
+        <!-- Left Column: Exam Details -->
+        <div class="col-lg-8 mb-4">
+            <!-- Exam Projects -->
+            @if (Model.Exam.ExamProjects != null && Model.Exam.ExamProjects.Any())
+            {
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="card-title m-0">Danh sách Project</h5>
+                        <small class="text-muted">@Model.Exam.ExamProjects.Count project trong bài thi này</small>
+                    </div>
+                    <div class="card-body">
+                        <div class="list-group list-group-flush">
+                            @foreach (var project in Model.Exam.ExamProjects)
+                            {
+                                <div class="list-group-item border-bottom py-3">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <div>
+                                            <h6 class="mb-1">@project.Name</h6>
+                                            <p class="text-muted mb-0 small">@project.Description</p>
+                                            <div class="mt-2">
+                                                <span class="badge bg-label-primary me-2">@project.TotalTasks task</span>
+                                                <span class="badge bg-label-secondary">Thứ tự: @project.OrderIndex</span>
+                                                @if (project.IsActive)
+                                                {
+                                                    <span class="badge bg-label-success">Hoạt động</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge bg-label-danger">Không hoạt động</span>
+                                                }
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <small class="text-muted">ID: @project.Id</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+
+            <!-- Exam Information -->
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title m-0">Thông tin bài thi</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <dl class="row mb-0">
+                                <dt class="col-sm-5">Mã bài thi:</dt>
+                                <dd class="col-sm-7">@Model.Exam.ExamCode</dd>
+                                
+                                <dt class="col-sm-5">Môn học:</dt>
+                                <dd class="col-sm-7">@Model.Exam.SubjectName (@Model.Exam.SubjectCode)</dd>
+                                
+                                <dt class="col-sm-5">Loại bài thi:</dt>
+                                <dd class="col-sm-7">@Model.Exam.ExamType</dd>
+                                
+                                <dt class="col-sm-5">Chế độ:</dt>
+                                <dd class="col-sm-7">@Model.Exam.Mode</dd>
+                            </dl>
+                        </div>
+                        <div class="col-md-6">
+                            <dl class="row mb-0">
+                                <dt class="col-sm-5">Ngày tạo:</dt>
+                                <dd class="col-sm-7">@Model.Exam.CreatedAt.ToString("dd/MM/yyyy")</dd>
+                                
+                                <dt class="col-sm-5">Cập nhật:</dt>
+                                <dd class="col-sm-7">@(Model.Exam.UpdatedAt?.ToString("dd/MM/yyyy") ?? "Chưa cập nhật")</dd>
+                                
+                                <dt class="col-sm-5">Thứ tự:</dt>
+                                <dd class="col-sm-7">@Model.Exam.OrderIndex</dd>
+                                
+                                <dt class="col-sm-5">Trạng thái:</dt>
+                                <dd class="col-sm-7">
+                                    @if (Model.Exam.IsActive)
+                                    {
+                                        <span class="badge bg-label-success">Hoạt động</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-label-danger">Không hoạt động</span>
+                                    }
+                                </dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column: Statistics & Recent Attempts -->
+        <div class="col-lg-4 mb-4">
+            <!-- Statistics -->
+            @if (Model.Statistics != null)
+            {
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="card-title m-0">Thống kê</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-6">
+                                <div class="stat-card bg-label-primary">
+                                    <div class="text-center">
+                                        <h3 class="mb-1">@Model.Statistics.TotalAttempts</h3>
+                                        <small class="text-muted">Lần thử</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="stat-card bg-label-success">
+                                    <div class="text-center">
+                                        <h3 class="mb-1">@Model.Statistics.AverageScore.ToString("0.0")</h3>
+                                        <small class="text-muted">Điểm TB</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="stat-card bg-label-warning">
+                                    <div class="text-center">
+                                        <h3 class="mb-1">@Model.Statistics.PassRate.ToString("0.0")%</h3>
+                                        <small class="text-muted">Tỷ lệ đạt</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="stat-card bg-label-info">
+                                    <div class="text-center">
+                                        <h3 class="mb-1">@Model.Statistics.BestScore</h3>
+                                        <small class="text-muted">Điểm cao nhất</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            <!-- Recent Attempts -->
+            @if (Model.RecentAttempts != null && Model.RecentAttempts.Any())
+            {
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title m-0">Lần thử gần đây</h5>
+                        <small class="text-muted">@Model.RecentAttempts.Count lần thử</small>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="list-group list-group-flush">
+                            @foreach (var attempt in Model.RecentAttempts.Take(5))
+                            {
+                                <div class="list-group-item attempt-row py-3">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <div>
+                                            <h6 class="mb-1">@attempt.UserName</h6>
+                                            <small class="text-muted">@attempt.AttemptDate.ToString("dd/MM/yyyy HH:mm")</small>
+                                        </div>
+                                        <div class="text-end">
+                                            <span class="fw-semibold @(attempt.IsPassed ? "text-success" : "text-danger")">
+                                                @attempt.Score/@attempt.MaxScore
+                                            </span>
+                                            <div>
+                                                <small class="text-muted">@attempt.TimeTaken.ToString(@"hh\:mm\:ss")</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="card">
+                    <div class="card-body text-center py-5">
+                        <i class="ti ti-history text-muted mb-3" style="font-size: 3rem;"></i>
+                        <h5 class="text-muted">Chưa có lần thử nào</h5>
+                        <p class="text-muted">Chưa có ai thử bài thi này.</p>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function confirmStartSession(type, duration) {
+            const typeText = type === 'practice' ? 'Ôn luyện' : 'Thi thử';
+            const message = `Bạn có chắc chắn muốn bắt đầu ${typeText}?\n\nThời gian: ${duration} phút\n\nSau khi bắt đầu, thời gian sẽ được tính và không thể dừng lại.`;
+            
+            return confirm(message);
+        }
+    </script>
+}

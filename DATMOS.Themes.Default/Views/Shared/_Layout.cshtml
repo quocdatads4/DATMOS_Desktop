@@ -1,0 +1,75 @@
+@* 
+    Base Layout for DATMOS Theme System
+    This is the foundation layout that all other layouts inherit from
+    Provides common structure, scripts, and styles for the entire application
+*@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - DATMOS</title>
+    
+    <!-- Theme CSS -->
+    <link rel="stylesheet" href="~/_content/DATMOS.Themes.Default/css/theme.css" />
+    <link rel="stylesheet" href="~/_content/DATMOS.Themes.Default/css/components.css" />
+    <link rel="stylesheet" href="~/_content/DATMOS.Themes.Default/css/utilities.css" />
+    
+    <!-- Module-specific CSS (if any) -->
+    @RenderSection("Styles", required: false)
+    
+    <!-- Favicon -->
+    <link rel="icon" href="~/_content/DATMOS.Themes.Default/images/favicon.ico" type="image/x-icon" />
+</head>
+<body>
+    <!-- Theme Navbar Component -->
+    @await Component.InvokeAsync("ThemeNavbar")
+    
+    <div class="theme-container">
+        <!-- Theme Menu Component (Left Sidebar) -->
+        <aside class="theme-sidebar">
+            @await Component.InvokeAsync("ThemeMenu")
+        </aside>
+        
+        <!-- Main Content Area -->
+        <main class="theme-main">
+            <!-- Breadcrumb Area -->
+            <div class="theme-breadcrumb">
+                @RenderSection("Breadcrumb", required: false)
+            </div>
+            
+            <!-- Page Header -->
+            <header class="theme-page-header">
+                <h1>@ViewData["Title"]</h1>
+                @RenderSection("PageHeader", required: false)
+            </header>
+            
+            <!-- Main Content -->
+            <div class="theme-content">
+                @RenderBody()
+            </div>
+        </main>
+    </div>
+    
+    <!-- Theme Footer Component -->
+    @await Component.InvokeAsync("ThemeFooter")
+    
+    <!-- Theme JavaScript -->
+    <script src="~/_content/DATMOS.Themes.Default/js/theme.js"></script>
+    <script src="~/_content/DATMOS.Themes.Default/js/components.js"></script>
+    
+    <!-- Module-specific JavaScript (if any) -->
+    @RenderSection("Scripts", required: false)
+    
+    <!-- Theme Initialization -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Theme initialization logic
+            if (typeof themeInit === 'function') {
+                themeInit();
+            }
+        });
+    </script>
+</body>
+</html>

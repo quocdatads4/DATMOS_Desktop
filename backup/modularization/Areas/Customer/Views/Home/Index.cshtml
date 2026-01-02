@@ -1,0 +1,720 @@
+@{
+    ViewData["Title"] = "Chào mừng đến với DATMOS";
+    Layout = "~/Areas/Customer/Views/Shared/_CustomerLayout.cshtml";
+    
+    // Dữ liệu mẫu - sẽ được thay thế khi kết nối database
+    var totalCourses = 3;
+    var learningProgress = 68;
+    var totalTests = 12;
+    var averageScore = 8.5;
+    var totalStudyTime = 45;
+    
+    // Dữ liệu mẫu tiến độ từng khóa học
+    var wordProgress = 75;
+    var excelProgress = 45;
+    var powerpointProgress = 90;
+}
+
+@section VendorStyles {
+<link rel="stylesheet" href="~/vendor/libs/apex-charts/apex-charts.css" />
+}
+
+@section VendorScripts {
+<script src="~/vendor/libs/apex-charts/apexcharts.js"></script>
+}
+
+@section PageScripts {
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    if (typeof ApexCharts === 'undefined') return;
+
+    // Hàm lấy màu an toàn (fallback nếu config chưa load do lỗi template)
+    const getColors = () => {
+      if (typeof config !== 'undefined') return config.colors;
+      return {
+        primary: '#7367F0',
+        success: '#28C76F',
+        warning: '#FF9F43',
+        secondary: '#8592A3',
+        info: '#00CFDD'
+      };
+    };
+    const colors = getColors();
+
+    // Biểu đồ thanh tiến độ học tập (Learning Progress Bar Chart)
+    const learningProgressBarChartEl = document.querySelector('#learningProgressBarChart');
+    if (learningProgressBarChartEl) {
+      const learningProgressBarChartConfig = {
+        chart: {
+          height: 300,
+          type: 'bar',
+          parentHeightOffset: 0,
+          toolbar: { show: false }
+        },
+        plotOptions: {
+          bar: {
+            barHeight: '75%',
+            columnWidth: '40%',
+            startingShape: 'rounded',
+            endingShape: 'rounded',
+            borderRadius: 5,
+            distributed: true
+          }
+        },
+        grid: {
+          padding: { top: -10, bottom: -10, left: -10, right: -10 }
+        },
+        colors: [
+          colors.primary,
+          colors.success,
+          colors.warning
+        ],
+        dataLabels: { enabled: false },
+        series: [{
+          name: 'Tiến độ',
+          data: [@wordProgress, @excelProgress, @powerpointProgress]
+        }],
+        legend: { show: false },
+        xaxis: {
+          categories: ['Word 2019', 'Excel 2019', 'PowerPoint 2019'],
+          axisBorder: { show: false },
+          axisTicks: { show: false },
+          labels: {
+            style: {
+              colors: colors.secondary,
+              fontSize: '13px'
+            }
+          }
+        },
+        yaxis: {
+          labels: { show: false }
+        }
+      };
+      learningProgressBarChartEl.classList.remove('chart-loading');
+      const learningProgressBarChart = new ApexCharts(learningProgressBarChartEl, learningProgressBarChartConfig);
+      learningProgressBarChart.render();
+    }
+
+  });
+</script>
+}
+
+<!-- Welcome Card -->
+<div class="card bg-transparent shadow-none my-6 border-0">
+  <div class="card-body row p-0 pb-6 g-6">
+    <div class="col-12 col-lg-8 card-separator">
+      <div class="d-flex flex-column h-100">
+        <div class="mb-4">
+          <h5 class="mb-2">Chào mừng đến với,<span class="h4 text-primary"> DATMOS Learning Platform 👋🏻</span></h5>
+          <p class="mb-4">Chào mừng bạn đến với hệ thống học tập và thi thử MOS 2019. Hãy chọn khóa học phù hợp để bắt đầu hành trình chinh phục chứng chỉ Microsoft Office Specialist!</p>
+        </div>
+        
+        <div class="row g-4 my-4">
+          <div class="col-md-4">
+            <div class="d-flex align-items-center gap-3">
+              <div class="avatar avatar-lg bg-label-primary rounded-3 p-3">
+                <i class="icon-base ti ti-book ti-2x text-primary"></i>
+              </div>
+              <div>
+                <p class="mb-1 fw-medium text-muted">Khóa học</p>
+                <h3 class="mb-0 text-primary">@totalCourses</h3>
+                <small class="text-muted">Word, Excel, PowerPoint</small>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-md-4">
+            <div class="d-flex align-items-center gap-3">
+              <div class="avatar avatar-lg bg-label-success rounded-3 p-3">
+                <i class="icon-base ti ti-clock ti-2x text-success"></i>
+              </div>
+              <div>
+                <p class="mb-1 fw-medium text-muted">Thời gian học</p>
+                <h3 class="mb-0 text-success">24/7</h3>
+                <small class="text-muted">Học mọi lúc, mọi nơi</small>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-md-4">
+            <div class="d-flex align-items-center gap-3">
+              <div class="avatar avatar-lg bg-label-warning rounded-3 p-3">
+                <i class="icon-base ti ti-certificate ti-2x text-warning"></i>
+              </div>
+              <div>
+                <p class="mb-1 fw-medium text-muted">Chứng chỉ</p>
+                <h3 class="mb-0 text-warning">MOS 2019</h3>
+                <small class="text-muted">Microsoft Certified</small>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="mt-2">
+          <div class="d-flex align-items-center gap-2">
+            <i class="icon-base ti ti-sparkles text-primary"></i>
+            <small class="text-muted">Bắt đầu học ngay để nhận ưu đãi đặc biệt!</small>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-12 col-lg-4 ps-md-4 ps-lg-6">
+      <div class="d-flex flex-column h-100 justify-content-between">
+        <div>
+          <h5 class="mb-1">Tiến độ học tập</h5>
+          <p class="text-muted mb-4">Tổng quan tuần này</p>
+          
+          <div class="d-flex align-items-center gap-3 mb-4">
+            <div class="flex-grow-1">
+              <div class="progress" style="height: 8px;">
+                <div class="progress-bar bg-primary" role="progressbar" style="width: @(learningProgress)%" aria-valuenow="@learningProgress" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+            </div>
+            <div class="text-end">
+              <h4 class="mb-0">@(learningProgress)%</h4>
+            </div>
+          </div>
+          
+          <div class="d-flex align-items-center justify-content-between mb-3">
+            <span class="badge bg-label-secondary">
+              <i class="icon-base ti ti-clock me-1"></i>
+              Chưa bắt đầu
+            </span>
+            <small class="text-muted">Bắt đầu học ngay!</small>
+          </div>
+        </div>
+        
+        <div class="mt-auto">
+          <div class="d-flex justify-content-between align-items-center mt-3">
+            <div class="d-flex align-items-center gap-2">
+              <i class="icon-base ti ti-trending-up text-success"></i>
+              <small class="text-muted">Tiến độ sẽ được cập nhật sau khi học</small>
+            </div>
+            <button class="btn btn-sm btn-outline-primary">
+              <i class="icon-base ti ti-refresh me-1"></i>
+              Làm mới
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Welcome Card End -->
+
+<!-- Course Section Header -->
+<div class="d-flex align-items-center justify-content-between mb-6">
+  <div class="d-flex align-items-center">
+    <div class="avatar avatar-lg bg-label-primary rounded-3 p-3 me-3">
+      <i class="icon-base ti ti-book ti-2x text-primary"></i>
+    </div>
+    <div>
+      <h4 class="mb-1">Khóa học</h4>
+      <p class="text-muted mb-0">Chọn khóa học phù hợp để bắt đầu hành trình học tập của bạn</p>
+    </div>
+  </div>
+</div>
+
+<!-- Course Selection -->
+<div class="row mb-6 g-6">
+  <!-- Word 2019 Course -->
+  <div class="col-xxl-4 col-md-6">
+    <div class="card h-100 course-card">
+      <div class="card-header d-flex align-items-center justify-content-between">
+        <h5 class="card-title m-0 me-2">Microsoft Word 2019</h5>
+        <div class="badge bg-label-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Khóa học được nhiều người lựa chọn">
+          <i class="icon-base ti ti-trending-up me-1"></i>
+          Phổ biến
+        </div>
+      </div>
+      <div class="card-body text-center">
+        <div class="bg-label-primary rounded text-center mb-4 pt-4">
+          <i class="icon-base ti ti-file-text ti-5x text-primary"></i>
+        </div>
+        <h5 class="mb-2">Word 2019 Specialist</h5>
+        <p class="small mb-4">Làm chủ kỹ năng soạn thảo văn bản chuyên nghiệp với Microsoft Word 2019.</p>
+        <div class="row mb-4 g-3">
+          <div class="col-6">
+            <div class="d-flex">
+              <div class="avatar flex-shrink-0 me-3">
+                <span class="avatar-initial rounded bg-label-success"><i class="icon-base ti ti-clock ti-28px"></i></span>
+              </div>
+              <div>
+                <h6 class="mb-0 text-nowrap">8 giờ</h6>
+                <small>Thời lượng</small>
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="d-flex">
+              <div class="avatar flex-shrink-0 me-3">
+                <span class="avatar-initial rounded bg-label-info"><i class="icon-base ti ti-book ti-28px"></i></span>
+              </div>
+              <div>
+                <h6 class="mb-0 text-nowrap">12 bài</h6>
+                <small>Bài học</small>
+              </div>
+            </div>
+          </div>
+        </div>
+        <a href="javascript:void(0);" class="btn btn-primary w-100" role="button" aria-label="Bắt đầu học khóa Word 2019">Bắt đầu học</a>
+      </div>
+    </div>
+  </div>
+  <!--/ Word 2019 Course -->
+
+  <!-- Excel 2019 Course -->
+  <div class="col-xxl-4 col-md-6">
+    <div class="card h-100 course-card">
+      <div class="card-header d-flex align-items-center justify-content-between">
+        <h5 class="card-title m-0 me-2">Microsoft Excel 2019</h5>
+        <div class="badge bg-label-success" data-bs-toggle="tooltip" data-bs-placement="top" title="Khóa học có đánh giá cao nhất">
+          <i class="icon-base ti ti-heart me-1"></i>
+          Được yêu thích
+        </div>
+      </div>
+      <div class="card-body text-center">
+        <div class="bg-label-success rounded text-center mb-4 pt-4">
+          <i class="icon-base ti ti-table ti-5x text-success"></i>
+        </div>
+        <h5 class="mb-2">Excel 2019 Specialist</h5>
+        <p class="small mb-4">Thành thạo phân tích dữ liệu và báo cáo với Microsoft Excel 2019.</p>
+        <div class="row mb-4 g-3">
+          <div class="col-6">
+            <div class="d-flex">
+              <div class="avatar flex-shrink-0 me-3">
+                <span class="avatar-initial rounded bg-label-success"><i class="icon-base ti ti-clock ti-28px"></i></span>
+              </div>
+              <div>
+                <h6 class="mb-0 text-nowrap">10 giờ</h6>
+                <small>Thời lượng</small>
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="d-flex">
+              <div class="avatar flex-shrink-0 me-3">
+                <span class="avatar-initial rounded bg-label-info"><i class="icon-base ti ti-book ti-28px"></i></span>
+              </div>
+              <div>
+                <h6 class="mb-0 text-nowrap">15 bài</h6>
+                <small>Bài học</small>
+              </div>
+            </div>
+          </div>
+        </div>
+        <a href="javascript:void(0);" class="btn btn-success w-100" role="button" aria-label="Bắt đầu học khóa Excel 2019">Bắt đầu học</a>
+      </div>
+    </div>
+  </div>
+  <!--/ Excel 2019 Course -->
+
+  <!-- PowerPoint 2019 Course -->
+  <div class="col-xxl-4 col-md-6">
+    <div class="card h-100 course-card">
+      <div class="card-header d-flex align-items-center justify-content-between">
+        <h5 class="card-title m-0 me-2">Microsoft PowerPoint 2019</h5>
+        <div class="badge bg-label-warning" data-bs-toggle="tooltip" data-bs-placement="top" title="Khóa học mới được thêm vào">
+          <i class="icon-base ti ti-star me-1"></i>
+          Mới
+        </div>
+      </div>
+      <div class="card-body text-center">
+        <div class="bg-label-warning rounded text-center mb-4 pt-4">
+          <i class="icon-base ti ti-presentation ti-5x text-warning"></i>
+        </div>
+        <h5 class="mb-2">PowerPoint 2019 Specialist</h5>
+        <p class="small mb-4">Tạo bài thuyết trình ấn tượng với Microsoft PowerPoint 2019.</p>
+        <div class="row mb-4 g-3">
+          <div class="col-6">
+            <div class="d-flex">
+              <div class="avatar flex-shrink-0 me-3">
+                <span class="avatar-initial rounded bg-label-success"><i class="icon-base ti ti-clock ti-28px"></i></span>
+              </div>
+              <div>
+                <h6 class="mb-0 text-nowrap">6 giờ</h6>
+                <small>Thời lượng</small>
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="d-flex">
+              <div class="avatar flex-shrink-0 me-3">
+                <span class="avatar-initial rounded bg-label-info"><i class="icon-base ti ti-book ti-28px"></i></span>
+              </div>
+              <div>
+                <h6 class="mb-0 text-nowrap">10 bài</h6>
+                <small>Bài học</small>
+              </div>
+            </div>
+          </div>
+        </div>
+        <a href="javascript:void(0);" class="btn btn-warning w-100" role="button" aria-label="Bắt đầu học khóa PowerPoint 2019">Bắt đầu học</a>
+      </div>
+    </div>
+  </div>
+  <!--/ PowerPoint 2019 Course -->
+</div>
+<!-- Course Selection End -->
+
+<!-- MOS Test Practice Section Header -->
+<div class="d-flex align-items-center justify-content-between mb-6 mt-8">
+  <div class="d-flex align-items-center">
+    <div class="avatar avatar-lg bg-label-warning rounded-3 p-3 me-3">
+      <i class="icon-base ti ti-certificate ti-2x text-warning"></i>
+    </div>
+    <div>
+      <h4 class="mb-1">Thi thử MOS</h4>
+      <p class="text-muted mb-0">Ôn luyện và thi thử để chuẩn bị tốt nhất cho kỳ thi MOS 2019</p>
+    </div>
+  </div>
+</div>
+
+<!-- MOS Test Practice -->
+<div class="row mb-6 g-6">
+  <!-- Word 2019 MOS Test -->
+  <div class="col-xxl-4 col-md-6">
+    <div class="card h-100 course-card">
+      <div class="card-header d-flex align-items-center justify-content-between">
+        <h5 class="card-title m-0 me-2">Microsoft Word 2019</h5>
+        <div class="badge bg-label-primary" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Bài thi được nhiều người lựa chọn">
+          <i class="icon-base ti ti-trending-up me-1"></i>
+          Phổ biến
+        </div>
+      </div>
+      <div class="card-body text-center">
+        <div class="bg-label-primary rounded text-center mb-4 pt-4">
+          <i class="icon-base ti ti-file-text ti-5x text-primary"></i>
+        </div>
+        <h5 class="mb-2">Word 2019 MOS Test</h5>
+        <p class="small mb-4">Luyện tập và thi thử chứng chỉ Microsoft Word 2019 Specialist.</p>
+        <div class="row mb-4 g-3">
+          <div class="col-6">
+            <div class="d-flex">
+              <div class="avatar flex-shrink-0 me-3">
+                <span class="avatar-initial rounded bg-label-success"><i class="icon-base ti ti-clock ti-28px"></i></span>
+              </div>
+              <div>
+                <h6 class="mb-0 text-nowrap">50 phút</h6>
+                <small>Thời gian thi</small>
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="d-flex">
+              <div class="avatar flex-shrink-0 me-3">
+                <span class="avatar-initial rounded bg-label-info"><i class="icon-base ti ti-clipboard-check ti-28px"></i></span>
+              </div>
+              <div>
+                <h6 class="mb-0 text-nowrap">7 phần</h6>
+                <small>Bài tập</small>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row g-2">
+          <div class="col-6">
+            <a href="javascript:void(0);" class="btn btn-info w-100 waves-effect waves-light" role="button" aria-label="Ôn luyện Word 2019">
+              <i class="icon-base ti ti-refresh me-1"></i>
+              Ôn luyện
+            </a>
+          </div>
+          <div class="col-6">
+            <a asp-area="Customer" asp-controller="Word2019Results" asp-action="AllResults" class="btn btn-warning w-100 waves-effect waves-light" role="button" aria-label="Thi thử Word 2019">
+              <i class="icon-base ti ti-clipboard-check me-1"></i>
+              Thi Thử
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--/ Word 2019 MOS Test -->
+
+  <!-- Excel 2019 MOS Test -->
+  <div class="col-xxl-4 col-md-6">
+    <div class="card h-100 course-card">
+      <div class="card-header d-flex align-items-center justify-content-between">
+        <h5 class="card-title m-0 me-2">Microsoft Excel 2019</h5>
+        <div class="badge bg-label-success" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Bài thi có độ khó cao">
+          <i class="icon-base ti ti-alert-triangle me-1"></i>
+          Thử thách
+        </div>
+      </div>
+      <div class="card-body text-center">
+        <div class="bg-label-success rounded text-center mb-4 pt-4">
+          <i class="icon-base ti ti-table ti-5x text-success"></i>
+        </div>
+        <h5 class="mb-2">Excel 2019 MOS Test</h5>
+        <p class="small mb-4">Luyện tập và thi thử chứng chỉ Microsoft Excel 2019 Specialist.</p>
+        <div class="row mb-4 g-3">
+          <div class="col-6">
+            <div class="d-flex">
+              <div class="avatar flex-shrink-0 me-3">
+                <span class="avatar-initial rounded bg-label-success"><i class="icon-base ti ti-clock ti-28px"></i></span>
+              </div>
+              <div>
+                <h6 class="mb-0 text-nowrap">50 phút</h6>
+                <small>Thời gian thi</small>
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="d-flex">
+              <div class="avatar flex-shrink-0 me-3">
+                <span class="avatar-initial rounded bg-label-info"><i class="icon-base ti ti-clipboard-check ti-28px"></i></span>
+              </div>
+              <div>
+                <h6 class="mb-0 text-nowrap">7 phần</h6>
+                <small>Bài tập</small>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row g-2">
+          <div class="col-6">
+            <a href="javascript:void(0);" class="btn btn-info w-100 waves-effect waves-light" role="button" aria-label="Ôn luyện Excel 2019">
+              <i class="icon-base ti ti-refresh me-1"></i>
+              Ôn luyện
+            </a>
+          </div>
+          <div class="col-6">
+            <a href="javascript:void(0);" class="btn btn-warning w-100 waves-effect waves-light" role="button" aria-label="Thi thử Excel 2019">
+              <i class="icon-base ti ti-clipboard-check me-1"></i>
+              Thi Thử
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--/ Excel 2019 MOS Test -->
+
+  <!-- PowerPoint 2019 MOS Test -->
+  <div class="col-xxl-4 col-md-6">
+    <div class="card h-100 course-card">
+      <div class="card-header d-flex align-items-center justify-content-between">
+        <h5 class="card-title m-0 me-2">Microsoft PowerPoint 2019</h5>
+        <div class="badge bg-label-warning" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Bài thi mới được cập nhật">
+          <i class="icon-base ti ti-star me-1"></i>
+          Mới
+        </div>
+      </div>
+      <div class="card-body text-center">
+        <div class="bg-label-warning rounded text-center mb-4 pt-4">
+          <i class="icon-base ti ti-presentation ti-5x text-warning"></i>
+        </div>
+        <h5 class="mb-2">PowerPoint 2019 MOS Test</h5>
+        <p class="small mb-4">Luyện tập và thi thử chứng chỉ Microsoft PowerPoint 2019 Specialist.</p>
+        <div class="row mb-4 g-3">
+          <div class="col-6">
+            <div class="d-flex">
+              <div class="avatar flex-shrink-0 me-3">
+                <span class="avatar-initial rounded bg-label-success"><i class="icon-base ti ti-clock ti-28px"></i></span>
+              </div>
+              <div>
+                <h6 class="mb-0 text-nowrap">50 phút</h6>
+                <small>Thời gian thi</small>
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="d-flex">
+              <div class="avatar flex-shrink-0 me-3">
+                <span class="avatar-initial rounded bg-label-info"><i class="icon-base ti ti-clipboard-check ti-28px"></i></span>
+              </div>
+              <div>
+                <h6 class="mb-0 text-nowrap">6 phần</h6>
+                <small>Bài tập</small>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row g-2">
+          <div class="col-6">
+            <a href="javascript:void(0);" class="btn btn-info w-100 waves-effect waves-light" role="button" aria-label="Ôn luyện PowerPoint 2019">
+              <i class="icon-base ti ti-refresh me-1"></i>
+              Ôn luyện
+            </a>
+          </div>
+          <div class="col-6">
+            <a href="javascript:void(0);" class="btn btn-warning w-100 waves-effect waves-light" role="button" aria-label="Thi thử PowerPoint 2019">
+              <i class="icon-base ti ti-clipboard-check me-1"></i>
+              Thi Thử
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--/ PowerPoint 2019 MOS Test -->
+</div>
+<!-- MOS Test Practice End -->
+
+<!-- Learning Statistics -->
+<div class="row mb-6 g-6">
+  <!-- Learning Progress -->
+  <div class="col-xxl-8">
+    <div class="card h-100">
+      <div class="card-header d-flex align-items-center justify-content-between">
+        <h5 class="card-title m-0 me-2">Tiến độ học tập</h5>
+        <div class="dropdown">
+          <button class="btn btn-text-secondary rounded-pill text-muted border-0 p-2 me-n1" type="button" id="learningStats" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="icon-base ti ti-dots-vertical ti-md text-muted"></i>
+          </button>
+          <div class="dropdown-menu dropdown-menu-end" aria-labelledby="learningStats">
+            <a class="dropdown-item" href="javascript:void(0);">
+              <i class="icon-base ti ti-eye me-2"></i>
+              Xem tất cả
+            </a>
+            <a class="dropdown-item" href="javascript:void(0);">
+              <i class="icon-base ti ti-download me-2"></i>
+              Tải xuống
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="card-body row g-6">
+        <div class="col-xxl-7 col-md-8">
+          <div id="learningProgressBarChart" class="chart-loading" data-chart-type="bar" aria-label="Biểu đồ thanh tiến độ học tập đang tải"></div>
+        </div>
+        <div class="col-1 d-none d-xxl-block"></div>
+        <div class="col-md-4 d-flex justify-content-around align-items-center">
+          <div>
+            <div class="d-flex align-items-baseline">
+              <span class="text-primary me-2"><i class='icon-base ti ti-circle-filled ti-12px'></i></span>
+              <div>
+                <p class="mb-0">Word 2019</p>
+                <h5>@(wordProgress)%</h5>
+              </div>
+            </div>
+            <div class="d-flex align-items-baseline my-12">
+              <span class="text-success me-2"><i class='icon-base ti ti-circle-filled ti-12px'></i></span>
+              <div>
+                <p class="mb-0">Excel 2019</p>
+                <h5>@(excelProgress)%</h5>
+              </div>
+            </div>
+            <div class="d-flex align-items-baseline">
+              <span class="text-warning me-2"><i class='icon-base ti ti-circle-filled ti-12px'></i></span>
+              <div>
+                <p class="mb-0">PowerPoint 2019</p>
+                <h5>@(powerpointProgress)%</h5>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="d-flex align-items-baseline">
+              <span class="text-info me-2"><i class='icon-base ti ti-circle-filled ti-12px'></i></span>
+              <div>
+                <p class="mb-0">Bài kiểm tra</p>
+                <h5>@totalTests</h5>
+              </div>
+            </div>
+            <div class="d-flex align-items-baseline my-12">
+              <span class="text-secondary me-2"><i class='icon-base ti ti-circle-filled ti-12px'></i></span>
+              <div>
+                <p class="mb-0">Điểm trung bình</p>
+                <h5>@averageScore.ToString("0.0")</h5>
+              </div>
+            </div>
+            <div class="d-flex align-items-baseline">
+              <span class="text-danger me-2"><i class='icon-base ti ti-circle-filled ti-12px'></i></span>
+              <div>
+                <p class="mb-0">Thời gian học</p>
+                <h5>@(totalStudyTime)h</h5>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--/ Learning Progress -->
+
+  <!-- Recent Activities -->
+  <div class="col-xxl-4 col-lg-6">
+    <div class="card h-100">
+      <div class="card-header d-flex align-items-center justify-content-between">
+        <div class="card-title mb-0">
+          <h5 class="m-0 me-2">Hoạt động gần đây</h5>
+        </div>
+        <div class="dropdown">
+          <button class="btn btn-text-secondary rounded-pill text-muted border-0 p-2 me-n1" type="button" id="recentActivities" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="icon-base ti ti-dots-vertical ti-md text-muted"></i>
+          </button>
+          <div class="dropdown-menu dropdown-menu-end" aria-labelledby="recentActivities">
+            <a class="dropdown-item" href="javascript:void(0);">
+              <i class="icon-base ti ti-checkbox me-2"></i>
+              Chọn tất cả
+            </a>
+            <a class="dropdown-item" href="javascript:void(0);">
+              <i class="icon-base ti ti-refresh me-2"></i>
+              Làm mới
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="px-5 py-4 border border-start-0 border-end-0">
+        <div class="d-flex justify-content-between align-items-center">
+          <p class="mb-0 text-uppercase">Hoạt động</p>
+          <p class="mb-0 text-uppercase">Thời gian</p>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center mb-6">
+          <div class="d-flex align-items-center">
+            <div class="avatar avatar me-4">
+              <span class="avatar-initial bg-label-secondary rounded"><i class="icon-base ti ti-user ti-lg"></i></span>
+            </div>
+            <div>
+              <div>
+                <h6 class="mb-0 text-truncate">Đăng ký tài khoản</h6>
+                <small class="text-truncate text-body">Hoàn thành đăng ký</small>
+              </div>
+            </div>
+          </div>
+          <div class="text-end">
+            <h6 class="mb-0">Vừa xong</h6>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between align-items-center mb-6">
+          <div class="d-flex align-items-center">
+            <div class="avatar avatar me-4">
+              <span class="avatar-initial bg-label-info rounded"><i class="icon-base ti ti-book ti-lg"></i></span>
+            </div>
+            <div>
+              <div>
+                <h6 class="mb-0 text-truncate">Xem khóa học</h6>
+                <small class="text-truncate text-body">Duyệt danh sách khóa học</small>
+              </div>
+            </div>
+          </div>
+          <div class="text-end">
+            <h6 class="mb-0">2 phút</h6>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between align-items-center">
+          <div class="d-flex align-items-center">
+            <div class="avatar avatar me-4">
+              <span class="avatar-initial bg-label-success rounded"><i class="icon-base ti ti-check ti-lg"></i></span>
+            </div>
+            <div>
+              <div>
+                <h6 class="mb-0 text-truncate">Sẵn sàng học</h6>
+                <small class="text-truncate text-body">Có thể bắt đầu học ngay</small>
+              </div>
+            </div>
+          </div>
+          <div class="text-end">
+            <h6 class="mb-0">Bây giờ</h6>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--/ Recent Activities -->
+</div>
+<!-- Learning Statistics End -->

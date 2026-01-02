@@ -1,0 +1,49 @@
+@model DATMOS.Web.Areas.Customer.Controllers.PracticeViewModel
+@{
+    ViewData["Title"] = $"Ôn luyện - {Model.ExamName}";
+    Layout = "~/Areas/Customer/Views/Shared/_Word2019TraningLayout.cshtml";
+    
+    var currentProject = Model.Projects.FirstOrDefault(p => p.Id == Model.CurrentProjectId) ?? Model.Projects.First();
+    var tasks = currentProject?.Tasks ?? new List<DATMOS.Web.Areas.Customer.Controllers.TaskViewModel>();
+}
+
+@section PageStyles {
+<link rel="stylesheet" href="~/areas/customer/css/product-practice.css" asp-append-version="true" />
+}
+
+@section VendorScripts {
+<script src="~/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+}
+
+@section PageScripts {
+<script src="~/areas/customer/js/product-practice.js" asp-append-version="true"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Initialize practice session
+    window.practiceSession = {
+      productId: @Model.ProductId,
+      examId: @Model.ExamId,
+      examType: '@Model.ExamType',
+      remainingTime: @Model.RemainingTime,
+      remainingCredits: @Model.RemainingCredits,
+      currentProjectId: @Model.CurrentProjectId,
+      projects: @Html.Raw(Json.Serialize(Model.Projects))
+    };
+    
+    // Initialize practice functionality
+    if (typeof initPracticeSession === 'function') {
+      initPracticeSession();
+    }
+    
+    // Initialize perfect scrollbar for sidebar
+    const sidebarEl = document.getElementById('practiceSidebar');
+    if (sidebarEl && typeof PerfectScrollbar !== 'undefined') {
+      new PerfectScrollbar(sidebarEl, {
+        wheelSpeed: 2,
+        wheelPropagation: false,
+        minScrollbarLength: 20
+      });
+    }
+  });
+</script>
+}

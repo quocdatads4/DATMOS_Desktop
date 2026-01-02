@@ -1,0 +1,94 @@
+@model DATMOS.Web.Areas.Customer.Controllers.ProjectViewModel
+@{
+    ViewData["Title"] = $"Project - {Model.Name}";
+    Layout = "~/Areas/Customer/Views/Shared/_CustomerLayout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">@Model.Name</h4>
+                    <p class="text-muted mb-0">@Model.Description</p>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <div class="card bg-label-info">
+                                <div class="card-body">
+                                    <h6 class="text-info">Thông tin Project</h6>
+                                    <ul class="list-unstyled">
+                                        <li><strong>Exam:</strong> @Model.ExamName</li>
+                                        <li><strong>Số task:</strong> @Model.Tasks.Count</li>
+                                        <li><strong>Lượt thi còn lại:</strong> @Model.RemainingCredits</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card bg-label-primary">
+                                <div class="card-body">
+                                    <h6 class="text-primary">Hành động</h6>
+                                    <div class="d-grid gap-2">
+                                        <a href="@Url.Action("Practice", "Product", new { area = "Customer", productId = 1, examId = Model.ExamId })" 
+                                           class="btn btn-primary">
+                                            <i class="ti ti-refresh me-1"></i> Ôn luyện
+                                        </a>
+                                        <a href="@Url.Action("Test", "Product", new { area = "Customer", productId = 1, examId = Model.ExamId })" 
+                                           class="btn btn-danger">
+                                            <i class="ti ti-clipboard-check me-1"></i> Thi thử
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h5 class="mb-3">Danh sách Tasks (@Model.Tasks.Count)</h5>
+                    <div class="list-group">
+                        @foreach (var task in Model.Tasks)
+                        {
+                            <div class="list-group-item">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="mb-1">Task @task.Order: @task.Question</h6>
+                                        <small class="text-muted">Project ID: @task.ProjectId</small>
+                                    </div>
+                                    <div>
+                                        <button class="btn btn-sm btn-outline-info" data-bs-toggle="collapse" 
+                                                data-bs-target="#hint-@task.Id">
+                                            Gợi ý
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-success" data-bs-toggle="collapse" 
+                                                data-bs-target="#answer-@task.Id">
+                                            Đáp án
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="collapse mt-2" id="hint-@task.Id">
+                                    <div class="alert alert-info">
+                                        <strong>Gợi ý:</strong> @task.Hint
+                                    </div>
+                                </div>
+                                
+                                <div class="collapse mt-2" id="answer-@task.Id">
+                                    <div class="alert alert-success">
+                                        <strong>Đáp án:</strong> @task.Answer
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a href="@Url.Action("Details", "Product", new { area = "Customer", id = 1 })" 
+                       class="btn btn-outline-secondary">
+                        <i class="ti ti-arrow-left me-1"></i> Quay lại
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

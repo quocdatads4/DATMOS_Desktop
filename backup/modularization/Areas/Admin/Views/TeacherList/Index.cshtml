@@ -1,0 +1,466 @@
+@model IEnumerable<DATMOS.Web.Areas.Admin.ViewModels.AdminUserViewModel>
+@{
+    ViewData["Title"] = "Danh sách Giáo viên";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+
+    // Sử dụng ViewBag từ controller
+    var totalTeachers = ViewBag.TotalTeachers ?? 0;
+    var activeTeachers = ViewBag.ActiveTeachers ?? 0;
+    var inactiveTeachers = ViewBag.InactiveTeachers ?? 0;
+}
+
+@section VendorStyles {
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.bootstrap5.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.bootstrap5.min.css" />
+    
+    <!-- Select2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
+    
+    <!-- Toastr CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+}
+
+@section PageStyles {
+    <link rel="stylesheet" href="~/areas/admin/css/admin-data-table.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/areas/admin/css/admin-users.css" asp-append-version="true" />
+}
+
+<!-- Statistics Cards - Compact Design -->
+<div class="admin-users-stats-compact">
+    <div class="stats-grid">
+        <div class="stat-item stat-total">
+            <div class="stat-icon">
+                <i class="icon-base ti ti-users"></i>
+            </div>
+            <div class="stat-content">
+                <h3 class="stat-value">@totalTeachers</h3>
+                <p class="stat-label">Tổng giáo viên</p>
+            </div>
+        </div>
+        <div class="stat-item stat-active">
+            <div class="stat-icon">
+                <i class="icon-base ti ti-user-check"></i>
+            </div>
+            <div class="stat-content">
+                <h3 class="stat-value">@activeTeachers</h3>
+                <p class="stat-label">Đang hoạt động</p>
+            </div>
+        </div>
+        <div class="stat-item stat-inactive">
+            <div class="stat-icon">
+                <i class="icon-base ti ti-user-x"></i>
+            </div>
+            <div class="stat-content">
+                <h3 class="stat-value">@inactiveTeachers</h3>
+                <p class="stat-label">Vô hiệu hóa</p>
+            </div>
+        </div>
+        <div class="stat-item stat-pending">
+            <div class="stat-icon">
+                <i class="icon-base ti ti-user-question"></i>
+            </div>
+            <div class="stat-content">
+                <h3 class="stat-value">0</h3>
+                <p class="stat-label">Chờ xử lý</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Quick Filters -->
+<div class="d-flex gap-2 mb-3">
+    <a href="#" class="btn btn-outline-primary quick-filter active waves-effect" data-filter="all">
+        <i class="icon-base ti ti-users me-1"></i>
+        Tất cả
+    </a>
+    <a href="#" class="btn btn-outline-success quick-filter waves-effect" data-filter="active">
+        <i class="icon-base ti ti-user-check me-1"></i>
+        Hoạt động
+    </a>
+    <a href="#" class="btn btn-outline-danger quick-filter waves-effect" data-filter="inactive">
+        <i class="icon-base ti ti-user-x me-1"></i>
+        Vô hiệu hóa
+    </a>
+    
+    <div class="ms-auto view-toggle">
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-outline-secondary active waves-effect" data-view="list">
+            <i class="icon-base ti ti-list"></i>
+            </button>
+            <button type="button" class="btn btn-outline-secondary waves-effect" data-view="grid">
+            <i class="icon-base ti ti-grid-dots"></i>
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Bulk Actions -->
+<div class="bulk-actions">
+    <div class="bulk-selection-count">0 giáo viên được chọn</div>
+    <div class="bulk-actions-buttons">
+        <button class="btn btn-success btn-sm bulk-activate">
+        <i class="icon-base ti ti-user-check me-1"></i>
+            Kích hoạt
+        </button>
+        <button class="btn btn-danger btn-sm bulk-deactivate">
+        <i class="icon-base ti ti-user-x me-1"></i>
+            Vô hiệu hóa
+        </button>
+        <button class="btn btn-outline-danger btn-sm bulk-delete">
+        <i class="icon-base ti ti-trash me-1"></i>
+            Xóa
+        </button>
+        <button class="btn btn-outline-primary btn-sm bulk-export">
+        <i class="icon-base ti ti-download me-1"></i>
+            Xuất CSV
+        </button>
+    </div>
+</div>
+
+<!-- Main Card -->
+<div class="card">
+    <div class="card-header border-bottom">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <h5 class="card-title mb-0">DANH SÁCH GIÁO VIÊN</h5>
+                <p class="text-muted mb-0">Quản lý tất cả giáo viên trong hệ thống</p>
+            </div>
+            <div class="d-flex gap-2">
+                <button class="btn btn-primary btn-create-user">
+                    <i class="icon-base ti ti-user-plus me-2"></i>
+                    Thêm giáo viên mới
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Desktop Table View -->
+    <div class="card-datatable admin-users-table">
+        <table class="datatables-users table border-top">
+            <thead>
+                <tr>
+                    <th width="40">
+                        <div class="form-check">
+                            <input class="form-check-input select-all-users" type="checkbox" />
+                        </div>
+                    </th>
+                    <th>Thông tin</th>
+                    <th>Email</th>
+                    <th>Số điện thoại</th>
+                    <th>Vai trò</th>
+                    <th>Trạng thái</th>
+                    <th>Ngày tham gia</th>
+                    <th width="120">Hành động</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null)
+                {
+                    @foreach (var teacher in Model)
+                    {
+                        <tr>
+                            <td>
+                                <div class="form-check">
+                                    <input class="form-check-input user-checkbox" type="checkbox" value="@teacher.Id" />
+                                </div>
+                            </td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="user-avatar @(teacher.IsActive ? "user-avatar-online" : "user-avatar-offline") user-avatar-initials me-3">
+                                        @if (!string.IsNullOrEmpty(teacher.AvatarUrl))
+                                        {
+                                            <img src="@teacher.AvatarUrl" alt="@teacher.DisplayName" />
+                                        }
+                                        else
+                                        {
+                                            <span>@teacher.Initials</span>
+                                        }
+                                    </div>
+                                    <div class="d-flex flex-column">
+                                        <span class="fw-semibold">@teacher.DisplayName</span>
+                                        <small class="text-muted">@@@teacher.UserName</small>
+                                        <small class="text-muted">ID: @teacher.Id.Substring(0, Math.Min(8, teacher.Id.Length))...</small>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="d-flex flex-column">
+                                    <span>@teacher.Email</span>
+                                    <small class="text-muted">
+                                        @if (teacher.EmailConfirmed)
+                                        {
+                                            <span class="status-badge status-badge-active">
+                                                <i class="icon-base ti ti-check"></i>
+                                                Đã xác thực
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="status-badge status-badge-pending">
+                                                <i class="icon-base ti ti-clock"></i>
+                                                Chưa xác thực
+                                            </span>
+                                        }
+                                    </small>
+                                </div>
+                            </td>
+                            <td>
+                                @if (!string.IsNullOrEmpty(teacher.PhoneNumber))
+                                {
+                                    <span>@teacher.PhoneNumber</span>
+                                }
+                                else
+                                {
+                                    <span class="text-muted">-</span>
+                                }
+                            </td>
+                            <td>
+                                @if (!string.IsNullOrEmpty(teacher.Role))
+                                {
+                                    <span class="badge bg-label-primary">@teacher.Role</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-label-secondary">Chưa có</span>
+                                }
+                            </td>
+                            <td>
+                                @if (teacher.IsActive && teacher.Status == "Active")
+                                {
+                                    <span class="status-badge status-badge-active">
+                                        <i class="icon-base ti ti-circle-check"></i>
+                                        Hoạt động
+                                    </span>
+                                }
+                                else if (teacher.Status == "Inactive")
+                                {
+                                    <span class="status-badge status-badge-inactive">
+                                        <i class="icon-base ti ti-circle-x"></i>
+                                        Vô hiệu hóa
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="status-badge status-badge-pending">
+                                        <i class="icon-base ti ti-clock"></i>
+                                        @teacher.Status
+                                    </span>
+                                }
+                            </td>
+                            <td>
+                                @if (teacher.JoinDate.HasValue)
+                                {
+                                    <span>@teacher.JoinDate.Value.ToString("dd/MM/yyyy")</span>
+                                    <small class="text-muted d-block">@teacher.JoinDate.Value.ToString("HH:mm")</small>
+                                }
+                                else
+                                {
+                                    <span class="text-muted">-</span>
+                                }
+                            </td>
+                            <td class="no-sort">
+                                <div class="action-buttons">
+                                    <!-- Nút Bật/Tắt -->
+                                    <form method="post" class="d-inline toggle-user-form"
+                                          data-user-id="@teacher.Id"
+                                          data-user-name="@teacher.DisplayName"
+                                          data-user-active="@teacher.IsActive"
+                                          action="@Url.Action("ToggleStatus", "Users", new { area = "Admin" })">
+                                        <input type="hidden" name="id" value="@teacher.Id" />
+                                        <button type="button" 
+                                                class="btn btn-icon btn-text-@(teacher.IsActive ? "success" : "secondary") waves-effect waves-light rounded-pill toggle-record" 
+                                                title="@(teacher.IsActive ? "Tắt giáo viên" : "Bật giáo viên")"
+                                                aria-label="@(teacher.IsActive ? "Tắt giáo viên" : "Bật giáo viên") @teacher.DisplayName"
+                                                data-bs-toggle="tooltip"
+                                                data-bs-original-title="@(teacher.IsActive ? "Tắt giáo viên" : "Bật giáo viên")">
+                                            <i class="icon-base ti @(teacher.IsActive ? "ti-toggle-right" : "ti-toggle-left")"></i>
+                                        </button>
+                                    </form>
+                                    
+                                    <!-- Nút Chỉnh sửa -->
+                                    <a href="#" 
+                                       class="btn btn-icon btn-text-warning waves-effect waves-light rounded-pill edit-record"
+                                       title="Chỉnh sửa"
+                                       aria-label="Chỉnh sửa giáo viên @teacher.DisplayName"
+                                       data-bs-toggle="tooltip"
+                                       data-bs-original-title="Chỉnh sửa"
+                                       data-user-id="@teacher.Id">
+                                        <i class="icon-base ti ti-edit"></i>
+                                    </a>
+                                    
+                                    <!-- Nút Xóa -->
+                                    <form method="post" class="d-inline delete-user-form"
+                                          data-user-id="@teacher.Id"
+                                          data-user-name="@teacher.DisplayName"
+                                          action="@Url.Action("Delete", "Users", new { area = "Admin" })">
+                                        <input type="hidden" name="id" value="@teacher.Id" />
+                                        <button type="button" 
+                                                class="btn btn-icon btn-text-secondary waves-effect waves-light rounded-pill delete-record" 
+                                                title="Vô hiệu hóa"
+                                                aria-label="Vô hiệu hóa giáo viên @teacher.DisplayName"
+                                                data-bs-toggle="tooltip"
+                                                data-bs-original-title="Vô hiệu hóa"
+                                                @(!teacher.IsActive ? "disabled" : "")>
+                                            <i class="icon-base ti ti-trash"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Mobile Grid View -->
+    <div class="mobile-users-grid p-4">
+        @if (Model != null)
+        {
+            @foreach (var teacher in Model)
+            {
+                <div class="user-card">
+                    <div class="user-card-header">
+                        <div class="user-avatar @(teacher.IsActive ? "user-avatar-online" : "user-avatar-offline") user-avatar-initials">
+                            @if (!string.IsNullOrEmpty(teacher.AvatarUrl))
+                            {
+                                <img src="@teacher.AvatarUrl" alt="@teacher.DisplayName" />
+                            }
+                            else
+                            {
+                                <span>@teacher.Initials</span>
+                            }
+                        </div>
+                        <div class="user-card-info">
+                            <h6 class="mb-1">@teacher.DisplayName</h6>
+                            <small class="text-muted">@@@teacher.UserName</small>
+                        </div>
+                        <div class="user-card-actions">
+                            <!-- Nút Bật/Tắt cho mobile -->
+                            <form method="post" class="d-inline toggle-user-form"
+                                  data-user-id="@teacher.Id"
+                                  data-user-name="@teacher.DisplayName"
+                                  data-user-active="@teacher.IsActive"
+                                  action="@Url.Action("ToggleStatus", "Users", new { area = "Admin" })">
+                                <input type="hidden" name="id" value="@teacher.Id" />
+                                <button type="button" 
+                                        class="btn btn-icon btn-text-@(teacher.IsActive ? "success" : "secondary") waves-effect waves-light rounded-pill toggle-record" 
+                                        title="@(teacher.IsActive ? "Tắt giáo viên" : "Bật giáo viên")"
+                                        aria-label="@(teacher.IsActive ? "Tắt giáo viên" : "Bật giáo viên") @teacher.DisplayName"
+                                        data-bs-toggle="tooltip"
+                                        data-bs-original-title="@(teacher.IsActive ? "Tắt giáo viên" : "Bật giáo viên")">
+                                    <i class="icon-base ti @(teacher.IsActive ? "ti-toggle-right" : "ti-toggle-left")"></i>
+                                </button>
+                            </form>
+                            
+                            <!-- Nút Chỉnh sửa cho mobile -->
+                            <a href="#" 
+                               class="btn btn-icon btn-text-warning waves-effect waves-light rounded-pill edit-record"
+                               title="Chỉnh sửa"
+                               aria-label="Chỉnh sửa giáo viên @teacher.DisplayName"
+                               data-bs-toggle="tooltip"
+                               data-bs-original-title="Chỉnh sửa"
+                               data-user-id="@teacher.Id">
+                                <i class="icon-base ti ti-edit"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="user-card-details">
+                        <div class="user-card-detail">
+                            <span class="user-card-label">Email</span>
+                            <span class="user-card-value text-truncate">@teacher.Email</span>
+                        </div>
+                        <div class="user-card-detail">
+                            <span class="user-card-label">Vai trò</span>
+                            <span class="user-card-value">
+                                @if (!string.IsNullOrEmpty(teacher.Role))
+                                {
+                                    <span class="badge bg-label-primary">@teacher.Role</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-label-secondary">Chưa có</span>
+                                }
+                            </span>
+                        </div>
+                        <div class="user-card-detail">
+                            <span class="user-card-label">Trạng thái</span>
+                            <span class="user-card-value">
+                                @if (teacher.IsActive && teacher.Status == "Active")
+                                {
+                                    <span class="status-badge status-badge-active">Hoạt động</span>
+                                }
+                                else if (teacher.Status == "Inactive")
+                                {
+                                    <span class="status-badge status-badge-inactive">Vô hiệu hóa</span>
+                                }
+                                else
+                                {
+                                    <span class="status-badge status-badge-pending">@teacher.Status</span>
+                                }
+                            </span>
+                        </div>
+                        <div class="user-card-detail">
+                            <span class="user-card-label">Ngày tham gia</span>
+                            <span class="user-card-value">
+                                @if (teacher.JoinDate.HasValue)
+                                {
+                                    @teacher.JoinDate.Value.ToString("dd/MM/yyyy")
+                                }
+                                else
+                                {
+                                    <span class="text-muted">-</span>
+                                }
+                            </span>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <form method="post" class="d-inline delete-user-form"
+                              data-user-id="@teacher.Id"
+                              data-user-name="@teacher.DisplayName"
+                              action="@Url.Action("Delete", "Users", new { area = "Admin" })">
+                            <input type="hidden" name="id" value="@teacher.Id" />
+                            <button type="button" 
+                                    class="btn btn-icon btn-text-secondary waves-effect waves-light rounded-pill delete-record w-100"
+                                    title="Vô hiệu hóa"
+                                    aria-label="Vô hiệu hóa giáo viên @teacher.DisplayName"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-original-title="Vô hiệu hóa"
+                                    @(!teacher.IsActive ? "disabled" : "")>
+                                <i class="icon-base ti ti-trash me-1"></i>
+                                Vô hiệu hóa
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>
+
+<!-- Include Create/Edit modal -->
+<div id="userModalContainer"></div>
+
+@section VendorScripts {
+    <!-- DataTables -->
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+    
+    <!-- Select2 -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <!-- Toastr -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+}
+
+@section PageScripts {
+    <script src="~/areas/admin/js/admin-users.js" asp-append-version="true"></script>
+}
+
+@section Scripts {
+}

@@ -1,0 +1,153 @@
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"] - DATMOS Practice</title>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Core CSS from Customer Layout (for compatibility) -->
+    <link rel="stylesheet" href="~/vendor/libs/node-waves/node-waves.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/vendor/css/core.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/demo.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" asp-append-version="true" />
+    
+    <!-- Helpers (Required for main.js) -->
+    <script src="~/vendor/js/helpers.js"></script>
+    <script src="~/js/config.js" asp-append-version="true"></script>
+    <!-- Template Customizer (Required for theme settings) -->
+    <script src="~/vendor/js/template-customizer.js"></script>
+    
+    <!-- GMetrix Footer CSS - Improved Version -->
+    <link rel="stylesheet" href="~/areas/customer/css/word2019-training.css" asp-append-version="true" />
+    
+    @RenderSection("VendorStyles", required: false)
+    @RenderSection("PageStyles", required: false)
+    @RenderSection("Styles", required: false)
+</head>
+<body>
+    <!-- Main Content -->
+    <div class="main-content">
+        @RenderBody()
+    </div>
+
+    <!-- GMetrix Fixed Footer - Professional Icons Version -->
+    <footer class="gmetrix-footer" id="gmetrixFooter">
+        
+        <div class="top-bar">
+            <div class="top-left">
+                <div id="student-info-container"></div>
+                <div class="projects-container">
+                    <div class="project-info">
+                        <i class="fas fa-file-alt"></i> 
+                        <span class="project-label">Project:</span>
+                        <div class="project-select-container">
+                            <select id="project-select" class="project-select">
+                                <option value="loading" selected>Đang tải dữ liệu...</option>
+                            </select>
+                            <div class="select-arrow">
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="progress-indicator" class="progress-indicator">
+                    <!-- Progress will be rendered here by JavaScript -->
+                </div>
+            </div>
+            
+            
+            <div class="top-right">
+                <span class="top-link" id="restart-link">
+                    <i class="fas fa-redo"></i> Khởi động lại
+                </span>
+                <span class="top-link" id="grade-link">
+                    <i class="fas fa-star"></i> Chấm điểm
+                </span>
+                <button class="btn btn-orange" id="submit-project-btn" title="Nộp bài và chấm điểm" tabindex="0">
+                    <i class="fas fa-paper-plane"></i> Nộp bài
+                </button>
+                <button class="toggle-footer-btn" id="toggleFooter" title="Thu gọn/Mở rộng">
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="tabs-container">
+            <button class="tab active" data-tab="overview" tabindex="0" aria-label="Tổng quan bài thi">
+                <span class="tab-text">Tổng quan</span>
+                <span class="tab-badge">
+                    <i class="fas fa-th"></i>
+                </span>
+            </button>
+            <!-- Tabs sẽ được tạo động bởi JavaScript từ dữ liệu JSON -->
+        </div>
+
+        <div class="instruction-area" id="instruction-text">
+            <div class="instruction-content">
+                Dưới tiêu đề <strong>Landscaping Made Easy</strong>, chèn một ảnh chụp màn hình của bức ảnh hiển thị trên tài liệu <strong>Project</strong>.
+            </div>
+        </div>
+
+        <div class="control-bar">
+            <button class="btn btn-dark" id="prev-task">
+                <i class="fas fa-arrow-left"></i> Nhiệm vụ trước
+            </button>
+            <button class="btn btn-teal" id="mark-completed">
+                <i class="fas fa-check-circle"></i> Đánh dấu hoàn thành
+            </button>
+            <button class="btn btn-orange" id="mark-review">
+                <i class="fas fa-flag-checkered"></i> Đánh dấu cần xem lại
+            </button>
+            <button class="btn btn-dark" id="next-task">
+                Nhiệm vụ tiếp theo <i class="fas fa-arrow-right"></i>
+            </button>
+            <button class="btn btn-blue" id="help-btn">
+                <i class="fas fa-life-ring"></i> Trợ giúp
+            </button>
+        </div>
+    </footer>
+
+    <!-- Core JS from Customer Layout -->
+    <script src="~/vendor/libs/jquery/jquery.js" asp-append-version="true"></script>
+    <script src="~/vendor/js/bootstrap.js" asp-append-version="true"></script>
+    <script src="~/vendor/libs/perfect-scrollbar/perfect-scrollbar.js" asp-append-version="true"></script>
+    
+    <!-- Template Customizer must be initialized after Bootstrap -->
+    <script>
+        // Initialize Bootstrap components
+        $(document).ready(function() {
+            // Initialize all Bootstrap tooltips
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+            
+            // Initialize all Bootstrap popovers
+            var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
+            var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+                return new bootstrap.Popover(popoverTriggerEl);
+            });
+        });
+    </script>
+    
+    <!-- Main JS -->
+    <script src="~/js/main.js" asp-append-version="true"></script>
+    
+    <!-- Common Product Logic (Fixes ProductCommon is not defined) -->
+    <script src="~/areas/customer/js/product-common.js" asp-append-version="true"></script>
+    
+    <!-- GMetrix Footer Scripts - Improved Version -->
+    <script src="~/areas/customer/js/word2019-training.js" asp-append-version="true"></script>
+    
+    @RenderSection("VendorScripts", required: false)
+    @RenderSection("PageScripts", required: false)
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

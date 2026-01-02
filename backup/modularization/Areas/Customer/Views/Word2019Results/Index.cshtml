@@ -1,0 +1,1075 @@
+@model List<DATMOS.Web.Areas.Customer.Models.TrainingResult>
+@{
+    ViewData["Title"] = "Lịch sử thi MOS Word 2019";
+    Layout = "~/Areas/Customer/Views/Shared/_CustomerLayout.cshtml";
+    
+    // Calculate statistics
+    var totalExams = Model?.Count ?? 0;
+    var passedExams = Model?.Count(r => r.Passed) ?? 0;
+    var failedExams = totalExams - passedExams;
+    var averageScore = Model?.Any() == true ? Model.Average(r => r.Percentage) : 0;
+    var averageTime = Model?.Any() == true ? Model.Average(r => r.DurationMinutes) : 0;
+    var bestScore = Model?.Any() == true ? Model.Max(r => r.Percentage) : 0;
+    var bestScoreResult = Model?.FirstOrDefault(r => r.Percentage == bestScore);
+    var recentExams = Model?.OrderByDescending(r => r.SubmissionDate).Take(5).Count() ?? 0;
+}
+
+@section VendorStyles {
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.bootstrap5.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.bootstrap5.min.css" />
+    
+    <!-- Toastr CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+}
+
+@section PageStyles {
+    <link rel="stylesheet" href="~/areas/customer/css/word2019-results.css" asp-append-version="true" />
+    <style>
+        /* Statistics Cards - Compact Design */
+        .admin-users-stats-compact {
+            margin-bottom: 2rem;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.25rem;
+        }
+        
+        .stat-item {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            border: 1px solid rgba(0,0,0,0.08);
+            box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .stat-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.1);
+            border-color: rgba(0,0,0,0.12);
+        }
+        
+        .stat-item.stat-total {
+            border-left: 4px solid #667eea;
+        }
+        
+        .stat-item.stat-passed {
+            border-left: 4px solid #28c76f;
+        }
+        
+        .stat-item.stat-failed {
+            border-left: 4px solid #ea5455;
+        }
+        
+        .stat-item.stat-average {
+            border-left: 4px solid #ff9f43;
+        }
+        
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+        
+        .stat-total .stat-icon {
+            background: rgba(102, 126, 234, 0.1);
+            color: #667eea;
+        }
+        
+        .stat-passed .stat-icon {
+            background: rgba(40, 199, 111, 0.1);
+            color: #28c76f;
+        }
+        
+        .stat-failed .stat-icon {
+            background: rgba(234, 84, 85, 0.1);
+            color: #ea5455;
+        }
+        
+        .stat-average .stat-icon {
+            background: rgba(255, 159, 67, 0.1);
+            color: #ff9f43;
+        }
+        
+        .stat-content {
+            flex: 1;
+        }
+        
+        .stat-value {
+            font-size: 1.75rem;
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 0.25rem;
+            color: #2d3748;
+        }
+        
+        .stat-label {
+            color: #718096;
+            font-size: 0.875rem;
+            margin-bottom: 0;
+        }
+        
+        /* Quick Filters */
+        .quick-filter {
+            border-radius: 2rem;
+            padding: 0.5rem 1.25rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+        
+        .quick-filter.active {
+            background-color: #667eea;
+            border-color: #667eea;
+            color: white;
+        }
+        
+        .quick-filter:hover:not(.active) {
+            transform: translateY(-2px);
+            box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Bulk Actions */
+        .bulk-actions {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 0.75rem;
+            padding: 1rem 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(0,0,0,0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .bulk-selection-count {
+            font-weight: 600;
+            color: #566a7f;
+        }
+        
+        .bulk-actions-buttons {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        
+        /* Main Card */
+        .card {
+            border-radius: 1rem;
+            border: 1px solid rgba(0,0,0,0.08);
+            box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+        
+        .card-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-bottom: none;
+            padding: 1.5rem;
+        }
+        
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        
+        .card-subtitle {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.875rem;
+        }
+        
+        /* Table Styles */
+        .admin-users-table {
+            padding: 0;
+        }
+        
+        .datatables-users {
+            margin: 0;
+            border: none;
+        }
+        
+        .datatables-users thead th {
+            background-color: #f8f9fa;
+            color: #566a7f;
+            font-weight: 600;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid #e9ecef;
+            padding: 1rem 1.25rem;
+            white-space: nowrap;
+        }
+        
+        .datatables-users tbody td {
+            padding: 1rem 1.25rem;
+            vertical-align: middle;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .datatables-users tbody tr {
+            transition: background-color 0.2s ease;
+        }
+        
+        .datatables-users tbody tr:hover {
+            background-color: rgba(102, 126, 234, 0.04);
+        }
+        
+        /* Exam Avatar */
+        .exam-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-right: 1rem;
+        }
+        
+        /* Progress Bar */
+        .progress-container {
+            width: 120px;
+        }
+        
+        .progress-bar-enhanced {
+            height: 8px;
+            border-radius: 4px;
+            background: #e9ecef;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            border-radius: 4px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            transition: width 0.6s ease;
+        }
+        
+        .progress-fill.bg-success {
+            background: linear-gradient(90deg, #28c76f 0%, #20b85c 100%);
+        }
+        
+        .progress-fill.bg-danger {
+            background: linear-gradient(90deg, #ea5455 0%, #e42728 100%);
+        }
+        
+        /* Status Badge */
+        .status-badge {
+            padding: 0.375rem 0.75rem;
+            border-radius: 2rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+        
+        .status-badge-active {
+            background: rgba(40, 199, 111, 0.1);
+            color: #28c76f;
+            border: 1px solid rgba(40, 199, 111, 0.2);
+        }
+        
+        .status-badge-inactive {
+            background: rgba(234, 84, 85, 0.1);
+            color: #ea5455;
+            border: 1px solid rgba(234, 84, 85, 0.2);
+        }
+        
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .btn-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+        
+        .btn-icon:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-view {
+            background: rgba(102, 126, 234, 0.1);
+            color: #667eea;
+            border: 1px solid rgba(102, 126, 234, 0.2);
+        }
+        
+        .btn-view:hover {
+            background: #667eea;
+            color: white;
+        }
+        
+        .btn-export {
+            background: rgba(40, 199, 111, 0.1);
+            color: #28c76f;
+            border: 1px solid rgba(40, 199, 111, 0.2);
+        }
+        
+        .btn-export:hover {
+            background: #28c76f;
+            color: white;
+        }
+        
+        /* Mobile Grid View */
+        .mobile-users-grid {
+            display: none;
+            padding: 1rem;
+        }
+        
+        .user-card {
+            background: white;
+            border-radius: 0.75rem;
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+            border: 1px solid #e9ecef;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        .user-card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .user-card-info {
+            flex: 1;
+            margin-left: 1rem;
+        }
+        
+        .user-card-details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+        
+        .user-card-detail {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .user-card-label {
+            font-size: 0.75rem;
+            color: #718096;
+            margin-bottom: 0.25rem;
+        }
+        
+        .user-card-value {
+            font-weight: 500;
+            color: #2d3748;
+        }
+        
+        /* Responsive */
+        @@media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .bulk-actions {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .bulk-actions-buttons {
+                width: 100%;
+                justify-content: flex-start;
+            }
+            
+            .admin-users-table {
+                display: none;
+            }
+            
+            .mobile-users-grid {
+                display: block;
+            }
+            
+            .user-card-details {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @@media (max-width: 480px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stat-item {
+                padding: 1.25rem;
+            }
+            
+            .stat-icon {
+                width: 40px;
+                height: 40px;
+                font-size: 1.25rem;
+            }
+            
+            .stat-value {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+}
+
+<!-- Statistics Cards - Compact Design -->
+<div class="admin-users-stats-compact">
+    <div class="stats-grid">
+        <div class="stat-item stat-total">
+            <div class="stat-icon">
+                <i class="ti ti-file-text"></i>
+            </div>
+            <div class="stat-content">
+                <h3 class="stat-value">@totalExams</h3>
+                <p class="stat-label">Tổng số bài thi</p>
+            </div>
+        </div>
+        <div class="stat-item stat-passed">
+            <div class="stat-icon">
+                <i class="ti ti-check"></i>
+            </div>
+            <div class="stat-content">
+                <h3 class="stat-value">@passedExams</h3>
+                <p class="stat-label">Bài thi đạt</p>
+            </div>
+        </div>
+        <div class="stat-item stat-failed">
+            <div class="stat-icon">
+                <i class="ti ti-x"></i>
+            </div>
+            <div class="stat-content">
+                <h3 class="stat-value">@failedExams</h3>
+                <p class="stat-label">Bài thi không đạt</p>
+            </div>
+        </div>
+        <div class="stat-item stat-average">
+            <div class="stat-icon">
+                <i class="ti ti-percentage"></i>
+            </div>
+            <div class="stat-content">
+                <h3 class="stat-value">@averageScore.ToString("0.0")%</h3>
+                <p class="stat-label">Điểm trung bình</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Quick Filters -->
+<div class="d-flex gap-2 mb-3">
+    <a href="#" class="btn btn-outline-primary quick-filter active waves-effect" data-filter="all">
+        <i class="ti ti-list me-1"></i>
+        Tất cả
+    </a>
+    <a href="#" class="btn btn-outline-success quick-filter waves-effect" data-filter="passed">
+        <i class="ti ti-check me-1"></i>
+        Đạt
+    </a>
+    <a href="#" class="btn btn-outline-danger quick-filter waves-effect" data-filter="failed">
+        <i class="ti ti-x me-1"></i>
+        Không đạt
+    </a>
+    <a href="#" class="btn btn-outline-warning quick-filter waves-effect" data-filter="recent">
+        <i class="ti ti-clock me-1"></i>
+        Gần đây
+    </a>
+    
+    <div class="ms-auto view-toggle">
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-outline-secondary active waves-effect" data-view="list">
+                <i class="ti ti-list"></i>
+            </button>
+            <button type="button" class="btn btn-outline-secondary waves-effect" data-view="grid">
+                <i class="ti ti-grid-dots"></i>
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Bulk Actions -->
+<div class="bulk-actions">
+    <div class="bulk-selection-count">0 bài thi được chọn</div>
+    <div class="bulk-actions-buttons">
+        <button class="btn btn-success btn-sm bulk-export-selected">
+            <i class="ti ti-download me-1"></i>
+            Xuất đã chọn
+        </button>
+        <button class="btn btn-outline-danger btn-sm bulk-delete-selected">
+            <i class="ti ti-trash me-1"></i>
+            Xóa đã chọn
+        </button>
+        <button class="btn btn-outline-primary btn-sm bulk-print-selected">
+            <i class="ti ti-printer me-1"></i>
+            In đã chọn
+        </button>
+    </div>
+</div>
+
+<!-- Main Card -->
+<div class="card">
+    <div class="card-header border-bottom">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <h5 class="card-title mb-0">DANH SÁCH KẾT QUẢ THI</h5>
+                <p class="card-subtitle mb-0">Quản lý và theo dõi kết quả thi MOS Word 2019</p>
+            </div>
+            <div class="d-flex gap-2">
+                <a href="@Url.Action("AllResults")" class="btn btn-light">
+                    <i class="ti ti-list me-2"></i>
+                    Xem tất cả
+                </a>
+                <button class="btn btn-primary" id="exportAllData">
+                    <i class="ti ti-download me-2"></i>
+                    Xuất tất cả
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Desktop Table View -->
+    <div class="card-datatable admin-users-table">
+        <table class="datatables-users table border-top">
+            <thead>
+                <tr>
+                    <th width="40">
+                        <div class="form-check">
+                            <input class="form-check-input select-all-exams" type="checkbox" />
+                        </div>
+                    </th>
+                    <th>Bài thi</th>
+                    <th>Điểm</th>
+                    <th>Tiến độ</th>
+                    <th>Trạng thái</th>
+                    <th>Ngày thi</th>
+                    <th width="100">Hành động</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Any())
+                {
+                    foreach (var result in Model)
+                    {
+                        <tr data-status="@(result.Passed ? "passed" : "failed")" data-recent="@(result.SubmissionDate > DateTime.Now.AddDays(-7) ? "true" : "false")">
+                            <td>
+                                <div class="form-check">
+                                    <input class="form-check-input exam-checkbox" type="checkbox" value="@result.Id" />
+                                </div>
+                            </td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="exam-avatar">
+                                        <i class="ti ti-file-word"></i>
+                                    </div>
+                                    <div class="d-flex flex-column">
+                                        <span class="fw-semibold">@result.ExamName</span>
+                                        <small class="text-muted">@result.ProjectName</small>
+                                        <small class="text-muted">ID: @result.Id</small>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="d-flex flex-column">
+                                    <span class="fw-bold">@result.Score/@result.MaxScore</span>
+                                    <small class="text-muted">@result.Percentage.ToString("0.0")%</small>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="progress-container">
+                                    <div class="progress-bar-enhanced">
+                                        <div class="progress-fill @(result.Passed ? "bg-success" : "bg-danger")" 
+                                             style="width: @result.Percentage%"></div>
+                                    </div>
+                                    <small class="text-muted d-block mt-1">@result.DurationMinutes phút</small>
+                                </div>
+                            </td>
+                            <td>
+                                @if (result.Passed)
+                                {
+                                    <span class="status-badge status-badge-active">
+                                        <i class="ti ti-check"></i>
+                                        Đạt
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="status-badge status-badge-inactive">
+                                        <i class="ti ti-x"></i>
+                                        Không đạt
+                                    </span>
+                                }
+                            </td>
+                            <td>
+                                <span>@result.SubmissionDate.ToString("dd/MM/yyyy")</span>
+                                <small class="text-muted d-block">@result.SubmissionDate.ToString("HH:mm")</small>
+                            </td>
+                            <td class="no-sort">
+                                <div class="action-buttons">
+                                    <a href="@Url.Action("Details", new { id = result.Id })" 
+                                       class="btn-icon btn-view" 
+                                       title="Xem chi tiết"
+                                       aria-label="Xem chi tiết bài thi @result.ExamName"
+                                       data-bs-toggle="tooltip"
+                                       data-bs-original-title="Xem chi tiết">
+                                        <i class="ti ti-eye"></i>
+                                    </a>
+                                    <button class="btn-icon btn-export export-single" 
+                                            data-id="@result.Id"
+                                            title="Xuất kết quả"
+                                            aria-label="Xuất kết quả bài thi @result.ExamName"
+                                            data-bs-toggle="tooltip"
+                                            data-bs-original-title="Xuất kết quả">
+                                        <i class="ti ti-download"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="7" class="text-center py-4">
+                            <div class="empty-state">
+                                <div class="empty-state-icon">
+                                    <i class="ti ti-file-off"></i>
+                                </div>
+                                <h5 class="mb-2">Không có dữ liệu</h5>
+                                <p class="text-muted mb-4">Chưa có bài thi nào được ghi nhận.</p>
+                                <a href="@Url.Action("AllResults")" class="btn btn-primary">
+                                    <i class="ti ti-list me-2"></i>Xem tất cả kết quả
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Mobile Grid View -->
+    <div class="mobile-users-grid">
+        @if (Model != null && Model.Any())
+        {
+            foreach (var result in Model)
+            {
+                <div class="user-card" data-status="@(result.Passed ? "passed" : "failed")" data-recent="@(result.SubmissionDate > DateTime.Now.AddDays(-7) ? "true" : "false")">
+                    <div class="user-card-header">
+                        <div class="exam-avatar">
+                            <i class="ti ti-file-word"></i>
+                        </div>
+                        <div class="user-card-info">
+                            <h6 class="mb-1">@result.ExamName</h6>
+                            <small class="text-muted">@result.ProjectName</small>
+                        </div>
+                        <div class="user-card-actions">
+                            <a href="@Url.Action("Details", new { id = result.Id })" 
+                               class="btn-icon btn-view" 
+                               title="Xem chi tiết">
+                                <i class="ti ti-eye"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="user-card-details">
+                        <div class="user-card-detail">
+                            <span class="user-card-label">Điểm</span>
+                            <span class="user-card-value">@result.Score/@result.MaxScore (@result.Percentage.ToString("0.0")%)</span>
+                        </div>
+                        <div class="user-card-detail">
+                            <span class="user-card-label">Trạng thái</span>
+                            <span class="user-card-value">
+                                @if (result.Passed)
+                                {
+                                    <span class="status-badge status-badge-active">Đạt</span>
+                                }
+                                else
+                                {
+                                    <span class="status-badge status-badge-inactive">Không đạt</span>
+                                }
+                            </span>
+                        </div>
+                        <div class="user-card-detail">
+                            <span class="user-card-label">Thời gian</span>
+                            <span class="user-card-value">@result.DurationMinutes phút</span>
+                        </div>
+                        <div class="user-card-detail">
+                            <span class="user-card-label">Ngày thi</span>
+                            <span class="user-card-value">@result.SubmissionDate.ToString("dd/MM/yyyy HH:mm")</span>
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <button class="btn btn-outline-primary w-100 export-single" data-id="@result.Id">
+                            <i class="ti ti-download me-1"></i>
+                            Xuất kết quả
+                        </button>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="text-center py-4">
+                <div class="empty-state-icon">
+                    <i class="ti ti-file-off"></i>
+                </div>
+                <h5 class="mb-2">Không có dữ liệu</h5>
+                <p class="text-muted mb-4">Chưa có bài thi nào được ghi nhận.</p>
+                <a href="@Url.Action("AllResults")" class="btn btn-primary">
+                    <i class="ti ti-list me-2"></i>Xem tất cả kết quả
+                </a>
+            </div>
+        }
+    </div>
+</div>
+
+@section VendorScripts {
+    <!-- DataTables -->
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+    
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <!-- Toastr -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+}
+
+@section PageScripts {
+    <script src="~/areas/customer/js/word2019-results.js" asp-append-version="true"></script>
+}
+
+@section Scripts {
+    <script>
+        // Initialize tooltips
+        $(function () {
+            $('[data-bs-toggle="tooltip"]').tooltip();
+        });
+        
+        // Handle quick filters
+        $('.quick-filter').on('click', function(e) {
+            e.preventDefault();
+            
+            // Remove active class from all filters
+            $('.quick-filter').removeClass('active');
+            // Add active class to clicked filter
+            $(this).addClass('active');
+            
+            const filter = $(this).data('filter');
+            
+            // Show/hide rows based on filter
+            $('tbody tr[data-status]').each(function() {
+                const $row = $(this);
+                const status = $row.data('status');
+                const isRecent = $row.data('recent') === 'true';
+                
+                let showRow = false;
+                
+                switch(filter) {
+                    case 'all':
+                        showRow = true;
+                        break;
+                    case 'passed':
+                        showRow = status === 'passed';
+                        break;
+                    case 'failed':
+                        showRow = status === 'failed';
+                        break;
+                    case 'recent':
+                        showRow = isRecent;
+                        break;
+                }
+                
+                if (showRow) {
+                    $row.show();
+                } else {
+                    $row.hide();
+                }
+            });
+
+            // Also filter mobile grid view
+            $('.user-card[data-status]').each(function() {
+                const $card = $(this);
+                const status = $card.data('status');
+                const isRecent = $card.data('recent') === 'true';
+                
+                let showCard = false;
+                
+                switch(filter) {
+                    case 'all':
+                        showCard = true;
+                        break;
+                    case 'passed':
+                        showCard = status === 'passed';
+                        break;
+                    case 'failed':
+                        showCard = status === 'failed';
+                        break;
+                    case 'recent':
+                        showCard = isRecent;
+                        break;
+                }
+                
+                if (showCard) {
+                    $card.show();
+                } else {
+                    $card.hide();
+                }
+            });
+        });
+
+        // Handle view toggle (list/grid) - only on mobile
+        $('[data-view]').on('click', function(e) {
+            e.preventDefault();
+            
+            // Only toggle on mobile screens
+            if (window.innerWidth > 768) {
+                toastr.info('Chế độ xem grid chỉ khả dụng trên thiết bị di động');
+                return;
+            }
+            
+            const view = $(this).data('view');
+            
+            // Update active button
+            $('[data-view]').removeClass('active');
+            $(this).addClass('active');
+            
+            if (view === 'list') {
+                // Show table view, hide grid view
+                $('.admin-users-table').show();
+                $('.mobile-users-grid').hide();
+            } else {
+                // Show grid view, hide table view
+                $('.admin-users-table').hide();
+                $('.mobile-users-grid').show();
+            }
+        });
+
+        // Handle window resize to update view
+        $(window).on('resize', function() {
+            if (window.innerWidth > 768) {
+                // On desktop, always show table view
+                $('.admin-users-table').show();
+                $('.mobile-users-grid').hide();
+                $('[data-view="list"]').addClass('active');
+                $('[data-view="grid"]').removeClass('active');
+            }
+        });
+
+        // Handle select all checkbox
+        $('.select-all-exams').on('change', function() {
+            const isChecked = $(this).prop('checked');
+            $('.exam-checkbox').prop('checked', isChecked);
+            updateBulkSelectionCount();
+        });
+
+        // Handle individual checkbox changes
+        $('.exam-checkbox').on('change', function() {
+            updateBulkSelectionCount();
+            
+            // Update select all checkbox state
+            const totalCheckboxes = $('.exam-checkbox').length;
+            const checkedCheckboxes = $('.exam-checkbox:checked').length;
+            $('.select-all-exams').prop('checked', totalCheckboxes === checkedCheckboxes);
+        });
+
+        // Update bulk selection count
+        function updateBulkSelectionCount() {
+            const selectedCount = $('.exam-checkbox:checked').length;
+            $('.bulk-selection-count').text(`${selectedCount} bài thi được chọn`);
+            
+            // Enable/disable bulk action buttons
+            if (selectedCount > 0) {
+                $('.bulk-export-selected, .bulk-delete-selected, .bulk-print-selected').prop('disabled', false);
+            } else {
+                $('.bulk-export-selected, .bulk-delete-selected, .bulk-print-selected').prop('disabled', true);
+            }
+        }
+
+        // Handle bulk actions
+        $('.bulk-export-selected').on('click', function() {
+            const selectedIds = getSelectedExamIds();
+            if (selectedIds.length === 0) return;
+            
+            Swal.fire({
+                title: 'Xuất kết quả hàng loạt',
+                html: `Bạn có chắc chắn muốn xuất <strong>${selectedIds.length} bài thi</strong>?`,
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Xuất',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Implement bulk export logic here
+                    toastr.success(`Đang xuất ${selectedIds.length} bài thi...`);
+                }
+            });
+        });
+
+        $('.bulk-delete-selected').on('click', function() {
+            const selectedIds = getSelectedExamIds();
+            if (selectedIds.length === 0) return;
+            
+            Swal.fire({
+                title: 'Xóa hàng loạt',
+                html: `Bạn có chắc chắn muốn xóa <strong>${selectedIds.length} bài thi</strong>?<br><br>
+                       <small class="text-muted">Hành động này không thể hoàn tác.</small>`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Xóa',
+                cancelButtonText: 'Hủy',
+                confirmButtonColor: '#d33'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Implement bulk delete logic here
+                    toastr.success(`Đã xóa ${selectedIds.length} bài thi`);
+                }
+            });
+        });
+
+        $('.bulk-print-selected').on('click', function() {
+            const selectedIds = getSelectedExamIds();
+            if (selectedIds.length === 0) return;
+            
+            toastr.info(`Đang chuẩn bị in ${selectedIds.length} bài thi...`);
+            // Implement print logic here
+        });
+
+        // Get selected exam IDs
+        function getSelectedExamIds() {
+            const selectedIds = [];
+            $('.exam-checkbox:checked').each(function() {
+                selectedIds.push($(this).val());
+            });
+            return selectedIds;
+        }
+
+        // Export all data
+        $('#exportAllData').on('click', function() {
+            const data = @Html.Raw(Json.Serialize(Model));
+            const filename = `word2019-results-${new Date().toISOString().split('T')[0]}.json`;
+            
+            if (window.Word2019Results && window.Word2019Results.exportResultsAsJson) {
+                window.Word2019Results.exportResultsAsJson(data, filename);
+            } else {
+                // Fallback export
+                const dataStr = JSON.stringify(data, null, 2);
+                const dataBlob = new Blob([dataStr], { type: 'application/json' });
+                const downloadUrl = URL.createObjectURL(dataBlob);
+                const downloadLink = document.createElement('a');
+                downloadLink.href = downloadUrl;
+                downloadLink.download = filename;
+                document.body.appendChild(downloadLink);
+                downloadLink.click();
+                document.body.removeChild(downloadLink);
+                URL.revokeObjectURL(downloadUrl);
+            }
+        });
+
+        // Single export
+        $('.export-single').on('click', function() {
+            const resultId = this.dataset.id;
+            const row = this.closest('tr') || this.closest('.user-card');
+            let examName, score, percentage, status, date;
+            
+            if (row.tagName === 'TR') {
+                // Table row
+                examName = row.querySelector('.fw-semibold').textContent;
+                score = row.querySelector('.fw-bold').textContent;
+                percentage = row.querySelectorAll('.text-muted')[0].textContent;
+                status = row.querySelector('.status-badge').textContent.trim();
+                date = row.querySelectorAll('td')[5].querySelector('span').textContent;
+            } else {
+                // Card view
+                examName = row.querySelector('h6').textContent;
+                const scoreText = row.querySelector('.user-card-value').textContent;
+                const match = scoreText.match(/(\d+)\/(\d+)\s+\(([\d.]+)%\)/);
+                if (match) {
+                    score = `${match[1]}/${match[2]}`;
+                    percentage = `${match[3]}%`;
+                }
+                status = row.querySelector('.status-badge').textContent.trim();
+                date = row.querySelectorAll('.user-card-value')[3].textContent;
+            }
+            
+            const data = {
+                id: resultId,
+                examName: examName,
+                score: score,
+                percentage: percentage,
+                status: status,
+                date: date,
+                exportDate: new Date().toISOString()
+            };
+            
+            const filename = `word2019-result-${examName.replace(/\s+/g, '-').toLowerCase()}-${resultId}.json`;
+            
+            if (window.Word2019Results && window.Word2019Results.exportResultsAsJson) {
+                window.Word2019Results.exportResultsAsJson(data, filename);
+            } else {
+                // Fallback export
+                const dataStr = JSON.stringify(data, null, 2);
+                const dataBlob = new Blob([dataStr], { type: 'application/json' });
+                const downloadUrl = URL.createObjectURL(dataBlob);
+                const downloadLink = document.createElement('a');
+                downloadLink.href = downloadUrl;
+                downloadLink.download = filename;
+                document.body.appendChild(downloadLink);
+                downloadLink.click();
+                document.body.removeChild(downloadLink);
+                URL.revokeObjectURL(downloadUrl);
+            }
+        });
+
+        // Initialize DataTable if available
+        if ($.fn.DataTable) {
+            $('.datatables-users').DataTable({
+                responsive: true,
+                ordering: true,
+                pageLength: 10,
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/vi.json'
+                },
+                columnDefs: [
+                    { orderable: false, targets: [0, 6] } // Disable sorting for checkbox and action columns
+                ]
+            });
+        }
+
+        // Initialize bulk actions state
+        updateBulkSelectionCount();
+        
+        // Add animation to progress bars
+        const progressBars = document.querySelectorAll('.progress-fill');
+        progressBars.forEach(bar => {
+            const width = bar.style.width;
+            bar.style.width = '0';
+            setTimeout(() => {
+                bar.style.width = width;
+            }, 300);
+        });
+    });
+    </script>
+}

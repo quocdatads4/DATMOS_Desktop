@@ -1,0 +1,160 @@
+@* 
+    Identity Layout - Extends base theme layout
+    Simplified layout for authentication pages (Login, Register, Profile)
+*@
+
+@{
+    Layout = "_Layout";
+}
+
+@section Styles {
+    <!-- Identity-specific CSS -->
+    <link rel="stylesheet" href="~/_content/DATMOS.Modules.Identity/css/identity.css" />
+    
+    <!-- Additional identity styles -->
+    <style>
+        .identity-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 70vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .identity-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 450px;
+            padding: 40px;
+        }
+        
+        .identity-logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .identity-logo img {
+            max-width: 150px;
+            height: auto;
+        }
+        
+        .identity-footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+            font-size: 14px;
+        }
+    </style>
+}
+
+<!-- Identity-specific container -->
+<div class="identity-container">
+    <div class="identity-card">
+        <!-- Logo -->
+        <div class="identity-logo">
+            <h2>DATMOS</h2>
+            <p class="text-muted">@ViewData["Title"]</p>
+        </div>
+        
+        <!-- Notifications -->
+        @if (TempData["IdentitySuccess"] != null)
+        {
+            <div class="alert alert-success">
+                <i class="fas fa-check-circle"></i> @TempData["IdentitySuccess"]
+            </div>
+        }
+        
+        @if (TempData["IdentityError"] != null)
+        {
+            <div class="alert alert-danger">
+                <i class="fas fa-exclamation-circle"></i> @TempData["IdentityError"]
+            </div>
+        }
+        
+        @if (ViewData.ModelState.ErrorCount > 0)
+        {
+            <div class="alert alert-danger">
+                <h5>Please fix the following errors:</h5>
+                <ul>
+                    @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                    {
+                        <li>@error.ErrorMessage</li>
+                    }
+                </ul>
+            </div>
+        }
+        
+        <!-- Main content -->
+        @RenderBody()
+        
+        <!-- Identity footer -->
+        <div class="identity-footer">
+            @RenderSection("IdentityFooter", required: false)
+            
+            @if (!ViewContext.RouteData.Values["Action"].ToString().Contains("Login"))
+            {
+                <p>Already have an account? <a href="/Identity/Account/Login">Sign In</a></p>
+            }
+            
+            @if (!ViewContext.RouteData.Values["Action"].ToString().Contains("Register"))
+            {
+                <p>Don't have an account? <a href="/Identity/Account/Register">Sign Up</a></p>
+            }
+            
+            <p class="mt-3">
+                <a href="/">← Back to Home</a>
+            </p>
+        </div>
+    </div>
+</div>
+
+@section FooterScripts {
+    <script>
+        // Identity-specific initialization
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize identity components
+            if (typeof identityInit === 'function') {
+                identityInit();
+            }
+            
+            // Password strength indicator
+            const passwordInput = document.getElementById('Password');
+            if (passwordInput) {
+                passwordInput.addEventListener('input', function() {
+                    const password = this.value;
+                    let strength = 0;
+                    
+                    if (password.length >= 8) strength++;
+                    if (/[A-Z]/.test(password)) strength++;
+                    if (/[0-9]/.test(password)) strength++;
+                    if (/[^A-Za-z0-9]/.test(password)) strength++;
+                    
+                    // Update strength indicator
+                    const indicator = document.getElementById('password-strength');
+                    if (indicator) {
+                        indicator.textContent = ['Weak', 'Fair', 'Good', 'Strong'][strength] || 'Weak';
+                        indicator.className = 'password-strength strength-' + strength;
+                    }
+                });
+            }
+            
+            // Toggle password visibility
+            document.querySelectorAll('.toggle-password').forEach(function(button) {
+                button.addEventListener('click', function() {
+                    const input = document.querySelector(this.getAttribute('data-target'));
+                    if (input.type === 'password') {
+                        input.type = 'text';
+                        this.innerHTML = '<i class="fas fa-eye-slash"></i>';
+                    } else {
+                        input.type = 'password';
+                        this.innerHTML = '<i class="fas fa-eye"></i>';
+                    }
+                });
+            });
+        });
+    </script>
+    
+    @RenderSection("IdentityScripts", required: false)
+}

@@ -1,0 +1,158 @@
+@model DATMOS.Web.ViewModels.UserProfileViewModel
+@{
+    ViewData["Title"] = "Cài đặt tài khoản";
+    Layout = "_Layout";
+}
+
+<div class="container-xxl flex-grow-1 container-p-y">
+    <!-- Header -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <h4 class="card-title mb-1">
+                                <i class="bx bx-cog me-2"></i> @ViewData["Title"]
+                            </h4>
+                            <p class="text-muted mb-0">
+                                Quản lý thông tin tài khoản, bảo mật và các cài đặt cá nhân
+                            </p>
+                        </div>
+                        <div>
+                            <span class="badge bg-label-primary">
+                                @if (!string.IsNullOrEmpty(Model.UserRole))
+                                {
+                                    @Model.UserRole
+                                }
+                                else
+                                {
+                                    @:Người dùng
+                                }
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Messages -->
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="bx bx-check-circle me-2"></i> @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+    
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="bx bx-error-circle me-2"></i> @TempData["ErrorMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+    
+    <!-- Tabs Navigation -->
+    @await Html.PartialAsync("~/Areas/Identity/Views/Shared/Profile/_ProfileTabs.cshtml")
+    
+    <!-- Tab Content -->
+    <div class="tab-content">
+        @if (ViewBag.ActiveTab == "account")
+        {
+            @await Html.PartialAsync("~/Areas/Identity/Views/Shared/Profile/_AccountTab.cshtml", Model)
+        }
+        else if (ViewBag.ActiveTab == "security")
+        {
+            @await Html.PartialAsync("~/Areas/Identity/Views/Shared/Profile/_SecurityTab.cshtml")
+        }
+        else if (ViewBag.ActiveTab == "billing")
+        {
+            <div class="tab-pane fade show active" id="billing" role="tabpanel">
+                <div class="card">
+                    <div class="card-body text-center py-5">
+                        <i class="bx bx-credit-card mb-3" style="font-size: 48px; color: #6c757d;"></i>
+                        <h4 class="card-title">Thông tin thanh toán</h4>
+                        <p class="card-text text-muted mb-4">
+                            Tính năng đang được phát triển. Bạn sẽ có thể quản lý thông tin thanh toán tại đây.
+                        </p>
+                        <button type="button" class="btn btn-primary" disabled>
+                            <i class="bx bx-plus me-1"></i> Thêm phương thức thanh toán
+                        </button>
+                    </div>
+                </div>
+            </div>
+        }
+        else if (ViewBag.ActiveTab == "notifications")
+        {
+            <div class="tab-pane fade show active" id="notifications" role="tabpanel">
+                <div class="card">
+                    <div class="card-body text-center py-5">
+                        <i class="bx bx-bell mb-3" style="font-size: 48px; color: #6c757d;"></i>
+                        <h4 class="card-title">Cài đặt thông báo</h4>
+                        <p class="card-text text-muted mb-4">
+                            Tính năng đang được phát triển. Bạn sẽ có thể tùy chỉnh thông báo tại đây.
+                        </p>
+                        <button type="button" class="btn btn-primary" disabled>
+                            <i class="bx bx-cog me-1"></i> Cấu hình thông báo
+                        </button>
+                    </div>
+                </div>
+            </div>
+        }
+        else if (ViewBag.ActiveTab == "connections")
+        {
+            <div class="tab-pane fade show active" id="connections" role="tabpanel">
+                <div class="card">
+                    <div class="card-body text-center py-5">
+                        <i class="bx bx-link-alt mb-3" style="font-size: 48px; color: #6c757d;"></i>
+                        <h4 class="card-title">Kết nối ứng dụng</h4>
+                        <p class="card-text text-muted mb-4">
+                            Tính năng đang được phát triển. Bạn sẽ có thể kết nối với các ứng dụng bên thứ ba tại đây.
+                        </p>
+                        <button type="button" class="btn btn-primary" disabled>
+                            <i class="bx bx-plus me-1"></i> Thêm kết nối
+                        </button>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Initialize tooltips
+        document.addEventListener('DOMContentLoaded', function() {
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+            
+            // Handle file input change
+            const profilePictureInput = document.getElementById('profilePictureInput');
+            if (profilePictureInput) {
+                profilePictureInput.addEventListener('change', function(e) {
+                    const file = e.target.files[0];
+                    if (file) {
+                        // Validate file size (5MB)
+                        if (file.size > 5 * 1024 * 1024) {
+                            alert('Kích thước tệp quá lớn. Vui lòng chọn tệp nhỏ hơn 5MB.');
+                            e.target.value = '';
+                            return;
+                        }
+                        
+                        // Validate file type
+                        const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+                        if (!allowedTypes.includes(file.type)) {
+                            alert('Chỉ chấp nhận tệp hình ảnh (JPG, PNG, GIF).');
+                            e.target.value = '';
+                            return;
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+}

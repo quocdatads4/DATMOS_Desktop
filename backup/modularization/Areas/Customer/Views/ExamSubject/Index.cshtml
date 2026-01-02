@@ -1,0 +1,153 @@
+@model IEnumerable<DATMOS.Web.Areas.Customer.ViewModels.ExamSubjectViewModel>
+@{
+    ViewData["Title"] = "Danh sách môn thi MOS 2019";
+    Layout = "~/Areas/Customer/Views/Shared/_CustomerLayout.cshtml";
+}
+
+@section VendorStyles {
+    <link rel="stylesheet" href="~/vendor/libs/animate-css/animate.css" />
+}
+
+@section PageStyles {
+    <style>
+        .subject-card {
+            transition: all 0.3s ease;
+        }
+        .subject-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+        }
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+    </style>
+}
+
+<!-- Hero Section -->
+<div class="card mb-5 border-0 overflow-hidden position-relative" style="background: linear-gradient(135deg, var(--bs-primary) 0%, #a29bfe 100%); color: white;">
+    <div class="card-body p-4 p-md-5">
+        <div class="row align-items-center">
+            <div class="col-md-8 z-1">
+                <div class="d-inline-block rounded-pill bg-black bg-opacity-25 px-3 py-1 mb-3 text-white border border-white border-opacity-25">
+                    <small class="fw-bold text-uppercase">Luyện thi MOS 2019</small>
+                </div>
+                <h2 class="text-white fw-bold mb-3"><i class="ti ti-award me-2"></i>Chinh phục chứng chỉ MOS Quốc tế</h2>
+                <p class="mb-4 text-white opacity-90 fs-5" style="max-width: 800px;">
+                    Nền tảng ôn luyện toàn diện dành cho <span class="fw-bold text-white">Học sinh, Sinh viên & Người đi làm</span>.
+                    <br class="d-none d-md-inline">
+                    Hệ thống bài giảng và đề thi sát với thực tế nhất.
+                </p>
+                <div class="d-flex gap-2 flex-wrap">
+                    <div class="d-flex align-items-center bg-white rounded-pill px-2 py-1 text-primary">
+                        <i class="ti ti-certificate me-1"></i>
+                        <span class="fw-bold small">Chuẩn Quốc tế</span>
+                    </div>
+                    <div class="d-flex align-items-center bg-white rounded-pill px-2 py-1 text-primary">
+                        <i class="ti ti-infinite me-1"></i>
+                        <span class="fw-bold small">Truy cập trọn đời</span>
+                    </div>
+                    <div class="d-flex align-items-center bg-white rounded-pill px-2 py-1 text-primary">
+                        <i class="ti ti-device-laptop me-1"></i>
+                        <span class="fw-bold small">Thi thử như thật</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 d-none d-md-block position-relative z-1 text-center">
+                <div class="position-relative d-inline-block">
+                    <i class="ti ti-trophy text-white opacity-25" style="font-size: 12rem;"></i>
+                    <i class="ti ti-star-filled text-warning position-absolute top-0 end-0 translate-middle-y" style="font-size: 3rem; filter: drop-shadow(0 0 10px rgba(0,0,0,0.2));"></i>
+                </div>
+            </div>
+        </div>
+        <!-- Decorative Circles -->
+        <div class="position-absolute top-0 end-0 translate-middle-y me-n5 mt-n5 bg-white opacity-10 rounded-circle" style="width: 300px; height: 300px;"></div>
+    </div>
+</div>
+
+<!-- Exam Subjects Grid -->
+<div class="row g-4 mb-5">
+    @if (Model != null && Model.Any())
+    {
+        foreach (var item in Model)
+        {
+            <div class="col-xl-4 col-md-6">
+                <div class="card h-100 subject-card border border-light">
+                    <div class="card-body p-4">
+                        <!-- Header: Icon & Badge -->
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <div class="avatar avatar-xl rounded bg-label-@item.ColorClass p-1">
+                                <span class="avatar-initial">
+                                    <i class="ti @item.Icon" style="font-size: 2rem;"></i>
+                                </span>
+                            </div>
+                            @if (!string.IsNullOrEmpty(item.BadgeText))
+                            {
+                                <span class="badge bg-label-@item.ColorClass rounded-pill">
+                                    <i class="ti @item.BadgeIcon me-1"></i> @item.BadgeText
+                                </span>
+                            }
+                        </div>
+
+                        <!-- Content -->
+                        <h4 class="card-title mb-1 text-truncate" title="@item.Name">@item.Name</h4>
+                        <h6 class="text-muted fw-normal mb-3">@item.Title</h6>
+                        
+                        <p class="text-muted small mb-4 line-clamp-2" style="min-height: 40px;">
+                            @item.Description
+                        </p>
+
+                        <!-- Stats -->
+                        <div class="d-flex justify-content-between align-items-center border rounded p-3 mb-4 bg-light bg-opacity-25">
+                            <div class="text-center w-100 border-end">
+                                <i class="ti ti-clock text-muted mb-1"></i>
+                                <h6 class="mb-0 text-heading fw-bold">@item.Duration</h6>
+                                <small class="text-muted" style="font-size: 0.75rem;">Thời lượng</small>
+                            </div>
+                            <div class="text-center w-100 border-end">
+                                <i class="ti ti-book text-muted mb-1"></i>
+                                <h6 class="mb-0 text-heading fw-bold">@item.TotalLessons</h6>
+                                <small class="text-muted" style="font-size: 0.75rem;">Bài học</small>
+                            </div>
+                            <div class="text-center w-100">
+                                <i class="ti ti-clipboard-list text-muted mb-1"></i>
+                                <h6 class="mb-0 text-heading fw-bold">@item.TotalExams</h6>
+                                <small class="text-muted" style="font-size: 0.75rem;">Đề thi</small>
+                            </div>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        @{
+                            var subjectCode = "";
+                            if (item.Name.Contains("Word")) { subjectCode = "WORD"; }
+                            else if (item.Name.Contains("Excel")) { subjectCode = "EXCEL"; }
+                            else if (item.Name.Contains("PowerPoint")) { subjectCode = "PPT"; }
+                        }
+                        <a asp-controller="ExamList" asp-action="Details" asp-route-subjectCode="@subjectCode"
+                           class="btn btn-@item.ColorClass w-100 shadow-sm">
+                            <i class="ti ti-login me-1"></i> Truy cập bài làm
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body text-center py-5">
+                    <div class="mb-3">
+                        <span class="avatar avatar-xl rounded-circle bg-label-warning">
+                            <i class="ti ti-alert-circle fs-2"></i>
+                        </span>
+                    </div>
+                    <h4>Chưa có dữ liệu môn thi</h4>
+                    <p class="text-muted">Hệ thống đang cập nhật dữ liệu. Vui lòng quay lại sau.</p>
+                </div>
+            </div>
+        </div>
+    }
+</div>

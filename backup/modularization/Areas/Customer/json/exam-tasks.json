@@ -1,0 +1,739 @@
+{
+  "tasks": [
+    {
+      "id": 1,
+      "projectId": 1,
+      "name": "Task 1: Hyperlink",
+      "description": "Tạo liên kết cho văn bản 'Website' đến địa chỉ http://www.fishing.com.",
+      "order": 1
+    },
+    {
+      "id": 2,
+      "projectId": 1,
+      "name": "Task 2: Table Style",
+      "description": "Áp dụng kiểu Grid Table 4 - Accent 1 cho bảng lịch trình.",
+      "order": 2
+    },
+    {
+      "id": 3,
+      "projectId": 1,
+      "name": "Task 3: List Bullets",
+      "description": "Thay đổi ký tự đầu dòng của danh sách thiết bị thành hình ảnh 'fish.png'.",
+      "order": 3
+    },
+    {
+      "id": 4,
+      "projectId": 1,
+      "name": "Task 4: Page Border",
+      "description": "Thêm đường viền trang kiểu Box, độ rộng 3pt, màu xanh dương.",
+      "order": 4
+    },
+    {
+      "id": 5,
+      "projectId": 1,
+      "name": "Task 5: Inspect Document",
+      "description": "Xóa tất cả thông tin cá nhân (Personal Information) khỏi tài liệu.",
+      "order": 5
+    },
+    {
+      "id": 6,
+      "projectId": 2,
+      "name": "Task 1: SmartArt",
+      "description": "Chuyển đổi danh sách hương vị kem thành SmartArt kiểu Vertical List Box.",
+      "order": 1
+    },
+    {
+      "id": 7,
+      "projectId": 2,
+      "name": "Task 2: Text Box",
+      "description": "Chèn Text Box 'Simple Quote' vào cuối trang và nhập nội dung 'Best Ice Cream'.",
+      "order": 2
+    },
+    {
+      "id": 8,
+      "projectId": 2,
+      "name": "Task 3: Background Color",
+      "description": "Thay đổi màu nền của trang thành Ice Blue, Background 2.",
+      "order": 3
+    },
+    {
+      "id": 9,
+      "projectId": 2,
+      "name": "Task 4: Table Rows",
+      "description": "Chèn thêm một dòng vào cuối bảng giá và nhập 'Sữa chua'.",
+      "order": 4
+    },
+    {
+      "id": 10,
+      "projectId": 2,
+      "name": "Task 5: Alt Text",
+      "description": "Thêm văn bản thay thế 'Ice Cream Cone' cho hình ảnh chiếc kem.",
+      "order": 5
+    },
+    {
+      "id": 11,
+      "projectId": 3,
+      "name": "Task 1: Columns",
+      "description": "Chia đoạn văn bản thứ hai thành 2 cột với đường gạch giữa.",
+      "order": 1
+    },
+    {
+      "id": 12,
+      "projectId": 3,
+      "name": "Task 2: Drop Cap",
+      "description": "Áp dụng Drop Cap kiểu Dropped cho chữ cái đầu tiên của bài viết.",
+      "order": 2
+    },
+    {
+      "id": 13,
+      "projectId": 3,
+      "name": "Task 3: Section Break",
+      "description": "Chèn ngắt phần Continuous trước tiêu đề 'Tin tức mới'.",
+      "order": 3
+    },
+    {
+      "id": 14,
+      "projectId": 3,
+      "name": "Task 4: Header",
+      "description": "Thêm Header kiểu Banded chứa ngày hiện tại.",
+      "order": 4
+    },
+    {
+      "id": 15,
+      "projectId": 3,
+      "name": "Task 5: Picture Effect",
+      "description": "Áp dụng hiệu ứng Shadow Perspective Diagonal Upper Left cho hình ảnh logo.",
+      "order": 5
+    },
+    {
+      "id": 16,
+      "projectId": 4,
+      "name": "Task 1: Footnote",
+      "description": "Chèn Footnote vào sau từ 'Safety' với nội dung 'Luôn mang theo hộp sơ cứu'.",
+      "order": 1
+    },
+    {
+      "id": 17,
+      "projectId": 4,
+      "name": "Task 2: Citation",
+      "description": "Thêm trích dẫn mới kiểu Book: Author 'John Doe', Title 'Hiking 101', Year '2023'.",
+      "order": 2
+    },
+    {
+      "id": 18,
+      "projectId": 4,
+      "name": "Task 3: Table of Contents",
+      "description": "Chèn Mục lục tự động 1 (Automatic Table 1) vào đầu trang 2.",
+      "order": 3
+    },
+    {
+      "id": 19,
+      "projectId": 4,
+      "name": "Task 4: Cover Page",
+      "description": "Chèn trang bìa kiểu Facet vào đầu tài liệu.",
+      "order": 4
+    },
+    {
+      "id": 20,
+      "projectId": 4,
+      "name": "Task 5: Theme",
+      "description": "Thay đổi Theme của tài liệu thành 'Integral'.",
+      "order": 5
+    },
+    {
+      "id": 21,
+      "projectId": 5,
+      "name": "Task 1: Chart",
+      "description": "Chèn biểu đồ cột (Clustered Column) hiển thị dữ liệu doanh thu quý.",
+      "order": 1
+    },
+    {
+      "id": 22,
+      "projectId": 5,
+      "name": "Task 2: Watermark",
+      "description": "Thêm Watermark văn bản 'CONFIDENTIAL' chéo trang.",
+      "order": 2
+    },
+    {
+      "id": 23,
+      "projectId": 5,
+      "name": "Task 3: Footer",
+      "description": "Thêm số trang vào Footer ở vị trí giữa (Plain Number 2).",
+      "order": 3
+    },
+    {
+      "id": 24,
+      "projectId": 5,
+      "name": "Task 4: Heading Styles",
+      "description": "Cập nhật Style Heading 1 để có màu chữ Dark Blue và cỡ chữ 16.",
+      "order": 4
+    },
+    {
+      "id": 25,
+      "projectId": 5,
+      "name": "Task 5: Replace Text",
+      "description": "Thay thế tất cả các từ '2023' thành '2024'.",
+      "order": 5
+    },
+    {
+      "id": 26,
+      "projectId": 6,
+      "name": "Task 1: Checkbox",
+      "description": "Chèn Check Box Content Control vào trước các tùy chọn loại xe.",
+      "order": 1
+    },
+    {
+      "id": 27,
+      "projectId": 6,
+      "name": "Task 2: Table Sort",
+      "description": "Sắp xếp bảng danh sách khách hàng theo cột Tên (A-Z).",
+      "order": 2
+    },
+    {
+      "id": 28,
+      "projectId": 6,
+      "name": "Task 3: Find and Replace",
+      "description": "Tìm từ 'bike' và định dạng nó thành in đậm, màu đỏ.",
+      "order": 3
+    },
+    {
+      "id": 29,
+      "projectId": 6,
+      "name": "Task 4: Line Spacing",
+      "description": "Đặt giãn dòng cho toàn bộ tài liệu là 1.15.",
+      "order": 4
+    },
+    {
+      "id": 30,
+      "projectId": 6,
+      "name": "Task 5: Margins",
+      "description": "Thay đổi lề trang thành Narrow (0.5 inch các cạnh).",
+      "order": 5
+    },
+    {
+      "id": 31,
+      "projectId": 7,
+      "name": "Task 1: Date Field",
+      "description": "Chèn trường ngày tháng tự động cập nhật vào dòng 'Date:'.",
+      "order": 1
+    },
+    {
+      "id": 32,
+      "projectId": 7,
+      "name": "Task 2: Tab Stops",
+      "description": "Đặt Tab Stop phải tại vị trí 6 inch với Leader kiểu chấm (....).",
+      "order": 2
+    },
+    {
+      "id": 33,
+      "projectId": 7,
+      "name": "Task 3: Indentation",
+      "description": "Thụt lề dòng đầu tiên (First Line Indent) 0.5 inch cho các đoạn văn thân bài.",
+      "order": 3
+    },
+    {
+      "id": 34,
+      "projectId": 7,
+      "name": "Task 4: Character Spacing",
+      "description": "Áp dụng giãn cách ký tự Expanded 1.5pt cho tiêu đề 'MEMORANDUM'.",
+      "order": 4
+    },
+    {
+      "id": 35,
+      "projectId": 7,
+      "name": "Task 5: Spell Check",
+      "description": "Sửa lỗi chính tả từ 'recieve' thành 'receive'.",
+      "order": 5
+    },
+    {
+      "id": 36,
+      "projectId": 8,
+      "name": "Task 1: Convert to Text",
+      "description": "Chuyển đổi bảng danh sách đồ uống thành văn bản phân cách bằng Tab.",
+      "order": 1
+    },
+    {
+      "id": 37,
+      "projectId": 8,
+      "name": "Task 2: Picture Border",
+      "description": "Thêm viền màu nâu, độ dày 2pt cho hình ảnh tách cà phê.",
+      "order": 2
+    },
+    {
+      "id": 38,
+      "projectId": 8,
+      "name": "Task 3: Bookmark",
+      "description": "Thêm Bookmark tên 'Espresso' cho tiêu đề Espresso.",
+      "order": 3
+    },
+    {
+      "id": 39,
+      "projectId": 8,
+      "name": "Task 4: Page Color",
+      "description": "Đặt màu nền trang thành Tan, Background 2, Darker 10%.",
+      "order": 4
+    },
+    {
+      "id": 40,
+      "projectId": 8,
+      "name": "Task 5: Keep with Next",
+      "description": "Áp dụng 'Keep with next' cho tất cả các tiêu đề loại đồ uống.",
+      "order": 5
+    },
+    {
+      "id": 41,
+      "projectId": 9,
+      "name": "Task 1: Merge Cells",
+      "description": "Gộp các ô trong hàng đầu tiên của bảng lịch tập.",
+      "order": 1
+    },
+    {
+      "id": 42,
+      "projectId": 9,
+      "name": "Task 2: Orientation",
+      "description": "Thay đổi hướng trang thành Landscape (Ngang).",
+      "order": 2
+    },
+    {
+      "id": 43,
+      "projectId": 9,
+      "name": "Task 3: Symbol",
+      "description": "Chèn biểu tượng Copyright (©) vào cuối Footer.",
+      "order": 3
+    },
+    {
+      "id": 44,
+      "projectId": 9,
+      "name": "Task 4: List Numbering",
+      "description": "Thay đổi định dạng danh sách số thành I, II, III.",
+      "order": 4
+    },
+    {
+      "id": 45,
+      "projectId": 9,
+      "name": "Task 5: Text Highlight",
+      "description": "Tô màu Highlight vàng cho các lớp học 'Yoga'.",
+      "order": 5
+    },
+    {
+      "id": 46,
+      "projectId": 10,
+      "name": "Task 1: Heading Reference",
+      "description": "Chèn tham chiếu chéo (Cross-reference) đến Heading 'Day 1' tại vị trí con trỏ.",
+      "order": 1
+    },
+    {
+      "id": 47,
+      "projectId": 10,
+      "name": "Task 2: Table Alignment",
+      "description": "Căn giữa bảng lịch trình theo chiều ngang trang.",
+      "order": 2
+    },
+    {
+      "id": 48,
+      "projectId": 10,
+      "name": "Task 3: Picture Position",
+      "description": "Đặt vị trí hình ảnh bản đồ ở góc trên bên phải trang (Top Right).",
+      "order": 3
+    },
+    {
+      "id": 49,
+      "projectId": 10,
+      "name": "Task 4: Style Set",
+      "description": "Thay đổi Style Set của tài liệu thành 'Casual'.",
+      "order": 4
+    },
+    {
+      "id": 50,
+      "projectId": 10,
+      "name": "Task 5: Remove Header",
+      "description": "Xóa Header khỏi trang đầu tiên (Different First Page).",
+      "order": 5
+    },
+    {
+      "id": 51,
+      "projectId": 11,
+      "name": "Task 1: Import Text",
+      "description": "Chèn nội dung từ file 'BookList.txt' vào cuối tài liệu.",
+      "order": 1
+    },
+    {
+      "id": 52,
+      "projectId": 11,
+      "name": "Task 2: Multilevel List",
+      "description": "Tạo danh sách đa cấp mới cho các thể loại sách.",
+      "order": 2
+    },
+    {
+      "id": 53,
+      "projectId": 11,
+      "name": "Task 3: Shape",
+      "description": "Vẽ hình ngôi sao 5 cánh và tô màu vàng.",
+      "order": 3
+    },
+    {
+      "id": 54,
+      "projectId": 11,
+      "name": "Task 4: Text Wrapping",
+      "description": "Đặt chế độ Wrap Text cho hình ngôi sao là 'Tight'.",
+      "order": 4
+    },
+    {
+      "id": 55,
+      "projectId": 11,
+      "name": "Task 5: Comment",
+      "description": "Thêm bình luận 'Cần cập nhật' cho cuốn sách đầu tiên.",
+      "order": 5
+    },
+    {
+      "id": 56,
+      "projectId": 12,
+      "name": "Task 1: SmartArt Color",
+      "description": "Thay đổi màu SmartArt thành 'Colorful Range - Accent Colors 3 to 4'.",
+      "order": 1
+    },
+    {
+      "id": 57,
+      "projectId": 12,
+      "name": "Task 2: Paragraph Shading",
+      "description": "Áp dụng tô nền màu xanh lá nhạt cho đoạn văn 'Mẹo tưới nước'.",
+      "order": 2
+    },
+    {
+      "id": 58,
+      "projectId": 12,
+      "name": "Task 3: Split Table",
+      "description": "Tách bảng tại dòng 'Cây trong nhà' thành 2 bảng riêng biệt.",
+      "order": 3
+    },
+    {
+      "id": 59,
+      "projectId": 12,
+      "name": "Task 4: WordArt",
+      "description": "Chèn WordArt 'Gardening' với kiểu Fill - Gold, Accent 4, Soft Bevel.",
+      "order": 4
+    },
+    {
+      "id": 60,
+      "projectId": 12,
+      "name": "Task 5: Zoom",
+      "description": "Điều chỉnh mức thu phóng (Zoom) của tài liệu thành 120%.",
+      "order": 5
+    },
+    {
+      "id": 61,
+      "projectId": 13,
+      "name": "Task 1: Mail Merge",
+      "description": "Bắt đầu Mail Merge dạng Letters sử dụng danh sách 'Donors.xlsx'.",
+      "order": 1
+    },
+    {
+      "id": 62,
+      "projectId": 13,
+      "name": "Task 2: Insert Merge Field",
+      "description": "Chèn trường hợp nhất 'FullName' vào sau 'Dear '.",
+      "order": 2
+    },
+    {
+      "id": 63,
+      "projectId": 13,
+      "name": "Task 3: Page Size",
+      "description": "Thay đổi kích thước trang thành A5.",
+      "order": 3
+    },
+    {
+      "id": 64,
+      "projectId": 13,
+      "name": "Task 4: Border Art",
+      "description": "Thêm viền trang nghệ thuật (Art) hình trái tim.",
+      "order": 4
+    },
+    {
+      "id": 65,
+      "projectId": 13,
+      "name": "Task 5: Finish Merge",
+      "description": "Hoàn thành trộn thư và chọn 'Edit Individual Documents'.",
+      "order": 5
+    },
+    {
+      "id": 66,
+      "projectId": 14,
+      "name": "Task 1: Restrict Editing",
+      "description": "Hạn chế chỉnh sửa tài liệu, chỉ cho phép điền vào biểu mẫu (Filling in forms).",
+      "order": 1
+    },
+    {
+      "id": 67,
+      "projectId": 14,
+      "name": "Task 2: Title Property",
+      "description": "Thêm tiêu đề 'Job Description' vào thuộc tính tài liệu.",
+      "order": 2
+    },
+    {
+      "id": 68,
+      "projectId": 14,
+      "name": "Task 3: Hidden Text",
+      "description": "Định dạng dòng 'Lương thỏa thuận' là văn bản ẩn (Hidden).",
+      "order": 3
+    },
+    {
+      "id": 69,
+      "projectId": 14,
+      "name": "Task 4: Paste Special",
+      "description": "Dán nội dung từ Clipboard dưới dạng Unformatted Text.",
+      "order": 4
+    },
+    {
+      "id": 70,
+      "projectId": 14,
+      "name": "Task 5: Macro",
+      "description": "Ghi một Macro đơn giản tên 'BoldText' để in đậm văn bản được chọn.",
+      "order": 5
+    },
+    {
+      "id": 71,
+      "projectId": 15,
+      "name": "Task 1: Index",
+      "description": "Đánh dấu từ 'Phở' để đưa vào Index (Mark Entry).",
+      "order": 1
+    },
+    {
+      "id": 72,
+      "projectId": 15,
+      "name": "Task 2: Insert Index",
+      "description": "Chèn bảng chỉ mục (Index) vào cuối tài liệu, định dạng Fancy.",
+      "order": 2
+    },
+    {
+      "id": 73,
+      "projectId": 15,
+      "name": "Task 3: Caption",
+      "description": "Thêm chú thích (Caption) 'Hình 1: Món Phở' dưới hình ảnh bát phở.",
+      "order": 3
+    },
+    {
+      "id": 74,
+      "projectId": 15,
+      "name": "Task 4: Table of Figures",
+      "description": "Chèn danh mục hình ảnh (Table of Figures) sau Mục lục.",
+      "order": 4
+    },
+    {
+      "id": 75,
+      "projectId": 15,
+      "name": "Task 5: Split Window",
+      "description": "Chia cửa sổ làm việc (Split) để xem hai phần của tài liệu cùng lúc.",
+      "order": 5
+    },
+    {
+      "id": 76,
+      "projectId": 16,
+      "name": "Task 1: Envelope",
+      "description": "Tạo phong bì kích thước Size 10 với địa chỉ người nhận.",
+      "order": 1
+    },
+    {
+      "id": 77,
+      "projectId": 16,
+      "name": "Task 2: Character Scale",
+      "description": "Điều chỉnh tỷ lệ ký tự (Scale) của tên cô dâu chú rể lên 150%.",
+      "order": 2
+    },
+    {
+      "id": 78,
+      "projectId": 16,
+      "name": "Task 3: Text Effect",
+      "description": "Áp dụng hiệu ứng chữ 'Fill - Gold, Accent 4, Soft Bevel' cho tiêu đề.",
+      "order": 3
+    },
+    {
+      "id": 79,
+      "projectId": 16,
+      "name": "Task 4: Align Objects",
+      "description": "Căn giữa hai hình trái tim theo chiều dọc (Align Center).",
+      "order": 4
+    },
+    {
+      "id": 80,
+      "projectId": 16,
+      "name": "Task 5: Group Objects",
+      "description": "Nhóm (Group) hình trái tim và văn bản ngày tháng lại với nhau.",
+      "order": 5
+    },
+    {
+      "id": 81,
+      "projectId": 17,
+      "name": "Task 1: Outline View",
+      "description": "Chuyển sang chế độ xem Outline và hiển thị chỉ Level 1.",
+      "order": 1
+    },
+    {
+      "id": 82,
+      "projectId": 17,
+      "name": "Task 2: Promote List",
+      "description": "Nâng cấp (Promote) mục 'Keynote Speaker' lên Heading 1.",
+      "order": 2
+    },
+    {
+      "id": 83,
+      "projectId": 17,
+      "name": "Task 3: Create Style",
+      "description": "Tạo Style mới tên 'AgendaItem' dựa trên định dạng đoạn văn hiện tại.",
+      "order": 3
+    },
+    {
+      "id": 84,
+      "projectId": 17,
+      "name": "Task 4: Navigation Pane",
+      "description": "Sử dụng Navigation Pane để di chuyển đến phần 'Closing'.",
+      "order": 4
+    },
+    {
+      "id": 85,
+      "projectId": 17,
+      "name": "Task 5: Print Options",
+      "description": "Cấu hình in để in 2 trang trên mỗi tờ giấy (2 Pages Per Sheet).",
+      "order": 5
+    },
+    {
+      "id": 86,
+      "projectId": 18,
+      "name": "Task 1: AutoCorrect",
+      "description": "Thêm mục AutoCorrect để thay thế 'datmos' thành 'DATMOS Platform'.",
+      "order": 1
+    },
+    {
+      "id": 87,
+      "projectId": 18,
+      "name": "Task 2: Block Authors",
+      "description": "Thêm ngoại lệ Block Authors cho đoạn văn cuối cùng.",
+      "order": 2
+    },
+    {
+      "id": 88,
+      "projectId": 18,
+      "name": "Task 3: Recover Unsaved",
+      "description": "Mở tính năng Recover Unsaved Documents (chỉ cần mở menu).",
+      "order": 3
+    },
+    {
+      "id": 89,
+      "projectId": 18,
+      "name": "Task 4: Compatibility",
+      "description": "Kiểm tra khả năng tương thích (Check Compatibility) với Word 2010.",
+      "order": 4
+    },
+    {
+      "id": 90,
+      "projectId": 18,
+      "name": "Task 5: Mark as Final",
+      "description": "Đánh dấu tài liệu là bản cuối cùng (Mark as Final).",
+      "order": 5
+    },
+    {
+      "id": 91,
+      "projectId": 19,
+      "name": "Task 1: Resume Assistant",
+      "description": "Mở Resume Assistant (nếu có) hoặc chèn mẫu Resume từ template.",
+      "order": 1
+    },
+    {
+      "id": 92,
+      "projectId": 19,
+      "name": "Task 2: Table Borders",
+      "description": "Xóa tất cả đường viền của bảng kỹ năng (No Border).",
+      "order": 2
+    },
+    {
+      "id": 93,
+      "projectId": 19,
+      "name": "Task 3: Spacing Before",
+      "description": "Thêm khoảng cách 12pt trước các đoạn tiêu đề mục.",
+      "order": 3
+    },
+    {
+      "id": 94,
+      "projectId": 19,
+      "name": "Task 4: Font Pair",
+      "description": "Thay đổi cặp font của tài liệu thành Arial - Calibri.",
+      "order": 4
+    },
+    {
+      "id": 95,
+      "projectId": 19,
+      "name": "Task 5: PDF Save",
+      "description": "Lưu tài liệu dưới dạng PDF với tên 'Resume_Final.pdf'.",
+      "order": 5
+    },
+    {
+      "id": 96,
+      "projectId": 20,
+      "name": "Task 1: Date & Time",
+      "description": "Chèn ngày giờ hiện tại ở định dạng 'December 25, 2023'.",
+      "order": 1
+    },
+    {
+      "id": 97,
+      "projectId": 20,
+      "name": "Task 2: Signature Line",
+      "description": "Chèn dòng chữ ký (Signature Line) cho 'Nguyen Van A'.",
+      "order": 2
+    },
+    {
+      "id": 98,
+      "projectId": 20,
+      "name": "Task 3: Paragraph Border",
+      "description": "Thêm đường viền dưới (Bottom Border) cho đoạn tiêu đề.",
+      "order": 3
+    },
+    {
+      "id": 99,
+      "projectId": 20,
+      "name": "Task 4: Widow/Orphan",
+      "description": "Bật kiểm soát dòng đơn (Widow/Orphan Control) cho toàn bộ văn bản.",
+      "order": 4
+    },
+    {
+      "id": 100,
+      "projectId": 20,
+      "name": "Task 5: Read Mode",
+      "description": "Chuyển sang chế độ đọc (Read Mode) và thay đổi màu trang thành Sepia.",
+      "order": 5
+    },
+    {
+      "id": 101,
+      "projectId": 21,
+      "name": "Task 1: Vertical Alignment",
+      "description": "Căn giữa nội dung trang theo chiều dọc (Page Setup > Layout).",
+      "order": 1
+    },
+    {
+      "id": 102,
+      "projectId": 21,
+      "name": "Task 2: Text Box Link",
+      "description": "Tạo liên kết (Create Link) từ Text Box 1 sang Text Box 2.",
+      "order": 2
+    },
+    {
+      "id": 103,
+      "projectId": 21,
+      "name": "Task 3: Shape Effect",
+      "description": "Áp dụng hiệu ứng Glow: 18pt, Blue, Accent color 1 cho hình trái tim.",
+      "order": 3
+    },
+    {
+      "id": 104,
+      "projectId": 21,
+      "name": "Task 4: Alt Text Decorative",
+      "description": "Đánh dấu hình nền là hình trang trí (Mark as decorative).",
+      "order": 4
+    },
+    {
+      "id": 105,
+      "projectId": 21,
+      "name": "Task 5: Encrypt",
+      "description": "Đặt mật khẩu bảo vệ tài liệu là '123456'.",
+      "order": 5
+    }
+  ]
+}

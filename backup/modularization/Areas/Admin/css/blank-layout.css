@@ -1,0 +1,41 @@
+/* Blank Layout CSS for Admin Area */
+.layout-blank {
+  background-color: #f8f9fa;
+}
+
+.layout-blank .content-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.layout-blank .main-content {
+  flex: 1;
+  padding: 2rem;
+}
+
+/* Loading overlay styles */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.loading-overlay .spinner-border {
+  width: 3rem;
+  height: 3rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .layout-blank .main-content {
+    padding: 1rem;
+  }
+}

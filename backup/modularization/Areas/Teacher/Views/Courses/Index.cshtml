@@ -1,0 +1,140 @@
+@model List<DATMOS.Web.Areas.Teacher.Controllers.TeacherCourseViewModel>
+@{
+    ViewData["Title"] = "Khóa học của tôi";
+    Layout = "~/Areas/Teacher/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <h1 class="h3 mb-0">@ViewData["Title"]</h1>
+                <div>
+                    <span class="badge bg-primary me-2">Tổng: @Model.Count khóa học</span>
+                    <span class="badge bg-success">Tổng học viên: @Model.Sum(c => c.StudentCount)</span>
+                </div>
+            </div>
+            <p class="text-muted">Quản lý và theo dõi các khóa học bạn đang giảng dạy</p>
+        </div>
+    </div>
+
+    <div class="row">
+        @foreach (var course in Model)
+        {
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                        <div>
+                            <span class="badge bg-primary">@course.Code</span>
+                            <span class="badge bg-@(course.Progress >= 70 ? "success" : course.Progress >= 40 ? "warning" : "danger") ms-1">
+                                @course.Progress.ToString("0")% hoàn thành
+                            </span>
+                        </div>
+                        <div class="dropdown">
+                            <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                <i class="ti ti-dots-vertical"></i>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="@Url.Action("Details", new { id = course.Id })"><i class="ti ti-eye me-2"></i>Xem chi tiết</a></li>
+                                <li><a class="dropdown-item" href="@Url.Action("Students", new { id = course.Id })"><i class="ti ti-users me-2"></i>Học viên</a></li>
+                                <li><a class="dropdown-item" href="@Url.Action("Analytics", new { id = course.Id })"><i class="ti ti-chart-bar me-2"></i>Phân tích</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item text-danger" href="#"><i class="ti ti-trash me-2"></i>Xóa</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">@course.Name</h5>
+                        <p class="card-text text-muted small">@course.Description</p>
+                        
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between mb-1">
+                                <small class="text-muted">Tiến độ khóa học</small>
+                                <small>@course.Progress.ToString("0.0")%</small>
+                            </div>
+                            <div class="progress" style="height: 6px;">
+                                <div class="progress-bar bg-@(course.Progress >= 70 ? "success" : course.Progress >= 40 ? "warning" : "danger")" 
+                                     role="progressbar" style="width: @course.Progress%" 
+                                     aria-valuenow="@course.Progress" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+
+                        <div class="row g-2 mb-3">
+                            <div class="col-6">
+                                <div class="d-flex align-items-center">
+                                    <i class="ti ti-users text-primary me-2"></i>
+                                    <div>
+                                        <small class="text-muted d-block">Học viên</small>
+                                        <strong>@course.StudentCount</strong>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="d-flex align-items-center">
+                                    <i class="ti ti-star text-warning me-2"></i>
+                                    <div>
+                                        <small class="text-muted d-block">Đánh giá</small>
+                                        <strong>@course.Rating.ToString("0.0")/5.0</strong>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="d-flex align-items-center">
+                                    <i class="ti ti-checklist text-success me-2"></i>
+                                    <div>
+                                        <small class="text-muted d-block">Bài tập</small>
+                                        <strong>@course.CompletedAssignments/@course.AssignmentCount</strong>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="d-flex align-items-center">
+                                    <i class="ti ti-clock text-info me-2"></i>
+                                    <div>
+                                        <small class="text-muted d-block">Thời lượng</small>
+                                        <strong>@course.Duration</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center">
+                            <small class="text-muted">
+                                <i class="ti ti-calendar me-1"></i>
+                                @course.LastActivity.ToString("dd/MM/yyyy")
+                            </small>
+                            <div>
+                                <span class="badge bg-light text-dark border">
+                                    <i class="ti ti-user me-1"></i>@course.Instructor
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-transparent border-top-0">
+                        <div class="d-grid gap-2">
+                            <a href="@Url.Action("Details", new { id = course.Id })" class="btn btn-outline-primary btn-sm">
+                                <i class="ti ti-eye me-1"></i>Xem chi tiết
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+        @if (!Model.Any())
+        {
+            <div class="col-12">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body text-center py-5">
+                        <i class="ti ti-school display-1 text-muted mb-3"></i>
+                        <h4 class="text-muted">Chưa có khóa học nào</h4>
+                        <p class="text-muted mb-4">Bạn chưa được phân công giảng dạy khóa học nào.</p>
+                        <a href="#" class="btn btn-primary">
+                            <i class="ti ti-plus me-1"></i>Tạo khóa học mới
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
